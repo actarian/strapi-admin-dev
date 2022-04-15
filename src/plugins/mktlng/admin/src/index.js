@@ -35,20 +35,18 @@ export default {
     });
   },
   bootstrap(app) {
-    // Hooks that mutate the collection types links in order to add the locale filter
-    app.registerHook(
-      'Admin/CM/pages/App/mutate-collection-types-links',
-      addLocaleToCollectionTypesLinksHook
-    );
-    app.registerHook(
-      'Admin/CM/pages/App/mutate-single-types-links',
-      addLocaleToSingleTypesLinksHook
-    );
-    // Hook that adds a column into the CM's LV table
+    // # hooks
+    // hooks that mutate the collection types links in order to add the locale filter
+    app.registerHook('Admin/CM/pages/App/mutate-collection-types-links', addLocaleToCollectionTypesLinksHook);
+    // hooks that mutate the single types links in order to add the locale filter
+    app.registerHook('Admin/CM/pages/App/mutate-single-types-links', addLocaleToSingleTypesLinksHook);
+    // hook that adds a column into the CM's LV table
     app.registerHook('Admin/CM/pages/ListView/inject-column-in-table', addColumnToTableHook);
-    // Hooks that mutates the edit view layout
+    // hooks that mutates the edit view layout
     app.registerHook('Admin/CM/pages/EditView/mutate-edit-view-layout', mutateEditViewLayoutHook);
-    // Add the settings link
+
+    // # settings
+    // add the settings link
     app.addSettingsLink('global', {
       intlLabel: {
         id: getTrad('plugin.name'),
@@ -56,39 +54,34 @@ export default {
       },
       id: 'markets-languages',
       to: '/settings/markets-languages',
-
       Component: async () => {
         const component = await import(
           /* webpackChunkName: "mktlng-settings-page" */ './pages/SettingsPage'
         );
-
         return component;
       },
       permissions: pluginPermissions.accessMain,
     });
 
-    app.injectContentManagerComponent('editView', 'informations', {
-      name: 'mktlng-locale-filter-edit-view',
-      Component: CMEditViewInjectedComponents,
-    });
+    return;
 
-    app.injectContentManagerComponent('listView', 'actions', {
-      name: 'mktlng-locale-filter',
-      Component: LocalePicker,
-    });
+    // # content manager
+    // inject component in editView with injectionZoneApi
+    app.injectContentManagerComponent('editView', 'informations', { name: 'mktlng-locale-filter-edit-view', Component: CMEditViewInjectedComponents, });
+    // inject component in listView with injectionZoneApi
+    app.injectContentManagerComponent('listView', 'actions', { name: 'mktlng-locale-filter', Component: LocalePicker, });
+    // inject component in listView with injectionZoneApi
+    app.injectContentManagerComponent('listView', 'deleteModalAdditionalInfos', { name: 'mktlng-delete-bullets-in-modal', Component: DeleteModalAdditionalInfos, });
 
-    app.injectContentManagerComponent('listView', 'deleteModalAdditionalInfos', {
-      name: 'mktlng-delete-bullets-in-modal',
-      Component: DeleteModalAdditionalInfos,
-    });
-
+    // # content type builder
     const ctbPlugin = app.getPlugin('content-type-builder');
-
     if (ctbPlugin) {
       const ctbFormsAPI = ctbPlugin.apis.forms;
+      // # mutate schema
       ctbFormsAPI.addContentTypeSchemaMutation(mutateCTBContentTypeSchema);
+      // # add components
       ctbFormsAPI.components.add({ id: 'checkboxConfirmation', component: CheckboxConfirmation });
-
+      // # extend content type
       ctbFormsAPI.extendContentType({
         validator: () => ({
           mktlng: yup.object().shape({
@@ -114,7 +107,7 @@ export default {
           },
         },
       });
-
+      // # extend fields
       ctbFormsAPI.extendFields(LOCALIZED_FIELDS, {
         validator: args => ({
           mktlng: yup.object().shape({
@@ -125,14 +118,11 @@ export default {
                 if (value === undefined || value) {
                   return true;
                 }
-
                 const unique = get(args, ['3', 'modifiedData', 'unique'], null);
-
                 // Unique fields must be localized
                 if (unique && !value) {
                   return false;
                 }
-
                 return true;
               },
             }),
@@ -143,21 +133,17 @@ export default {
             if (forTarget !== 'contentType') {
               return [];
             }
-
             const hasMktlngEnabled = get(
               contentTypeSchema,
               ['schema', 'pluginOptions', 'mktlng', 'localized'],
               false
             );
-
             if (!hasMktlngEnabled) {
               return [];
             }
-
             if (type === 'component' && step === '1') {
               return [];
             }
-
             return [
               {
                 name: 'pluginOptions.mktlng.localized',
@@ -177,6 +163,7 @@ export default {
       });
     }
   },
+  // # register trads
   async registerTrads({ locales }) {
     const importedTrads = await Promise.all(
       locales.map(locale => {
@@ -197,7 +184,6 @@ export default {
           });
       })
     );
-
     return Promise.resolve(importedTrads);
   },
 };
