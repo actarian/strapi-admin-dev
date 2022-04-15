@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunktest_strapi=self.webpackChunktest_strapi||[]).push([[7663],{98472:s=>{s.exports={}}}]);
