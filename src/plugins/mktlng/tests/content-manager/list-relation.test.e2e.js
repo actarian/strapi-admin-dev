@@ -15,7 +15,7 @@ let data = {
 
 const productModel = {
   pluginOptions: {
-    marketsLanguages: {
+    mktlng: {
       localized: true,
     },
   },
@@ -33,7 +33,7 @@ const productModel = {
 
 const shopModel = {
   pluginOptions: {
-    marketsLanguages: {
+    mktlng: {
       localized: true,
     },
   },

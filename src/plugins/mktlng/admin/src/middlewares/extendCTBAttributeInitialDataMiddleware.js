@@ -7,26 +7,11 @@ const extendCTBAttributeInitialDataMiddleware = () => {
       // of the ctb when the plugin is not mounted
       try {
         const store = getState();
-
-        const hasmktlngEnabled = get(
-          store,
-          [
-            'content-type-builder_dataManagerProvider',
-            'modifiedData',
-            'contentType',
-            'schema',
-            'pluginOptions',
-            'mktlng',
-            'localized',
-          ],
-          false
-        );
-
+        const hasmktlngEnabled = get(store, ['content-type-builder_dataManagerProvider', 'modifiedData', 'contentType', 'schema', 'pluginOptions', 'mktlng', 'localized'], false);
         if (hasmktlngEnabled) {
           const pluginOptions = action.options
             ? { ...action.options.pluginOptions, mktlng: { localized: true } }
             : { mktlng: { localized: true } };
-
           return next({
             ...action,
             options: {
@@ -34,7 +19,6 @@ const extendCTBAttributeInitialDataMiddleware = () => {
             },
           });
         }
-
         return next(action);
       } catch (err) {
         return next(action);
@@ -51,9 +35,8 @@ const extendCTBAttributeInitialDataMiddleware = () => {
     }
 
     if (
-      (action.type ===
-        'ContentTypeBuilder/FormModal/RESET_PROPS_AND_SET_FORM_FOR_ADDING_AN_EXISTING_COMPO' ||
-        action.type === 'ContentTypeBuilder/FormModal/RESET_PROPS_AND_SAVE_CURRENT_DATA') &&
+      (action.type === 'ContentTypeBuilder/FormModal/RESET_PROPS_AND_SET_FORM_FOR_ADDING_AN_EXISTING_COMPO' ||
+      action.type === 'ContentTypeBuilder/FormModal/RESET_PROPS_AND_SAVE_CURRENT_DATA') &&
       action.forTarget === 'contentType'
     ) {
       return enhanceAction();

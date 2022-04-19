@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { useIntl } from 'react-intl';
+import { Button } from '@strapi/design-system/Button';
 import { Checkbox } from '@strapi/design-system/Checkbox';
 import { Dialog, DialogBody, DialogFooter } from '@strapi/design-system/Dialog';
-import { Typography } from '@strapi/design-system/Typography';
 import { Flex } from '@strapi/design-system/Flex';
 import { Stack } from '@strapi/design-system/Stack';
-import { Button } from '@strapi/design-system/Button';
+import { Typography } from '@strapi/design-system/Typography';
 import ExclamationMarkCircle from '@strapi/icons/ExclamationMarkCircle';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { useIntl } from 'react-intl';
+import styled from 'styled-components';
 import { getTrad } from '../../utils';
 
 const TextAlignTypography = styled(Typography)`
@@ -23,11 +23,9 @@ const CheckboxConfirmation = ({ description, isCreating, intlLabel, name, onChan
     if (isCreating || value) {
       return onChange({ target: { name, value, type: 'checkbox' } });
     }
-
     if (!value) {
       return setIsOpen(true);
     }
-
     return null;
   };
 
@@ -38,70 +36,44 @@ const CheckboxConfirmation = ({ description, isCreating, intlLabel, name, onChan
 
   const handleToggle = () => setIsOpen(prev => !prev);
 
-  const label = intlLabel.id
-    ? formatMessage(
-        { id: intlLabel.id, defaultMessage: intlLabel.defaultMessage },
-        { ...intlLabel.values }
-      )
-    : name;
+  const label = intlLabel.id ? formatMessage(
+    { id: intlLabel.id, defaultMessage: intlLabel.defaultMessage },
+    { ...intlLabel.values }
+  ) : name;
 
-  const hint = description
-    ? formatMessage(
-        { id: description.id, defaultMessage: description.defaultMessage },
-        { ...description.values }
-      )
-    : '';
+  const hint = description ? formatMessage(
+    { id: description.id, defaultMessage: description.defaultMessage },
+    { ...description.values }
+  ) : '';
 
   return (
     <>
-      <Checkbox
-        hint={hint}
-        id={name}
-        name={name}
-        onValueChange={handleChange}
-        value={value}
-        type="checkbox"
-      >
-        {label}
+      <Checkbox type="checkbox" hint={ hint } id={ name } name={ name } value={ value } onValueChange={ handleChange }>
+        { label }
       </Checkbox>
-      {isOpen && (
-        <Dialog onClose={handleToggle} title="Confirmation" isOpen={isOpen}>
-          <DialogBody icon={<ExclamationMarkCircle />}>
-            <Stack spacing={2}>
+      { isOpen && (
+        <Dialog title="Confirmation" isOpen={ isOpen } onClose={ handleToggle }>
+          <DialogBody icon={ <ExclamationMarkCircle /> }>
+            <Stack spacing={ 2 }>
               <Flex justifyContent="center">
                 <TextAlignTypography id="confirm-description">
-                  {formatMessage({
-                    id: getTrad('CheckboxConfirmation.Modal.content'),
-                    defaultMessage:
-                      'Disabling localization will engender the deletion of all your content but the one associated to your default locale (if existing).',
-                  })}
+                  { formatMessage({ id: getTrad('CheckboxConfirmation.Modal.content'), defaultMessage: 'Disabling localization will engender the deletion of all your content but the one associated to your default locale (if existing).' }) }
                 </TextAlignTypography>
               </Flex>
               <Flex justifyContent="center">
                 <Typography fontWeight="semiBold" id="confirm-description">
-                  {formatMessage({
-                    id: getTrad('CheckboxConfirmation.Modal.body'),
-                    defaultMessage: 'Do you want to disable it?',
-                  })}
+                  { formatMessage({ id: getTrad('CheckboxConfirmation.Modal.body'), defaultMessage: 'Do you want to disable it?' }) }
                 </Typography>
               </Flex>
             </Stack>
           </DialogBody>
-          <DialogFooter
-            startAction={
-              <Button onClick={handleToggle} variant="tertiary">
-                {formatMessage({
-                  id: 'components.popUpWarning.button.cancel',
-                  defaultMessage: 'No, cancel',
-                })}
+          <DialogFooter startAction={
+              <Button variant="tertiary" onClick={ handleToggle }>
+                { formatMessage({ id: 'components.popUpWarning.button.cancel', defaultMessage: 'No, cancel' }) }
               </Button>
-            }
-            endAction={
+            } endAction={
               <Button variant="danger-light" onClick={handleConfirm}>
-                {formatMessage({
-                  id: getTrad('CheckboxConfirmation.Modal.button-confirm'),
-                  defaultMessage: 'Yes, disable',
-                })}
+                { formatMessage({ id: getTrad('CheckboxConfirmation.Modal.button-confirm'), defaultMessage: 'Yes, disable' })}
               </Button>
             }
           />

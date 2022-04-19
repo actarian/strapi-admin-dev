@@ -13,9 +13,8 @@ const { getService } = require('../../utils');
  */
 const localesPropertyHandler = async ({ action, section }) => {
   const { actionProvider } = strapi.admin.services.permission;
-
   const locales = await getService('locales').find();
-
+  console.log('localesPropertyHandler', locales);
   // Do not add the locales property if there is none registered
   if (isEmpty(locales)) {
     return;

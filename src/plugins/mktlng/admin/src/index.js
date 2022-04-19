@@ -12,7 +12,7 @@ import addLocaleToCollectionTypesLinksHook from './contentManagerHooks/addLocale
 import addLocaleToSingleTypesLinksHook from './contentManagerHooks/addLocaleToSingleTypesLinks';
 import mutateEditViewLayoutHook from './contentManagerHooks/mutateEditViewLayout';
 import mktlngReducers from './hooks/reducers';
-import middlewares from './middlewares';
+import middlewares from './middlewares/middlewares';
 import pluginPermissions from './permissions';
 import pluginId from './pluginId';
 import { getTrad } from './utils';
@@ -48,67 +48,46 @@ export default {
     // # settings
     // add the settings link
     app.addSettingsLink('global', {
-      intlLabel: {
-        id: getTrad('plugin.name'),
-        defaultMessage: 'Markets & Languages',
-      },
-      id: 'markets-languages',
-      to: '/settings/markets-languages',
+      intlLabel: { id: getTrad('plugin.name'), defaultMessage: 'Markets & Languages' },
+      id: 'mktlng',
+      to: '/settings/mktlng',
       Component: async () => {
-        const component = await import(
-          /* webpackChunkName: "mktlng-settings-page" */ './pages/SettingsPage'
-        );
+        const component = await import(/* webpackChunkName: "mktlng-settings-page" */ './pages/SettingsPage/SettingsPage');
+        console.log(component);
         return component;
       },
       permissions: pluginPermissions.accessMain,
     });
 
-    return;
-
-    // # content manager
-    // inject component in editView with injectionZoneApi
-    app.injectContentManagerComponent('editView', 'informations', { name: 'mktlng-locale-filter-edit-view', Component: CMEditViewInjectedComponents, });
-    // inject component in listView with injectionZoneApi
-    app.injectContentManagerComponent('listView', 'actions', { name: 'mktlng-locale-filter', Component: LocalePicker, });
-    // inject component in listView with injectionZoneApi
-    app.injectContentManagerComponent('listView', 'deleteModalAdditionalInfos', { name: 'mktlng-delete-bullets-in-modal', Component: DeleteModalAdditionalInfos, });
-
     // # content type builder
-    const ctbPlugin = app.getPlugin('content-type-builder');
-    if (ctbPlugin) {
-      const ctbFormsAPI = ctbPlugin.apis.forms;
+    const plugin = app.getPlugin('content-type-builder');
+    if (plugin) {
+      const forms = plugin.apis.forms;
       // # mutate schema
-      ctbFormsAPI.addContentTypeSchemaMutation(mutateCTBContentTypeSchema);
+      forms.addContentTypeSchemaMutation(mutateCTBContentTypeSchema);
       // # add components
-      ctbFormsAPI.components.add({ id: 'checkboxConfirmation', component: CheckboxConfirmation });
+      forms.components.add({ id: 'checkboxConfirmation', component: CheckboxConfirmation });
       // # extend content type
-      ctbFormsAPI.extendContentType({
+      forms.extendContentType({
         validator: () => ({
           mktlng: yup.object().shape({
             localized: yup.bool(),
           }),
         }),
         form: {
-          advanced() {
-            return [
-              {
-                name: 'pluginOptions.mktlng.localized',
-                description: {
-                  id: getTrad('plugin.schema.mktlng.localized.description-content-type'),
-                  defaultMessage: 'Allow you to have content in different locales',
-                },
-                type: 'checkboxConfirmation',
-                intlLabel: {
-                  id: getTrad('plugin.schema.mktlng.localized.label-content-type'),
-                  defaultMessage: 'Enable localization for this Content-Type',
-                },
-              },
-            ];
+          advanced(...args) {
+            console.log('extendContentType', args);
+            return [{
+              type: 'checkboxConfirmation',
+              name: 'pluginOptions.mktlng.localized',
+              description: { id: getTrad('plugin.schema.mktlng.localized.description-content-type'), defaultMessage: 'Allow you to have content in different locales' },
+              intlLabel: { id: getTrad('plugin.schema.mktlng.localized.label-content-type'), defaultMessage: 'Enable localization for this Content-Type' },
+            }];
           },
         },
       });
       // # extend fields
-      ctbFormsAPI.extendFields(LOCALIZED_FIELDS, {
+      forms.extendFields(LOCALIZED_FIELDS, {
         validator: args => ({
           mktlng: yup.object().shape({
             localized: yup.bool().test({
@@ -130,38 +109,38 @@ export default {
         }),
         form: {
           advanced({ contentTypeSchema, forTarget, type, step }) {
+            console.log('extendFields', contentTypeSchema, forTarget, type, step);
             if (forTarget !== 'contentType') {
               return [];
             }
-            const hasMktlngEnabled = get(
-              contentTypeSchema,
-              ['schema', 'pluginOptions', 'mktlng', 'localized'],
-              false
-            );
+            const hasMktlngEnabled = get(contentTypeSchema, ['schema', 'pluginOptions', 'mktlng', 'localized'], false);
             if (!hasMktlngEnabled) {
               return [];
             }
             if (type === 'component' && step === '1') {
               return [];
             }
-            return [
-              {
-                name: 'pluginOptions.mktlng.localized',
-                description: {
-                  id: getTrad('plugin.schema.mktlng.localized.description-field'),
-                  defaultMessage: 'The field can have different values in each locale',
-                },
-                type: 'checkbox',
-                intlLabel: {
-                  id: getTrad('plugin.schema.mktlng.localized.label-field'),
-                  defaultMessage: 'Enable localization for this field',
-                },
-              },
-            ];
+            return [{
+              type: 'checkbox',
+              name: 'pluginOptions.mktlng.localized',
+              description: { id: getTrad('plugin.schema.mktlng.localized.description-field'), defaultMessage: 'The field can have different values in each locale' },
+              intlLabel: { id: getTrad('plugin.schema.mktlng.localized.label-field'), defaultMessage: 'Enable localization for this field' },
+            }];
           },
         },
       });
     }
+
+    return;
+
+    // # content manager
+    // inject component in editView with injectionZoneApi
+    app.injectContentManagerComponent('editView', 'informations', { name: 'mktlng-locale-filter-edit-view', Component: CMEditViewInjectedComponents, });
+    // inject component in listView with injectionZoneApi
+    app.injectContentManagerComponent('listView', 'actions', { name: 'mktlng-locale-filter', Component: LocalePicker, });
+    // inject component in listView with injectionZoneApi
+    app.injectContentManagerComponent('listView', 'deleteModalAdditionalInfos', { name: 'mktlng-delete-bullets-in-modal', Component: DeleteModalAdditionalInfos, });
+
   },
   // # register trads
   async registerTrads({ locales }) {
@@ -169,14 +148,12 @@ export default {
       locales.map(locale => {
         return import(
           /* webpackChunkName: "mktlng-translation-[request]" */ `./translations/${locale}.json`
-        )
-          .then(({ default: data }) => {
+        ).then(({ default: data }) => {
             return {
               data: prefixPluginTranslations(data, pluginId),
               locale,
             };
-          })
-          .catch(() => {
+          }).catch(() => {
             return {
               data: {},
               locale,

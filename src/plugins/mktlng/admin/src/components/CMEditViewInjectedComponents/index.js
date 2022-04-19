@@ -5,13 +5,13 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import useContentTypePermissions from '../../hooks/useContentTypePermissions';
-import selectI18NLocales from '../../selectors/selectMktlngLocales';
+import selectMktlngLocales from '../../selectors/selectMktlngLocales';
 import CMEditViewLocalePicker from './CMEditViewLocalePicker';
 
 const CMEditViewInjectedComponents = () => {
   const { layout, modifiedData, initialData, slug, isSingleType } = useCMEditViewDataManager();
   const { createPermissions, readPermissions } = useContentTypePermissions(slug);
-  const locales = useSelector(selectI18NLocales);
+  const locales = useSelector(selectMktlngLocales);
   const params = useParams();
   const [{ query }, setQuery] = useQueryParams();
 

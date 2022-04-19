@@ -1,3 +1,3 @@
-const selectI18NLocales = state => state.mktlng_locales.locales;
+const selectMktlngLocales = state => state.mktlng_locales.locales;
 
-export default selectI18NLocales;
+export default selectMktlngLocales;

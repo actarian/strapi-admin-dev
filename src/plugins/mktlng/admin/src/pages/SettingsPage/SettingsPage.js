@@ -5,8 +5,7 @@ import LocaleSettingsPage from './LocaleSettingsPage';
 
 const ProtectedLocaleSettingsPage = () => {
   const {
-    isLoading,
-    allowedActions: { canRead, canUpdate, canCreate, canDelete },
+    isLoading, allowedActions: { canRead, canUpdate, canCreate, canDelete }
   } = useRBAC(mktlngPermissions);
 
   if (isLoading) {
@@ -14,12 +13,7 @@ const ProtectedLocaleSettingsPage = () => {
   }
 
   return (
-    <LocaleSettingsPage
-      canReadLocale={canRead}
-      canCreateLocale={canCreate}
-      canUpdateLocale={canUpdate}
-      canDeleteLocale={canDelete}
-    />
+    <LocaleSettingsPage canReadLocale={canRead} canCreateLocale={canCreate} canUpdateLocale={canUpdate} canDeleteLocale={canDelete} />
   );
 };
 

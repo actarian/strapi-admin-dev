@@ -1,4 +1,4 @@
-import I18N from '@strapi/icons/Earth';
+import Earth from '@strapi/icons/Earth';
 import StrikedWorld from '@strapi/icons/EarthStriked';
 import get from 'lodash/get';
 import React from 'react';
@@ -12,10 +12,9 @@ const enhanceRelationLayout = (layout, locale) =>
         id: getTrad('Field.localized'),
         defaultMessage: 'This value is unique for the selected locale',
       },
-      icon: <I18N aria-hidden />,
+      icon: <Earth aria-hidden />,
     };
     let queryInfos = current.queryInfos;
-
     if (get(current, ['targetModelPluginOptions', 'mktlng', 'localized'], false)) {
       queryInfos = {
         ...queryInfos,
@@ -23,20 +22,14 @@ const enhanceRelationLayout = (layout, locale) =>
         paramsToKeep: ['plugins.mktlng.locale'],
       };
     }
-
     return { ...current, labelAction: <LabelAction {...labelActionProps} />, queryInfos };
   });
 
 const enhanceEditLayout = layout =>
   layout.map(row => {
-    const enhancedRow = row.reduce((acc, field) => {
+    const enhancedRow = row.reduce((p, field) => {
       const type = get(field, ['fieldSchema', 'type'], null);
-      const hasMktlngEnabled = get(
-        field,
-        ['fieldSchema', 'pluginOptions', 'mktlng', 'localized'],
-        type === 'uid'
-      );
-
+      const hasMktlngEnabled = get(field, ['fieldSchema', 'pluginOptions', 'mktlng', 'localized'], type === 'uid');
       const labelActionProps = {
         title: {
           id: hasMktlngEnabled ? getTrad('Field.localized') : getTrad('Field.not-localized'),
@@ -44,58 +37,45 @@ const enhanceEditLayout = layout =>
             ? 'This value is unique for the selected locale'
             : 'This value is common to all locales',
         },
-        icon: hasMktlngEnabled ? <I18N aria-hidden /> : <StrikedWorld aria-hidden />,
+        icon: hasMktlngEnabled ? <Earth aria-hidden /> : <StrikedWorld aria-hidden />,
       };
-
-      acc.push({ ...field, labelAction: <LabelAction {...labelActionProps} /> });
-
-      return acc;
+      p.push({ ...field, labelAction: <LabelAction {...labelActionProps} /> });
+      return p;
     }, []);
-
     return enhancedRow;
   });
 
 const enhanceComponentsLayout = (components, locale) => {
-  return Object.keys(components).reduce((acc, current) => {
+  return Object.keys(components).reduce((p, current) => {
     const currentComponentLayout = components[current];
-
     const enhancedEditLayout = enhanceComponentLayoutForRelations(
       currentComponentLayout.layouts.edit,
       locale
     );
-
-    acc[current] = {
+    p[current] = {
       ...currentComponentLayout,
       layouts: { ...currentComponentLayout.layouts, edit: enhancedEditLayout },
     };
-
-    return acc;
+    return p;
   }, {});
 };
 
 const enhanceComponentLayoutForRelations = (layout, locale) =>
   layout.map(row => {
-    const enhancedRow = row.reduce((acc, field) => {
-      if (
-        get(field, ['fieldSchema', 'type']) === 'relation' &&
-        get(field, ['targetModelPluginOptions', 'mktlng', 'localized'], false)
-      ) {
+    const enhancedRow = row.reduce((p, field) => {
+      if (get(field, ['fieldSchema', 'type']) === 'relation' &&
+          get(field, ['targetModelPluginOptions', 'mktlng', 'localized'], false)) {
         const queryInfos = {
           ...field.queryInfos,
           defaultParams: { ...field.queryInfos.defaultParams, locale },
           paramsToKeep: ['plugins.mktlng.locale'],
         };
-
-        acc.push({ ...field, queryInfos });
-
-        return acc;
+        p.push({ ...field, queryInfos });
+        return p;
       }
-
-      acc.push({ ...field });
-
-      return acc;
+      p.push({ ...field });
+      return p;
     }, []);
-
     return enhancedRow;
   });
 
@@ -107,33 +87,26 @@ const mutateEditViewLayoutHook = ({ layout, query }) => {
     getPathToContentType(['pluginOptions', 'mktlng', 'localized']),
     false
   );
-
   if (!hasMktlngEnabled) {
     return { layout, query };
   }
-
   const currentLocale = get(query, ['plugins', 'mktlng', 'locale'], null);
-
   // This might break the cm, has the user might be redirected to the homepage
   if (!currentLocale) {
     return { layout, query };
   }
-
   const editLayoutPath = getPathToContentType(['layouts', 'edit']);
   const editRelationsPath = getPathToContentType(['layouts', 'editRelations']);
   const editLayout = get(layout, editLayoutPath);
   const editRelationsLayout = get(layout, editRelationsPath);
   const nextEditRelationLayout = enhanceRelationLayout(editRelationsLayout, currentLocale);
   const nextEditLayout = enhanceEditLayout(editLayout);
-
   const enhancedLayouts = {
     ...layout.contentType.layouts,
     editRelations: nextEditRelationLayout,
     edit: nextEditLayout,
   };
-
   const components = enhanceComponentsLayout(layout.components, currentLocale);
-
   const enhancedData = {
     query,
     layout: {
@@ -145,7 +118,6 @@ const mutateEditViewLayoutHook = ({ layout, query }) => {
       components,
     },
   };
-
   return enhancedData;
 };
 

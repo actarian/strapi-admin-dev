@@ -10,7 +10,7 @@ import React, { useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import selectI18NLocales from '../../selectors/selectMktlngLocales';
+import selectMktlngLocales from '../../selectors/selectMktlngLocales';
 import { getTrad } from '../../utils';
 
 const Button = styled.button`
@@ -57,7 +57,7 @@ const mapToLocaleName = (locales, localeCode) =>
   );
 
 const LocaleListCell = ({ localizations, locale: currentLocaleCode, id }) => {
-  const locales = useSelector(selectI18NLocales);
+  const locales = useSelector(selectMktlngLocales);
   const allLocalizations = [{ locale: currentLocaleCode }, ...localizations];
   const localizationNames = allLocalizations.map(locale => locale.locale);
   const defaultLocale = locales.find(locale => locale.isDefault);

@@ -20,20 +20,14 @@ const addLocaleToLinksSearch = (links, kind, contentTypeSchemas, locales, permis
         ? ['plugin::content-manager.explorer.read', 'plugin::content-manager.explorer.create']
         : ['plugin::content-manager.explorer.read'];
 
-    const contentTypeNeededPermissions = Object.keys(contentTypePermissions).reduce(
-      (acc, current) => {
-        if (requiredPermissionsToViewALink.includes(current)) {
-          acc[current] = contentTypePermissions[current];
-
-          return acc;
-        }
-
-        acc[current] = [];
-
-        return acc;
-      },
-      {}
-    );
+    const contentTypeNeededPermissions = Object.keys(contentTypePermissions).reduce((p, current) => {
+      if (requiredPermissionsToViewALink.includes(current)) {
+        p[current] = contentTypePermissions[current];
+        return p;
+      }
+      p[current] = [];
+      return p;
+    }, {});
 
     const defaultLocale = getDefaultLocale(contentTypeNeededPermissions, locales);
 

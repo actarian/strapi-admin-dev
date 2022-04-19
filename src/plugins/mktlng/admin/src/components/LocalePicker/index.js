@@ -7,14 +7,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 import useContentTypePermissions from '../../hooks/useContentTypePermissions';
 import useHasMktlng from '../../hooks/useHasMktlng';
-import selectI18NLocales from '../../selectors/selectMktlngLocales';
+import selectMktlngLocales from '../../selectors/selectMktlngLocales';
 import getInitialLocale from '../../utils/getInitialLocale';
 import getTrad from '../../utils/getTrad';
 
 const LocalePicker = () => {
   const { formatMessage } = useIntl();
   const dispatch = useDispatch();
-  const locales = useSelector(selectI18NLocales);
+  const locales = useSelector(selectMktlngLocales);
   const [{ query }, setQuery] = useQueryParams();
   const {
     params: { slug },

@@ -72,7 +72,7 @@ const assignValidLocale = async data => {
 };
 
 /**
- * Decorates the entity service with I18N business logic
+ * Decorates the entity service with Mktlng business logic
  * @param {object} service - entity service
  */
 const decorator = service => ({
@@ -86,7 +86,7 @@ const decorator = service => ({
     const wrappedParams = await service.wrapParams.call(this, params, ctx);
 
     const model = strapi.getModel(ctx.uid);
-
+    console.log('wrapParams', params, model);
     const { isLocalizedContentType } = getService('content-types');
 
     if (!isLocalizedContentType(model)) {
@@ -103,7 +103,7 @@ const decorator = service => ({
    */
   async create(uid, opts = {}) {
     const model = strapi.getModel(uid);
-
+    console.log('create', uid, model);
     const { syncLocalizations, syncNonLocalizedAttributes } = getService('localizations');
     const { isLocalizedContentType } = getService('content-types');
 
@@ -129,7 +129,7 @@ const decorator = service => ({
    */
   async update(uid, entityId, opts = {}) {
     const model = strapi.getModel(uid);
-
+    console.log('update', uid, entityId);
     const { syncNonLocalizedAttributes } = getService('localizations');
     const { isLocalizedContentType } = getService('content-types');
 

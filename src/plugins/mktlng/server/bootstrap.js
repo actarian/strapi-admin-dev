@@ -47,11 +47,9 @@ const registerModelsHooks = () => {
 
   strapi.db.lifecycles.subscribe({
     models: ['plugin::mktlng.locale'],
-
     async afterCreate() {
       await getService('permissions').actions.syncSuperAdminPermissionsWithLocales();
     },
-
     async afterDelete() {
       await getService('permissions').actions.syncSuperAdminPermissionsWithLocales();
     },

@@ -37,7 +37,7 @@ const addContentManagerLocaleMiddleware = strapi => {
 };
 
 /**
- * Adds hooks to migration content types locales on enable/disable of I18N
+ * Adds hooks to migration content types locales on enable/disable of Mktlng
  * @param {Strapi} strapi
  */
 const addContentTypeSyncHooks = strapi => {
@@ -54,9 +54,9 @@ const extendLocalizedContentTypes = strapi => {
   const coreApiService = getService('core-api');
 
   Object.values(strapi.contentTypes).forEach(contentType => {
+    console.log('server.register.contentType', contentType.kind, contentType.collectionName, /*.info.displayName*/);
     if (contentTypeService.isLocalizedContentType(contentType)) {
       const { attributes } = contentType;
-
       _.set(attributes, 'localizations', {
         writable: true,
         private: false,

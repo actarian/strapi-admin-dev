@@ -1,6 +1,6 @@
 'use strict';
 
-const locale = require('./locale');
+const locale = require('./locale/locale');
 
 module.exports = {
   locale,

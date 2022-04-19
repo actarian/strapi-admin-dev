@@ -3,8 +3,8 @@
 const { prop, propEq, identity, merge } = require('lodash/fp');
 const { ValidationError } = require('@strapi/utils').errors;
 
-const LOCALE_SCALAR_TYPENAME = 'I18NLocaleCode';
-const LOCALE_ARG_PLUGIN_NAME = 'I18NLocaleArg';
+const LOCALE_SCALAR_TYPENAME = 'MktlngLocaleCode';
+const LOCALE_ARG_PLUGIN_NAME = 'MktlngLocaleArg';
 
 const getLocalizedTypesFromRegistry = ({ strapi, typeRegistry }) => {
   const { KINDS } = strapi.plugin('graphql').service('constants');
@@ -18,9 +18,9 @@ const getLocalizedTypesFromRegistry = ({ strapi, typeRegistry }) => {
 module.exports = ({ strapi }) => ({
   register() {
     const { service: getGraphQLService } = strapi.plugin('graphql');
-    const { service: getI18NService } = strapi.plugin('mktlng');
+    const { service: getMktlngService } = strapi.plugin('mktlng');
 
-    const { isLocalizedContentType } = getI18NService('content-types');
+    const { isLocalizedContentType } = getMktlngService('content-types');
 
     const extensionService = getGraphQLService('extension');
 
@@ -71,7 +71,7 @@ module.exports = ({ strapi }) => ({
     });
 
     const getLocaleScalar = ({ nexus }) => {
-      const locales = getI18NService('iso-locales').getIsoLocales();
+      const locales = getMktlngService('iso-locales').getIsoLocales();
 
       return nexus.scalarType({
         name: LOCALE_SCALAR_TYPENAME,
@@ -118,7 +118,7 @@ module.exports = ({ strapi }) => ({
 
     const getCreateLocalizationComponents = (contentType, { nexus }) => {
       const { getEntityResponseName, getContentTypeInputName } = getGraphQLService('utils').naming;
-      const { createCreateLocalizationHandler } = getI18NService('core-api');
+      const { createCreateLocalizationHandler } = getMktlngService('core-api');
 
       const responseType = getEntityResponseName(contentType);
       const mutationName = getCreateLocalizationMutationType(contentType);
@@ -193,7 +193,7 @@ module.exports = ({ strapi }) => ({
     };
 
     const getMktlngLocaleArgPlugin = ({ nexus, typeRegistry }) => {
-      const { isLocalizedContentType } = getI18NService('content-types');
+      const { isLocalizedContentType } = getMktlngService('content-types');
 
       const addLocaleArg = config => {
         const { parentType } = config;

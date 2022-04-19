@@ -3,7 +3,7 @@
 const { getService } = require('../../../utils');
 const { DEFAULT_LOCALE } = require('../../../constants');
 
-// if i18N enabled set default locale
+// if Mktlng enabled set default locale
 module.exports = async ({ oldContentTypes, contentTypes }) => {
   const { isLocalizedContentType } = getService('content-types');
   const { getDefaultLocale } = getService('locales');

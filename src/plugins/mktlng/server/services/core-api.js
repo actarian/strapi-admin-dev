@@ -8,6 +8,8 @@ const { getService } = require('../utils');
 const { contentTypes, parseMultipartData, sanitize } = utils;
 const { ApplicationError, NotFoundError } = utils.errors;
 
+console.log('core-api', contentTypes);
+
 const { getContentTypeRoutePrefix, isSingleType, getWritableAttributes } = contentTypes;
 
 /**
