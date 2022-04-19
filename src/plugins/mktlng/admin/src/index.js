@@ -5,7 +5,7 @@ import pluginPkg from '../../package.json';
 import CheckboxConfirmation from './components/CheckboxConfirmation';
 import CMEditViewInjectedComponents from './components/CMEditViewInjectedComponents';
 import DeleteModalAdditionalInfos from './components/CMListViewInjectedComponents/DeleteModalAdditionalInfos';
-import Initializer from './components/Initializer';
+import Initializer from './components/Initializer/Initializer';
 import LocalePicker from './components/LocalePicker';
 import addColumnToTableHook from './contentManagerHooks/addColumnToTable';
 import addLocaleToCollectionTypesLinksHook from './contentManagerHooks/addLocaleToCollectionTypesLinks';
@@ -46,13 +46,26 @@ export default {
     app.registerHook('Admin/CM/pages/EditView/mutate-edit-view-layout', mutateEditViewLayoutHook);
 
     // # settings
-    // add the settings link
+    // add the settings language link
     app.addSettingsLink('global', {
-      intlLabel: { id: getTrad('plugin.name'), defaultMessage: 'Markets & Languages' },
+      intlLabel: { id: getTrad('settings.language.title'), defaultMessage: 'Languages' },
       id: 'mktlng',
-      to: '/settings/mktlng',
+      to: '/settings/language',
       Component: async () => {
-        const component = await import(/* webpackChunkName: "mktlng-settings-page" */ './pages/SettingsPage/SettingsPage');
+        const component = await import(/* webpackChunkName: "mktlng-language-settings-page" */ './pages/LanguageSettingsPage/LanguageSettingsPage');
+        console.log(component);
+        return component;
+      },
+      permissions: pluginPermissions.accessMain,
+    });
+
+    // add the settings market link
+    app.addSettingsLink('global', {
+      intlLabel: { id: getTrad('settings.market.title'), defaultMessage: 'Markets' },
+      id: 'mktlng',
+      to: '/settings/market',
+      Component: async () => {
+        const component = await import(/* webpackChunkName: "mktlng-market-settings-page" */ './pages/MarketSettingsPage/MarketSettingsPage');
         console.log(component);
         return component;
       },
@@ -63,6 +76,7 @@ export default {
     const plugin = app.getPlugin('content-type-builder');
     if (plugin) {
       const forms = plugin.apis.forms;
+      console.log('admin.bootstrap', app, plugin, forms, forms.addContentTypeSchemaMutation, mutateCTBContentTypeSchema);
       // # mutate schema
       forms.addContentTypeSchemaMutation(mutateCTBContentTypeSchema);
       // # add components
@@ -149,16 +163,16 @@ export default {
         return import(
           /* webpackChunkName: "mktlng-translation-[request]" */ `./translations/${locale}.json`
         ).then(({ default: data }) => {
-            return {
-              data: prefixPluginTranslations(data, pluginId),
-              locale,
-            };
-          }).catch(() => {
-            return {
-              data: {},
-              locale,
-            };
-          });
+          return {
+            data: prefixPluginTranslations(data, pluginId),
+            locale,
+          };
+        }).catch(() => {
+          return {
+            data: {},
+            locale,
+          };
+        });
       })
     );
     return Promise.resolve(importedTrads);

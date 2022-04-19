@@ -1,7 +1,6 @@
 'use strict';
 
 const { isEmpty } = require('lodash/fp');
-
 const { getService } = require('../../utils');
 
 /**
@@ -19,11 +18,9 @@ const localesPropertyHandler = async ({ action, section }) => {
   if (isEmpty(locales)) {
     return;
   }
-
   for (const subject of section.subjects) {
     const applies = await actionProvider.appliesToProperty('locales', action.actionId, subject.uid);
     const hasLocalesProperty = subject.properties.find(property => property.value === 'locales');
-
     if (applies && !hasLocalesProperty) {
       subject.properties.push({
         label: 'Locales',
@@ -36,7 +33,6 @@ const localesPropertyHandler = async ({ action, section }) => {
 
 const registerLocalesPropertyHandler = () => {
   const { sectionsBuilder } = strapi.admin.services.permission;
-
   sectionsBuilder.addHandler('singleTypes', localesPropertyHandler);
   sectionsBuilder.addHandler('collectionTypes', localesPropertyHandler);
 };

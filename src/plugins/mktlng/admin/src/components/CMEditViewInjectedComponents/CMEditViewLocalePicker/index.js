@@ -98,48 +98,48 @@ const CMEditViewLocalePicker = ({
   }
 
   return (
-    <Box paddingTop={6}>
+    <Box paddingTop={ 6 }>
       <Typography variant="sigma" textColor="neutral600">
-        {formatMessage({ id: getTrad('plugin.name'), defaultMessage: 'Markets & Languages' })}
+        { formatMessage({ id: getTrad('plugin.name'), defaultMessage: 'Markets & Languages' }) }
       </Typography>
-      <Box paddingTop={2} paddingBottom={6}>
+      <Box paddingTop={ 2 } paddingBottom={ 6 }>
         <Divider />
       </Box>
-      <Stack spacing={2}>
+      <Stack spacing={ 2 }>
         <Box>
           <Select
-            label={formatMessage({
-              id: getTrad('Settings.locales.modal.locales.label'),
-            })}
-            onChange={handleChange}
-            value={value?.value}
+            label={ formatMessage({
+              id: getTrad('settings.locales.modal.locales.label'),
+            }) }
+            onChange={ handleChange }
+            value={ value?.value }
           >
             <Option
-              value={value?.value}
+              value={ value?.value }
               disabled
-              startIcon={hasDraftAndPublishEnabled ? <Bullet status={currentLocaleStatus} /> : null}
+              startIcon={ hasDraftAndPublishEnabled ? <Bullet status={ currentLocaleStatus } /> : null }
             >
-              {value?.label}
+              { value?.label }
             </Option>
-            {filteredOptions.map(option => {
+            { filteredOptions.map(option => {
               return (
                 <Option
-                  key={option.value}
-                  value={option.value}
-                  startIcon={hasDraftAndPublishEnabled ? <Bullet status={option.status} /> : null}
+                  key={ option.value }
+                  value={ option.value }
+                  startIcon={ hasDraftAndPublishEnabled ? <Bullet status={ option.status } /> : null }
                 >
-                  {option.label}
+                  { option.label }
                 </Option>
               );
-            })}
+            }) }
           </Select>
         </Box>
         <Box>
           <CMEditViewCopyLocale
-            appLocales={appLocales}
-            currentLocale={currentLocale}
-            localizations={localizations}
-            readPermissions={readPermissions}
+            appLocales={ appLocales }
+            currentLocale={ currentLocale }
+            localizations={ localizations }
+            readPermissions={ readPermissions }
           />
         </Box>
       </Stack>

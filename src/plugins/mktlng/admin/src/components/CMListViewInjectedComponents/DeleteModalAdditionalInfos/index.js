@@ -14,20 +14,20 @@ const DeleteModalAdditionalInfos = () => {
 
   return (
     <Typography textColor="danger500">
-      {formatMessage(
+      { formatMessage(
         {
-          id: getTrad('Settings.list.actions.deleteAdditionalInfos'),
+          id: getTrad('settings.list.actions.deleteAdditionalInfos'),
           defaultMessage:
             'This will delete the active locale versions <em>(from Markets & Languages)</em>',
         },
         {
           em: chunks => (
             <Typography fontWeight="semiBold" textColor="danger500">
-              {chunks}
+              { chunks }
             </Typography>
           ),
         }
-      )}
+      ) }
     </Typography>
   );
 };

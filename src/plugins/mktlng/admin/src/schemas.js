@@ -1,11 +1,12 @@
-import { object, string } from 'yup';
 import { translatedErrors as errorsTrads } from '@strapi/helper-plugin';
+import { object, string } from 'yup';
 
-const localeFormSchema = object().shape({
+export const localeValidationSchema = object().shape({
   code: string().required(),
-  displayName: string()
-    .max(50, 'Settings.locales.modal.locales.displayName.error')
-    .required(errorsTrads.required),
+  displayName: string().max(50, 'settings.locales.modal.locales.displayName.error').required(errorsTrads.required),
 });
 
-export default localeFormSchema;
+export const marketValidationSchema = object().shape({
+  code: string().required(),
+  displayName: string().max(50, 'settings.markets.modal.markets.displayName.error').required(errorsTrads.required),
+});

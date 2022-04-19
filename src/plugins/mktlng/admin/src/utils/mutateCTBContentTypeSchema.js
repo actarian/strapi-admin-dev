@@ -24,7 +24,7 @@ const disableAttributesLocalisation = attributes =>
   }, {});
 
 const mutateCTBContentTypeSchema = (nextSchema, prevSchema) => {
-  console.log('mutateCTBContentTypeSchema');
+  console.log('mutateCTBContentTypeSchema', nextSchema, prevSchema, localizedPath);
   // Don't perform mutations components
   if (!has(nextSchema, localizedPath)) {
     return nextSchema;
@@ -51,3 +51,4 @@ const mutateCTBContentTypeSchema = (nextSchema, prevSchema) => {
 
 export default mutateCTBContentTypeSchema;
 export { addLocalisationToFields, disableAttributesLocalisation };
+

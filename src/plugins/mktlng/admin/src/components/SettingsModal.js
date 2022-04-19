@@ -1,15 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import {
-  ModalHeader,
   HeaderModal,
   HeaderModalTitle,
-  ModalForm,
-  Tabs,
-  TabsNav,
-  Tab,
-  TabsPanel,
+  ModalForm, ModalHeader, Tab, Tabs,
+  TabsNav, TabsPanel
 } from '@strapi/helper-plugin';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { useIntl } from 'react-intl';
 import { getTrad } from '../utils';
 
@@ -19,33 +15,33 @@ const SettingsModal = ({ children, title, breadCrumb, tabsAriaLabel, tabsId }) =
   return (
     <>
       <HeaderModal>
-        <ModalHeader headerBreadcrumbs={breadCrumb} />
+        <ModalHeader headerBreadcrumbs={ breadCrumb } />
       </HeaderModal>
 
       <div className="container-fluid">
         <div className="container-fluid">
           <HeaderModalTitle
-            style={{
+            style={ {
               fontSize: '1.8rem',
               height: '65px',
               fontWeight: 'bold',
               alignItems: 'center',
               marginBottom: '-39px',
               paddingTop: '16px',
-            }}
+            } }
           >
-            {title}
+            { title }
           </HeaderModalTitle>
 
           <ModalForm>
-            <div style={{ marginTop: '-40px' }}>
-              <TabsNav defaultSelection={0} label={tabsAriaLabel} id={tabsId}>
+            <div style={ { marginTop: '-40px' } }>
+              <TabsNav defaultSelection={ 0 } label={ tabsAriaLabel } id={ tabsId }>
                 <Tabs position="right">
-                  <Tab>{formatMessage({ id: getTrad('Settings.locales.modal.base') })}</Tab>
-                  <Tab>{formatMessage({ id: getTrad('Settings.locales.modal.advanced') })}</Tab>
+                  <Tab>{ formatMessage({ id: getTrad('settings.locales.modal.base') }) }</Tab>
+                  <Tab>{ formatMessage({ id: getTrad('settings.locales.modal.advanced') }) }</Tab>
                 </Tabs>
 
-                <TabsPanel>{children}</TabsPanel>
+                <TabsPanel>{ children }</TabsPanel>
               </TabsNav>
             </div>
           </ModalForm>

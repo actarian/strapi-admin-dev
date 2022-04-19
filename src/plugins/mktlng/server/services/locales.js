@@ -3,7 +3,6 @@
 const { isNil } = require('lodash/fp');
 const { DEFAULT_LOCALE } = require('../constants');
 const { getService } = require('../utils');
-
 const { getCoreStore } = require('../utils');
 
 const find = params => strapi.query('plugin::mktlng.locale').findMany({ where: params });
@@ -16,32 +15,24 @@ const count = params => strapi.query('plugin::mktlng.locale').count({ where: par
 
 const create = async locale => {
   const result = await strapi.query('plugin::mktlng.locale').create({ data: locale });
-
   getService('metrics').sendDidUpdateMktlngLocalesEvent();
-
   return result;
 };
 
 const update = async (params, updates) => {
   const result = await strapi.query('plugin::mktlng.locale').update({ where: params, data: updates });
-
   getService('metrics').sendDidUpdateMktlngLocalesEvent();
-
   return result;
 };
 
 const deleteFn = async ({ id }) => {
   const localeToDelete = await findById(id);
-
   if (localeToDelete) {
     await deleteAllLocalizedEntriesFor({ locale: localeToDelete.code });
     const result = await strapi.query('plugin::mktlng.locale').delete({ where: { id } });
-
     getService('metrics').sendDidUpdateMktlngLocalesEvent();
-
     return result;
   }
-
   return localeToDelete;
 };
 
@@ -53,9 +44,7 @@ const setIsDefault = async locales => {
   if (isNil(locales)) {
     return locales;
   }
-
   const actualDefault = await getDefaultLocale();
-
   if (Array.isArray(locales)) {
     return locales.map(locale => ({ ...locale, isDefault: actualDefault === locale.code }));
   } else {
@@ -74,9 +63,7 @@ const initDefaultLocale = async () => {
 
 const deleteAllLocalizedEntriesFor = async ({ locale }) => {
   const { isLocalizedContentType } = getService('content-types');
-
   const localizedModels = Object.values(strapi.contentTypes).filter(isLocalizedContentType);
-
   for (const model of localizedModels) {
     // FIXME: delete many content & their associations
     await strapi.query(model.uid).deleteMany({ where: { locale } });

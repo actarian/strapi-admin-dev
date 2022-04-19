@@ -8,5 +8,10 @@ module.exports = {
       path: '/locales',
       handler: 'locales.listLocales',
     },
+    {
+      method: 'GET',
+      path: '/markets',
+      handler: 'markets.listMarkets',
+    },
   ],
 };

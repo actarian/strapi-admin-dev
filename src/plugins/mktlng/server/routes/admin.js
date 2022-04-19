@@ -67,6 +67,75 @@ module.exports = {
         ],
       },
     },
+
+    {
+      method: 'GET',
+      path: '/iso-markets',
+      handler: 'iso-markets.listIsoMarkets',
+      config: {
+        policies: [
+          'admin::isAuthenticatedAdmin',
+          {
+            name: 'plugin::content-manager.hasPermissions',
+            config: { actions: ['plugin::mktlng.market.read'] },
+          },
+        ],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/markets',
+      handler: 'markets.listMarkets',
+      config: {
+        policies: ['admin::isAuthenticatedAdmin'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/markets',
+      handler: 'markets.createMarket',
+      config: {
+        policies: [
+          'admin::isAuthenticatedAdmin',
+          {
+            name: 'plugin::content-manager.hasPermissions',
+            config: { actions: ['plugin::mktlng.market.create'] },
+          },
+        ],
+      },
+    },
+    {
+      method: 'PUT',
+      path: '/markets/:id',
+      handler: 'markets.updateMarket',
+      config: {
+        policies: [
+          'admin::isAuthenticatedAdmin',
+          {
+            name: 'plugin::content-manager.hasPermissions',
+            config: { actions: ['plugin::mktlng.market.update'] },
+          },
+        ],
+      },
+    },
+    {
+      method: 'DELETE',
+      path: '/markets/:id',
+      handler: 'markets.deleteMarket',
+      config: {
+        policies: [
+          'admin::isAuthenticatedAdmin',
+          {
+            name: 'plugin::content-manager.hasPermissions',
+            config: { actions: ['plugin::mktlng.market.delete'] },
+          },
+        ],
+      },
+    },
+
+
+
+
     {
       method: 'POST',
       path: '/content-manager/actions/get-non-localized-fields',

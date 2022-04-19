@@ -17,47 +17,45 @@ const { getService } = require('../../utils');
 const willRegisterPermission = context => {
   const { permission, condition, user } = context;
   const { subject, properties } = permission;
-
   const isSuperAdmin = strapi.admin.services.role.hasSuperAdminRole(user);
-
   if (isSuperAdmin) {
     return;
   }
-
-  const { locales } = properties || {};
+  const { locales, markets } = properties || {};
   const { isLocalizedContentType } = getService('content-types');
-
   // If there is no subject defined, ignore the permission
   if (!subject) {
     return;
   }
-
   const ct = strapi.contentTypes[subject];
-
   // If the subject exists but isn't localized, ignore the permission
   if (!isLocalizedContentType(ct)) {
     return;
   }
-
   // If the subject is localized but the locales property is null (access to all locales), ignore the permission
   if (locales === null) {
     return;
   }
-
+  // If the subject has market but the markets property is null (access to all markets), ignore the permission
+  if (markets === null) {
+    return;
+  }
   condition.and({
     locale: {
       $in: locales || [],
     },
+    market: {
+      $in: markets || [],
+    },
   });
 };
 
-const registerMktlngPermissionsHandlers = () => {
+const registerPermissionsHandlers = () => {
   const { engine } = strapi.admin.services.permission;
-
   engine.hooks.willRegisterPermission.register(willRegisterPermission);
 };
 
 module.exports = {
   willRegisterPermission,
-  registerMktlngPermissionsHandlers,
+  registerPermissionsHandlers,
 };

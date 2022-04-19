@@ -19,11 +19,11 @@ module.exports = ({ strapi }) => {
  * @param {Strapi} strapi
  */
 const addContentManagerLocaleMiddleware = strapi => {
+
   strapi.server.router.use('/content-manager/collection-types/:model', (ctx, next) => {
     if (ctx.method === 'POST') {
       return validateLocaleCreation(ctx, next);
     }
-
     return next();
   });
 
@@ -31,7 +31,6 @@ const addContentManagerLocaleMiddleware = strapi => {
     if (ctx.method === 'PUT') {
       return validateLocaleCreation(ctx, next);
     }
-
     return next();
   });
 };
@@ -68,6 +67,14 @@ const extendLocalizedContentTypes = strapi => {
       });
 
       _.set(attributes, 'locale', {
+        writable: true,
+        private: false,
+        configurable: false,
+        visible: false,
+        type: 'string',
+      });
+
+      _.set(attributes, 'market', {
         writable: true,
         private: false,
         configurable: false,

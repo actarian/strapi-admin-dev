@@ -6,6 +6,7 @@ module.exports = async ({ strapi }) => {
   const { sendDidInitializeEvent } = getService('metrics');
   const { decorator } = getService('entity-service-decorator');
   const { initDefaultLocale } = getService('locales');
+  const { initDefaultMarket } = getService('markets');
   const { sectionsBuilder, actions, engine } = getService('permissions');
 
   // Entity Service
@@ -13,17 +14,18 @@ module.exports = async ({ strapi }) => {
 
   // Data
   await initDefaultLocale();
+  await initDefaultMarket();
 
   // Sections Builder
   sectionsBuilder.registerLocalesPropertyHandler();
 
   // Actions
-  await actions.registerMktlngActions();
-  actions.registerMktlngActionsHooks();
+  await actions.registerActions();
+  actions.registerActionsHooks();
   actions.updateActionsProperties();
 
   // Engine/Permissions
-  engine.registerMktlngPermissionsHandlers();
+  engine.registerPermissionsHandlers();
 
   // Hooks & Models
   registerModelsHooks();
@@ -52,6 +54,16 @@ const registerModelsHooks = () => {
     },
     async afterDelete() {
       await getService('permissions').actions.syncSuperAdminPermissionsWithLocales();
+    },
+  });
+
+  strapi.db.lifecycles.subscribe({
+    models: ['plugin::mktlng.market'],
+    async afterCreate() {
+      await getService('permissions').actions.syncSuperAdminPermissionsWithMarkets();
+    },
+    async afterDelete() {
+      await getService('permissions').actions.syncSuperAdminPermissionsWithMarkets();
     },
   });
 };
