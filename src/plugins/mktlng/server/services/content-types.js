@@ -7,7 +7,7 @@ const { ApplicationError } = require('@strapi/utils').errors;
 const { getService } = require('../utils');
 
 const hasLocalizedOption = modelOrAttribute => {
-  return prop('pluginOptions.mktlng.localized', modelOrAttribute) === true;
+  return prop('pluginOptions.mktlng.locale', modelOrAttribute) === true;
 };
 
 const getValidLocale = async locale => {

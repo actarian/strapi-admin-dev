@@ -2,22 +2,23 @@ import { prefixPluginTranslations } from '@strapi/helper-plugin';
 import get from 'lodash/get';
 import * as yup from 'yup';
 import pluginPkg from '../../package.json';
-import CheckboxConfirmation from './components/CheckboxConfirmation';
+import CheckboxConfirmation from './components/CheckboxConfirmation/CheckboxConfirmation';
 import CMEditViewInjectedComponents from './components/CMEditViewInjectedComponents';
 import DeleteModalAdditionalInfos from './components/CMListViewInjectedComponents/DeleteModalAdditionalInfos';
 import Initializer from './components/Initializer/Initializer';
 import LocalePicker from './components/LocalePicker';
-import addColumnToTableHook from './contentManagerHooks/addColumnToTable';
-import addLocaleToCollectionTypesLinksHook from './contentManagerHooks/addLocaleToCollectionTypesLinks';
-import addLocaleToSingleTypesLinksHook from './contentManagerHooks/addLocaleToSingleTypesLinks';
-import mutateEditViewLayoutHook from './contentManagerHooks/mutateEditViewLayout';
-import mktlngReducers from './hooks/reducers';
+import injectColumnInTable from './contentManagerHooks/injectColumnInTable';
+import mutateCollectionTypesLinks from './contentManagerHooks/mutateCollectionTypesLinks';
+import mutateEditViewLayout from './contentManagerHooks/mutateEditViewLayout';
+import mutateSingleTypesLinks from './contentManagerHooks/mutateSingleTypesLinks';
+import reducers from './hooks/reducers';
 import middlewares from './middlewares/middlewares';
 import pluginPermissions from './permissions';
 import pluginId from './pluginId';
 import { getTrad } from './utils';
+import contentTypeSchemaMutation from './utils/contentTypeSchemaMutation';
 import LOCALIZED_FIELDS from './utils/localizedFields';
-import mutateCTBContentTypeSchema from './utils/mutateCTBContentTypeSchema';
+// import mutateCTBContentTypeSchema from './utils/mutateCTBContentTypeSchema';
 
 const name = pluginPkg.strapi.name;
 
@@ -25,7 +26,7 @@ export default {
   register(app) {
     app.addMiddlewares(middlewares);
 
-    app.addReducers(mktlngReducers);
+    app.addReducers(reducers);
 
     app.registerPlugin({
       id: pluginId,
@@ -37,13 +38,13 @@ export default {
   bootstrap(app) {
     // # hooks
     // hooks that mutate the collection types links in order to add the locale filter
-    app.registerHook('Admin/CM/pages/App/mutate-collection-types-links', addLocaleToCollectionTypesLinksHook);
+    app.registerHook('Admin/CM/pages/App/mutate-collection-types-links', mutateCollectionTypesLinks);
     // hooks that mutate the single types links in order to add the locale filter
-    app.registerHook('Admin/CM/pages/App/mutate-single-types-links', addLocaleToSingleTypesLinksHook);
+    app.registerHook('Admin/CM/pages/App/mutate-single-types-links', mutateSingleTypesLinks);
     // hook that adds a column into the CM's LV table
-    app.registerHook('Admin/CM/pages/ListView/inject-column-in-table', addColumnToTableHook);
+    app.registerHook('Admin/CM/pages/ListView/inject-column-in-table', injectColumnInTable);
     // hooks that mutates the edit view layout
-    app.registerHook('Admin/CM/pages/EditView/mutate-edit-view-layout', mutateEditViewLayoutHook);
+    app.registerHook('Admin/CM/pages/EditView/mutate-edit-view-layout', mutateEditViewLayout);
 
     // # settings
     // add the settings language link
@@ -76,35 +77,39 @@ export default {
     const plugin = app.getPlugin('content-type-builder');
     if (plugin) {
       const forms = plugin.apis.forms;
-      console.log('admin.bootstrap', app, plugin, forms, forms.addContentTypeSchemaMutation, mutateCTBContentTypeSchema);
+      // console.log('admin.bootstrap', app, plugin, forms, forms.addContentTypeSchemaMutation, mutateCTBContentTypeSchema);
+
       // # mutate schema
-      forms.addContentTypeSchemaMutation(mutateCTBContentTypeSchema);
+      forms.addContentTypeSchemaMutation(contentTypeSchemaMutation);
+
       // # add components
       forms.components.add({ id: 'checkboxConfirmation', component: CheckboxConfirmation });
+
       // # extend content type
       forms.extendContentType({
         validator: () => ({
           mktlng: yup.object().shape({
-            localized: yup.bool(),
+            markets: yup.bool(),
           }),
         }),
         form: {
           advanced(...args) {
-            console.log('extendContentType', args);
+            console.log('extendContentType');
             return [{
               type: 'checkboxConfirmation',
-              name: 'pluginOptions.mktlng.localized',
-              description: { id: getTrad('plugin.schema.mktlng.localized.description-content-type'), defaultMessage: 'Allow you to have content in different locales' },
-              intlLabel: { id: getTrad('plugin.schema.mktlng.localized.label-content-type'), defaultMessage: 'Enable localization for this Content-Type' },
+              name: 'pluginOptions.mktlng.markets',
+              intlLabel: { id: getTrad('plugin.schema.mktlng.markets.label-content-type'), defaultMessage: 'Enable markets for this Content-Type' },
+              description: { id: getTrad('plugin.schema.mktlng.markets.description-content-type'), defaultMessage: 'Allow you to have content in different markets' },
             }];
           },
         },
       });
+
       // # extend fields
       forms.extendFields(LOCALIZED_FIELDS, {
         validator: args => ({
           mktlng: yup.object().shape({
-            localized: yup.bool().test({
+            locales: yup.bool().test({
               name: 'ensure-unique-localization',
               message: getTrad('plugin.schema.mktlng.ensure-unique-localization'),
               test(value) {
@@ -127,7 +132,8 @@ export default {
             if (forTarget !== 'contentType') {
               return [];
             }
-            const hasMktlngEnabled = get(contentTypeSchema, ['schema', 'pluginOptions', 'mktlng', 'localized'], false);
+            // const hasMktlngEnabled = get(contentTypeSchema, ['schema', 'pluginOptions', 'mktlng', 'locales'], false);
+            const hasMktlngEnabled = LOCALIZED_FIELDS.includes(type);
             if (!hasMktlngEnabled) {
               return [];
             }
@@ -136,9 +142,9 @@ export default {
             }
             return [{
               type: 'checkbox',
-              name: 'pluginOptions.mktlng.localized',
-              description: { id: getTrad('plugin.schema.mktlng.localized.description-field'), defaultMessage: 'The field can have different values in each locale' },
-              intlLabel: { id: getTrad('plugin.schema.mktlng.localized.label-field'), defaultMessage: 'Enable localization for this field' },
+              name: 'pluginOptions.mktlng.locales',
+              intlLabel: { id: getTrad('plugin.schema.mktlng.locales.label-field'), defaultMessage: 'Enable locales for this field' },
+              description: { id: getTrad('plugin.schema.mktlng.locales.description-field'), defaultMessage: 'The field can have different values in each locale' },
             }];
           },
         },

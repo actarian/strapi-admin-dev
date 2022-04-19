@@ -8,7 +8,7 @@ const { getService } = require('../utils');
 const { contentTypes, parseMultipartData, sanitize } = utils;
 const { ApplicationError, NotFoundError } = utils.errors;
 
-console.log('core-api', contentTypes);
+// console.log('core-api', contentTypes);
 
 const { getContentTypeRoutePrefix, isSingleType, getWritableAttributes } = contentTypes;
 
@@ -106,8 +106,8 @@ const createCreateLocalizationHandler = contentType => async (args = {}) => {
   const entry = isSingleType(contentType)
     ? await strapi.query(contentType.uid).findOne({ populate: ['localizations'] })
     : await strapi
-        .query(contentType.uid)
-        .findOne({ where: { id: args.id }, populate: ['localizations'] });
+      .query(contentType.uid)
+      .findOne({ where: { id: args.id }, populate: ['localizations'] });
 
   if (!entry) {
     throw new NotFoundError();

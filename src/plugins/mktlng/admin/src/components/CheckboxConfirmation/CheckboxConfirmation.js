@@ -15,11 +15,15 @@ const TextAlignTypography = styled(Typography)`
   text-align: center;
 `;
 
-const CheckboxConfirmation = ({ description, isCreating, intlLabel, name, onChange, value }) => {
+const CheckboxConfirmation = ({ name, value, intlLabel, description, isCreating, onChange }) => {
   const { formatMessage } = useIntl();
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleChange = value => {
+  const label = intlLabel.id ? formatMessage({ id: intlLabel.id, defaultMessage: intlLabel.defaultMessage }, { ...intlLabel.values }) : name;
+
+  const hint = description ? formatMessage({ id: description.id, defaultMessage: description.defaultMessage }, { ...description.values }) : '';
+
+  const onValueChange = value => {
     if (isCreating || value) {
       return onChange({ target: { name, value, type: 'checkbox' } });
     }
@@ -29,30 +33,18 @@ const CheckboxConfirmation = ({ description, isCreating, intlLabel, name, onChan
     return null;
   };
 
-  const handleConfirm = () => {
+  const onConfirm = () => {
     onChange({ target: { name, value: false, type: 'checkbox' } });
     setIsOpen(false);
   };
 
-  const handleToggle = () => setIsOpen(prev => !prev);
-
-  const label = intlLabel.id ? formatMessage(
-    { id: intlLabel.id, defaultMessage: intlLabel.defaultMessage },
-    { ...intlLabel.values }
-  ) : name;
-
-  const hint = description ? formatMessage(
-    { id: description.id, defaultMessage: description.defaultMessage },
-    { ...description.values }
-  ) : '';
+  const onClose = () => setIsOpen(open => !open);
 
   return (
     <>
-      <Checkbox type="checkbox" hint={ hint } id={ name } name={ name } value={ value } onValueChange={ handleChange }>
-        { label }
-      </Checkbox>
+      <Checkbox type="checkbox" hint={ hint } id={ name } name={ name } value={ value } onValueChange={ onValueChange }>{ label }</Checkbox>
       { isOpen && (
-        <Dialog title="Confirmation" isOpen={ isOpen } onClose={ handleToggle }>
+        <Dialog title="Confirmation" isOpen={ isOpen } onClose={ onClose }>
           <DialogBody icon={ <ExclamationMarkCircle /> }>
             <Stack spacing={ 2 }>
               <Flex justifyContent="center">
@@ -68,17 +60,16 @@ const CheckboxConfirmation = ({ description, isCreating, intlLabel, name, onChan
             </Stack>
           </DialogBody>
           <DialogFooter startAction={
-              <Button variant="tertiary" onClick={ handleToggle }>
-                { formatMessage({ id: 'components.popUpWarning.button.cancel', defaultMessage: 'No, cancel' }) }
-              </Button>
-            } endAction={
-              <Button variant="danger-light" onClick={handleConfirm}>
-                { formatMessage({ id: getTrad('CheckboxConfirmation.Modal.button-confirm'), defaultMessage: 'Yes, disable' })}
-              </Button>
-            }
-          />
+            <Button variant="tertiary" onClick={ onClose }>
+              { formatMessage({ id: 'components.popUpWarning.button.cancel', defaultMessage: 'No, cancel' }) }
+            </Button>
+          } endAction={
+            <Button variant="danger-light" onClick={ onConfirm }>
+              { formatMessage({ id: getTrad('CheckboxConfirmation.Modal.button-confirm'), defaultMessage: 'Yes, disable' }) }
+            </Button>
+          } />
         </Dialog>
-      )}
+      ) }
     </>
   );
 };

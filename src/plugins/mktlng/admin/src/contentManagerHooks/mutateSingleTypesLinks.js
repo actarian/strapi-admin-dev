@@ -1,6 +1,6 @@
 import addLocaleToLinksSearch from './utils/addLocaleToLinksSearch';
 
-const addLocaleToSingleTypesLinks = ({ stLinks, models }, store) => {
+const mutateSingleTypesLinks = ({ stLinks, models }, store) => {
   if (!stLinks.length) {
     return { stLinks, models };
   }
@@ -20,4 +20,4 @@ const addLocaleToSingleTypesLinks = ({ stLinks, models }, store) => {
   return { stLinks: mutatedLinks, models };
 };
 
-export default addLocaleToSingleTypesLinks;
+export default mutateSingleTypesLinks;

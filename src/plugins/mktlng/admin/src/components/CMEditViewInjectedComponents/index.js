@@ -19,7 +19,7 @@ const CMEditViewInjectedComponents = () => {
   const currentEntityId = id;
   const defaultLocale = locales.find(loc => loc.isDefault);
   const currentLocale = get(query, 'plugins.mktlng.locale', defaultLocale.code);
-  const hasMktlngEnabled = get(layout, ['pluginOptions', 'mktlng', 'localized'], false);
+  const hasMktlngEnabled = get(layout, ['pluginOptions', 'mktlng', 'locales'], false);
   const hasDraftAndPublishEnabled = get(layout, ['options', 'draftAndPublish'], false);
 
   const defaultQuery = useMemo(() => {
@@ -47,17 +47,17 @@ const CMEditViewInjectedComponents = () => {
 
   return (
     <CMEditViewLocalePicker
-      appLocales={locales}
-      currentEntityId={currentEntityId}
-      createPermissions={createPermissions}
-      currentLocaleStatus={currentLocaleStatus}
-      hasDraftAndPublishEnabled={hasDraftAndPublishEnabled}
-      localizations={localizations}
-      isSingleType={isSingleType}
-      query={defaultQuery}
-      readPermissions={readPermissions}
-      setQuery={setQuery}
-      slug={slug}
+      appLocales={ locales }
+      currentEntityId={ currentEntityId }
+      createPermissions={ createPermissions }
+      currentLocaleStatus={ currentLocaleStatus }
+      hasDraftAndPublishEnabled={ hasDraftAndPublishEnabled }
+      localizations={ localizations }
+      isSingleType={ isSingleType }
+      query={ defaultQuery }
+      readPermissions={ readPermissions }
+      setQuery={ setQuery }
+      slug={ slug }
     />
   );
 };

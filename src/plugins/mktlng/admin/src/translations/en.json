@@ -7,7 +7,7 @@
   "CheckboxConfirmation.Modal.body": "Do you want to disable it?",
   "CheckboxConfirmation.Modal.button-confirm": "Yes, disable",
   "CheckboxConfirmation.Modal.content": "Disabling localization will engender the deletion of all your content but the one associated to your default locale (if existing).",
-  "Field.localized": "This value is unique for the selected locale",
+  "Field.locales": "This value is unique for the selected locale",
   "Field.not-localized": "This value is common to all locales",
   "settings.language.title": "Languages",
   "settings.market.title": "Markets",
@@ -91,10 +91,10 @@
   "plugin.description.short": "This plugin enables to create, to read and to update content in different languages, both from the Admin Panel and from the API.",
   "plugin.name": "Markets & Languages",
   "plugin.schema.mktlng.ensure-unique-localization": "Unique fields must be localized",
-  "plugin.schema.mktlng.localized.description": "Allow you to have content in different locales",
-  "plugin.schema.mktlng.localized.description-content-type": "Allow you to have content in different locales",
-  "plugin.schema.mktlng.localized.description-field": "The field can have different values in each locale",
-  "plugin.schema.mktlng.localized.label": "Enable localization for this Content-Type",
-  "plugin.schema.mktlng.localized.label-content-type": "Enable localization for this Content-Type",
-  "plugin.schema.mktlng.localized.label-field": "Enable localization for this field"
+  "plugin.schema.mktlng.locales.description": "Allow you to have content in different locales",
+  "plugin.schema.mktlng.locales.description-content-type": "Allow you to have content in different locales",
+  "plugin.schema.mktlng.locales.description-field": "The field can have different values in each locale",
+  "plugin.schema.mktlng.locales.label": "Enable localization for this Content-Type",
+  "plugin.schema.mktlng.locales.label-content-type": "Enable localization for this Content-Type",
+  "plugin.schema.mktlng.locales.label-field": "Enable localization for this field"
 }

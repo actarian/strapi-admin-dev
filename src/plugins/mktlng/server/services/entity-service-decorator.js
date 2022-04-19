@@ -86,7 +86,7 @@ const decorator = service => ({
     const wrappedParams = await service.wrapParams.call(this, params, ctx);
 
     const model = strapi.getModel(ctx.uid);
-    console.log('wrapParams', params, model);
+    // console.log('wrapParams', params, model);
     const { isLocalizedContentType } = getService('content-types');
 
     if (!isLocalizedContentType(model)) {

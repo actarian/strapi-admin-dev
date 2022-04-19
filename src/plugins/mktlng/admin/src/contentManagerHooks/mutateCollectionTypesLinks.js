@@ -1,6 +1,6 @@
 import addLocaleToLinksSearch from './utils/addLocaleToLinksSearch';
 
-const addLocaleToCollectionTypesLinksHook = ({ ctLinks, models }, store) => {
+const mutateCollectionTypesLinks = ({ ctLinks, models }, store) => {
   if (!ctLinks.length) {
     return { ctLinks, models };
   }
@@ -20,4 +20,4 @@ const addLocaleToCollectionTypesLinksHook = ({ ctLinks, models }, store) => {
   return { ctLinks: mutatedLinks, models };
 };
 
-export default addLocaleToCollectionTypesLinksHook;
+export default mutateCollectionTypesLinks;

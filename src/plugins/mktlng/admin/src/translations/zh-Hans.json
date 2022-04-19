@@ -6,7 +6,7 @@
   "CheckboxConfirmation.Modal.body": "你要关闭它吗?",
   "CheckboxConfirmation.Modal.button-confirm": "是的, 关闭",
   "CheckboxConfirmation.Modal.content": "关闭国际化将会导致除和默认语言关联的内容之外的所有内容被删除",
-  "Field.localized": "该值对于选中语言是唯一的",
+  "Field.locales": "该值对于选中语言是唯一的",
   "Field.not-localized": "该值对所有语言通用",
   "settings.list.actions.add": "添加语言",
   "settings.list.actions.delete": "删除语言",
@@ -46,10 +46,10 @@
   "plugin.description.short": "在管理面板或是API中创建，查询及更新不同语言的内容",
   "plugin.name": "国际化",
   "plugin.schema.mktlng.ensure-unique-localization": "唯一字段必须本地化",
-  "plugin.schema.mktlng.localized.description": "允许您为内容设置不同的语言",
-  "plugin.schema.mktlng.localized.description-content-type": "允许您为内容设置不同的语言",
-  "plugin.schema.mktlng.localized.description-field": "该字段在不同的语言环境中有不同的值",
-  "plugin.schema.mktlng.localized.label": "为内容类型开启本地化",
-  "plugin.schema.mktlng.localized.label-content-type": "为该内容类型开启本地化",
-  "plugin.schema.mktlng.localized.label-field": "为该字段开启本地化"
+  "plugin.schema.mktlng.locales.description": "允许您为内容设置不同的语言",
+  "plugin.schema.mktlng.locales.description-content-type": "允许您为内容设置不同的语言",
+  "plugin.schema.mktlng.locales.description-field": "该字段在不同的语言环境中有不同的值",
+  "plugin.schema.mktlng.locales.label": "为内容类型开启本地化",
+  "plugin.schema.mktlng.locales.label-content-type": "为该内容类型开启本地化",
+  "plugin.schema.mktlng.locales.label-field": "为该字段开启本地化"
 }

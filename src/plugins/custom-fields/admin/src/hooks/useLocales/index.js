@@ -5,7 +5,7 @@ import { RESOLVE_LOCALES } from '../constants';
 
 const fetchLocalesList = async toggleNotification => {
   try {
-    const data = await request('/i18n/locales', {
+    const data = await request('/mktlng/locales', {
       method: 'GET',
     });
     return data;
@@ -21,8 +21,8 @@ const fetchLocalesList = async toggleNotification => {
 const useLocales = () => {
   const dispatch = useDispatch();
   const toggleNotification = useNotification();
-  const locales = useSelector(state => state.i18n_locales.locales);
-  const isLoading = useSelector(state => state.i18n_locales.isLoading);
+  const locales = useSelector(state => state.mktlng_locales.locales);
+  const isLoading = useSelector(state => state.mktlng_locales.isLoading);
 
   useEffect(() => {
     fetchLocalesList(toggleNotification).then(locales =>

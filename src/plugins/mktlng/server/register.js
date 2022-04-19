@@ -56,6 +56,7 @@ const extendLocalizedContentTypes = strapi => {
     console.log('server.register.contentType', contentType.kind, contentType.collectionName, /*.info.displayName*/);
     if (contentTypeService.isLocalizedContentType(contentType)) {
       const { attributes } = contentType;
+
       _.set(attributes, 'localizations', {
         writable: true,
         private: false,

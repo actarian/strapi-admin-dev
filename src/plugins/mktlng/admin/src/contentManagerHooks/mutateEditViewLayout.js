@@ -9,37 +9,35 @@ const enhanceRelationLayout = (layout, locale) =>
   layout.map(current => {
     const labelActionProps = {
       title: {
-        id: getTrad('Field.localized'),
+        id: getTrad('Field.locales'),
         defaultMessage: 'This value is unique for the selected locale',
       },
       icon: <Earth aria-hidden />,
     };
     let queryInfos = current.queryInfos;
-    if (get(current, ['targetModelPluginOptions', 'mktlng', 'localized'], false)) {
+    if (get(current, ['targetModelPluginOptions', 'mktlng', 'locales'], false)) {
       queryInfos = {
         ...queryInfos,
         defaultParams: { ...queryInfos.defaultParams, locale },
         paramsToKeep: ['plugins.mktlng.locale'],
       };
     }
-    return { ...current, labelAction: <LabelAction {...labelActionProps} />, queryInfos };
+    return { ...current, labelAction: <LabelAction { ...labelActionProps } />, queryInfos };
   });
 
 const enhanceEditLayout = layout =>
   layout.map(row => {
     const enhancedRow = row.reduce((p, field) => {
       const type = get(field, ['fieldSchema', 'type'], null);
-      const hasMktlngEnabled = get(field, ['fieldSchema', 'pluginOptions', 'mktlng', 'localized'], type === 'uid');
+      const hasMktlngEnabled = get(field, ['fieldSchema', 'pluginOptions', 'mktlng', 'locales'], type === 'uid');
       const labelActionProps = {
         title: {
-          id: hasMktlngEnabled ? getTrad('Field.localized') : getTrad('Field.not-localized'),
-          defaultMessage: hasMktlngEnabled
-            ? 'This value is unique for the selected locale'
-            : 'This value is common to all locales',
+          id: hasMktlngEnabled ? getTrad('Field.locales') : getTrad('Field.not-localized'),
+          defaultMessage: hasMktlngEnabled ? 'This value is unique for the selected locale' : 'This value is common to all locales',
         },
         icon: hasMktlngEnabled ? <Earth aria-hidden /> : <StrikedWorld aria-hidden />,
       };
-      p.push({ ...field, labelAction: <LabelAction {...labelActionProps} /> });
+      p.push({ ...field, labelAction: <LabelAction { ...labelActionProps } /> });
       return p;
     }, []);
     return enhancedRow;
@@ -64,7 +62,7 @@ const enhanceComponentLayoutForRelations = (layout, locale) =>
   layout.map(row => {
     const enhancedRow = row.reduce((p, field) => {
       if (get(field, ['fieldSchema', 'type']) === 'relation' &&
-          get(field, ['targetModelPluginOptions', 'mktlng', 'localized'], false)) {
+        get(field, ['targetModelPluginOptions', 'mktlng', 'locales'], false)) {
         const queryInfos = {
           ...field.queryInfos,
           defaultParams: { ...field.queryInfos.defaultParams, locale },
@@ -81,10 +79,14 @@ const enhanceComponentLayoutForRelations = (layout, locale) =>
 
 const getPathToContentType = pathArray => ['contentType', ...pathArray];
 
-const mutateEditViewLayoutHook = ({ layout, query }) => {
+const mutateEditViewLayout = ({ layout, query }) => {
+  console.log('mutateEditViewLayout', layout, query);
+  return { layout, query };
+
+
   const hasMktlngEnabled = get(
     layout,
-    getPathToContentType(['pluginOptions', 'mktlng', 'localized']),
+    getPathToContentType(['pluginOptions', 'mktlng', 'locales']),
     false
   );
   if (!hasMktlngEnabled) {
@@ -121,10 +123,12 @@ const mutateEditViewLayoutHook = ({ layout, query }) => {
   return enhancedData;
 };
 
-export default mutateEditViewLayoutHook;
+export default mutateEditViewLayout;
+
 export {
   enhanceComponentLayoutForRelations,
   enhanceComponentsLayout,
   enhanceEditLayout,
   enhanceRelationLayout,
 };
+

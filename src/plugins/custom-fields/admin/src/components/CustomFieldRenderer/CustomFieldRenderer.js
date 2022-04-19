@@ -12,7 +12,8 @@ const Field = (props) => {
   const { name, value, attribute, onChange } = props;
 
   const { locales } = useLocales();
-  const defaultLang = locales.length ? locales[0].code : DEFAULT_LANG;
+  const defaultLocale = locales.find(x => x.isDefault);
+  const defaultLang = defaultLocale ? defaultLocale.code : DEFAULT_LANG;
   const [lang, setLang] = useState(defaultLang);
 
   // All our custom field config are here
@@ -27,7 +28,7 @@ const Field = (props) => {
   const deserialize = (value) => {
     try {
       return JSON.parse(value);
-    } catch (e) {
+    } catch (error) {
       return {};
     }
   };
@@ -43,10 +44,9 @@ const Field = (props) => {
     return serialize(deserializedValue);
   };
 
-
-  const getIconButtonStyle = (locale) => ({
-    color: locale.code === lang ? 'red' : 'white'
-  });
+  const getTextColor = (locale) => {
+    return locale.code === lang ? 'primary600' : 'neutral800';
+  }
 
   return (
     <>
@@ -64,13 +64,13 @@ const Field = (props) => {
         } }
       />
       { false && locales.map(locale => (
-        <Button key={ locale.id } onClick={ () => alert('hello' + locale.id) } title={ locale.name }>{ locale.code }</Button>
+        <Button key={ locale.id } onClick={ () => setLang(locale.code) } title={ locale.name }>{ locale.code }</Button>
       )) }
       {
         <Box paddingTop={ 1 }>
           <IconButtonGroup>
             { locales.map(locale => (
-              <IconButton key={ locale.id } onClick={ () => setLang(locale.code) } label={ locale.name } icon={ <Typography variant="sigma" style={ getIconButtonStyle(locale) }> { locale.code } </Typography> } />
+              <IconButton key={ locale.id } onClick={ () => setLang(locale.code) } label={ locale.name } icon={ <Typography variant="sigma" textColor={ getTextColor(locale) }> { locale.code } </Typography> } />
             )) }
           </IconButtonGroup>
         </Box>

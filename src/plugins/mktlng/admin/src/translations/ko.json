@@ -7,7 +7,7 @@
   "CheckboxConfirmation.Modal.body": "사용하지 않도록 설정하시겠습니까?",
   "CheckboxConfirmation.Modal.button-confirm": "네, 비활성화합니다.",
   "CheckboxConfirmation.Modal.content": "지역화(localization) 기능을 해제하면 기본 로케일에 연결된 콘텐츠를 제외한 모든 콘텐츠가 삭제됩니다.",
-  "Field.localized": "이 값은 선택한 로케일에서 고유합니다.",
+  "Field.locales": "이 값은 선택한 로케일에서 고유합니다.",
   "Field.not-localized": "이 값은 모든 로케일에서 공통입니다.",
   "settings.list.actions.add": "로케일 추가",
   "settings.list.actions.delete": "로케일 삭제",
@@ -54,10 +54,10 @@
   "plugin.description.short": "이 플러그인을 사용하면 어드민 패널과 API에서 서로 다른 언어로 된 컨텐츠를 만들고, 읽고, 업데이트할 수 있습니다.",
   "plugin.name": "국제화",
   "plugin.schema.mktlng.ensure-unique-localization": "유니크 필드는 지역화(localized)되어야 합니다.",
-  "plugin.schema.mktlng.localized.description": "로케일별로 콘텐츠를 저장할 수 있습니다.",
-  "plugin.schema.mktlng.localized.description-content-type": "로케일별로 콘텐츠를 저장할 수 있습니다.",
-  "plugin.schema.mktlng.localized.description-field": "필드는 각 로케일에서 서로 다른 값을 가질 수 있습니다.",
-  "plugin.schema.mktlng.localized.label": "이 콘텐츠 타입의 지역화(localization) 켜기",
-  "plugin.schema.mktlng.localized.label-content-type": "이 콘텐츠 타입의 지역화(localization) 켜기",
-  "plugin.schema.mktlng.localized.label-field": "이 필드의 지역화(localization) 켜기"
+  "plugin.schema.mktlng.locales.description": "로케일별로 콘텐츠를 저장할 수 있습니다.",
+  "plugin.schema.mktlng.locales.description-content-type": "로케일별로 콘텐츠를 저장할 수 있습니다.",
+  "plugin.schema.mktlng.locales.description-field": "필드는 각 로케일에서 서로 다른 값을 가질 수 있습니다.",
+  "plugin.schema.mktlng.locales.label": "이 콘텐츠 타입의 지역화(localization) 켜기",
+  "plugin.schema.mktlng.locales.label-content-type": "이 콘텐츠 타입의 지역화(localization) 켜기",
+  "plugin.schema.mktlng.locales.label-field": "이 필드의 지역화(localization) 켜기"
 }

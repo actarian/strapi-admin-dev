@@ -2,8 +2,8 @@ import get from 'lodash/get';
 import React from 'react';
 import LocaleListCell from '../components/LocaleListCell/LocaleListCell';
 
-const addColumnToTableHook = ({ displayedHeaders, layout }) => {
-  const isFieldLocalized = get(layout, 'contentType.pluginOptions.mktlng.localized', false);
+const injectColumnInTable = ({ displayedHeaders, layout }) => {
+  const isFieldLocalized = get(layout, 'contentType.pluginOptions.mktlng.locales', false);
 
   if (!isFieldLocalized) {
     return { displayedHeaders, layout };
@@ -17,11 +17,11 @@ const addColumnToTableHook = ({ displayedHeaders, layout }) => {
         fieldSchema: { type: 'string' },
         metadatas: { label: 'Content available in', searchable: false, sortable: false },
         name: 'locales',
-        cellFormatter: props => <LocaleListCell {...props} />,
+        cellFormatter: props => <LocaleListCell { ...props } />,
       },
     ],
     layout,
   };
 };
 
-export default addColumnToTableHook;
+export default injectColumnInTable;

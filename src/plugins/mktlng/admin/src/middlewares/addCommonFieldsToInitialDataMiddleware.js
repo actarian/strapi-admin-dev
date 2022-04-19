@@ -1,6 +1,4 @@
-import {
-  contentManagementUtilRemoveFieldsFromData, formatContentTypeData, request
-} from '@strapi/helper-plugin';
+import { contentManagementUtilRemoveFieldsFromData, formatContentTypeData, request } from '@strapi/helper-plugin';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import merge from 'lodash/merge';
@@ -11,11 +9,9 @@ const addCommonFieldsToInitialDataMiddleware = () => ({ getState, dispatch }) =>
   if (action.type !== 'ContentManager/CrudReducer/INIT_FORM') {
     return next(action);
   }
-
   if (!action.rawQuery) {
     return next(action);
   }
-
   const search = action.rawQuery.substring(1);
   const query = parse(search);
   const relatedEntityId = get(query, 'plugins.mktlng.relatedEntityId', null);
@@ -69,7 +65,7 @@ const addCommonFieldsToInitialDataMiddleware = () => ({ getState, dispatch }) =>
         currentLayout.contentType,
         currentLayout.components
       );
-    } catch (err) {
+    } catch (error) {
       // Silent
     }
 

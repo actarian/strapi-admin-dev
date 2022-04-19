@@ -7,7 +7,7 @@
   "CheckboxConfirmation.Modal.body": "Ønsker du at deaktivere den?",
   "CheckboxConfirmation.Modal.button-confirm": "Ja, deaktivér",
   "CheckboxConfirmation.Modal.content": "Deaktivering af sprogvarianter vil medføre at alt indhold, med undtagelse af indhold markeret med din standard sprogvariant, bliver slettet (hvis der findes en).",
-  "Field.localized": "Denne værdi er unik for den valgte sprogvariant",
+  "Field.locales": "Denne værdi er unik for den valgte sprogvariant",
   "Field.not-localized": "Denne værdi er ens for alle sprogvarianter",
   "settings.list.actions.add": "Tilføj sprogvariant",
   "settings.list.actions.delete": "Slet sprogvariant",
@@ -55,10 +55,10 @@
   "plugin.description.short": "Dette plugin gør det muligt at oprette, læse og redigere indhold på forskellige sprog, både fra admin panelt og igennem API.",
   "plugin.name": "Internationalisering",
   "plugin.schema.mktlng.ensure-unique-localization": "Unikke felter skal udfyldes for alle sprogvarianter",
-  "plugin.schema.mktlng.localized.description": "Muliggør indhold på forskellige sprog",
-  "plugin.schema.mktlng.localized.description-content-type": "Muliggør indhold på forskellige sprog",
-  "plugin.schema.mktlng.localized.description-field": "Feltet kan have forskellige værdier for hver sprogvariant",
-  "plugin.schema.mktlng.localized.label": "Aktivér sprogvarianter for denne indholdstype",
-  "plugin.schema.mktlng.localized.label-content-type": "Aktivér sprogvarianter for denne indholdstype",
-  "plugin.schema.mktlng.localized.label-field": "Aktivér sprogvarianter for dette felt"
+  "plugin.schema.mktlng.locales.description": "Muliggør indhold på forskellige sprog",
+  "plugin.schema.mktlng.locales.description-content-type": "Muliggør indhold på forskellige sprog",
+  "plugin.schema.mktlng.locales.description-field": "Feltet kan have forskellige værdier for hver sprogvariant",
+  "plugin.schema.mktlng.locales.label": "Aktivér sprogvarianter for denne indholdstype",
+  "plugin.schema.mktlng.locales.label-content-type": "Aktivér sprogvarianter for denne indholdstype",
+  "plugin.schema.mktlng.locales.label-field": "Aktivér sprogvarianter for dette felt"
 }

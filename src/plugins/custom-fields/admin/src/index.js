@@ -1,6 +1,6 @@
 import { prefixPluginTranslations } from '@strapi/helper-plugin';
 import pluginPkg from '../../package.json';
-import CustomFieldRenderer from './components/CustomFieldRenderer';
+import CustomFieldRenderer from './components/CustomFieldRenderer/CustomFieldRenderer';
 import pluginId from './pluginId';
 
 const name = pluginPkg.strapi.name;

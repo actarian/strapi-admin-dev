@@ -5,7 +5,7 @@ const selectContentManagerListViewPluginOptions = state => state['content-manage
 
 const useHasMktlng = () => {
   const pluginOptions = useSelector(selectContentManagerListViewPluginOptions);
-  return get(pluginOptions, 'mktlng.localized', false);
+  return get(pluginOptions, 'mktlng.locales', false);
 };
 
 export default useHasMktlng;

@@ -7,7 +7,7 @@
   "CheckboxConfirmation.Modal.body": "Möchtest du die Lokalisierung deaktivieren?",
   "CheckboxConfirmation.Modal.button-confirm": "Ja, deaktivieren",
   "CheckboxConfirmation.Modal.content": "Wenn die Lokalisierung deaktiviert wird, werden alle ihr zugeordneten Inhalte gelöscht. Die Inhalte der Standardsprache (sofern vorhanden) bleiben erhalten.",
-  "Field.localized": "Dieser Wert ist einzigartig für die ausgewählte Übersetzung",
+  "Field.locales": "Dieser Wert ist einzigartig für die ausgewählte Übersetzung",
   "Field.not-localized": "Dieser Wert ist für alle Übersetzungen gleich",
   "settings.list.actions.add": "Neue Sprache hinzufügen",
   "settings.list.actions.delete": "Sprache löschen",
@@ -55,10 +55,10 @@
   "plugin.description.short": "Dieses Plugin ermöglicht es, Inhalte in verschiedenen Sprachen zu erstellen, zu lesen und zu aktualisieren, sowohl über das Admin-Panel als auch über die API",
   "plugin.name": "Internationalisierung",
   "plugin.schema.mktlng.ensure-unique-localization": "Einzigartige Felder müssen lokalisiert sein",
-  "plugin.schema.mktlng.localized.description": "Ermöglicht es Inhalte in verschiedenen Sprachen zu pflegen",
-  "plugin.schema.mktlng.localized.description-content-type": "Ermöglicht es Inhalte in verschiedenen Sprachen zu pflegen",
-  "plugin.schema.mktlng.localized.description-field": "Das Feld kann verschiedene Werte in jeder Sprache haben",
-  "plugin.schema.mktlng.localized.label": "Übersetzungen für diesen Inhaltstyp aktivieren",
-  "plugin.schema.mktlng.localized.label-content-type": "Übersetzungen für diesen Inhaltstyp aktivieren",
-  "plugin.schema.mktlng.localized.label-field": "Übersetzungen für dieses Feld aktivieren"
+  "plugin.schema.mktlng.locales.description": "Ermöglicht es Inhalte in verschiedenen Sprachen zu pflegen",
+  "plugin.schema.mktlng.locales.description-content-type": "Ermöglicht es Inhalte in verschiedenen Sprachen zu pflegen",
+  "plugin.schema.mktlng.locales.description-field": "Das Feld kann verschiedene Werte in jeder Sprache haben",
+  "plugin.schema.mktlng.locales.label": "Übersetzungen für diesen Inhaltstyp aktivieren",
+  "plugin.schema.mktlng.locales.label-content-type": "Übersetzungen für diesen Inhaltstyp aktivieren",
+  "plugin.schema.mktlng.locales.label-field": "Übersetzungen für dieses Feld aktivieren"
 }

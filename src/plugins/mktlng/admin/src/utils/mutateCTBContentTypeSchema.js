@@ -1,13 +1,13 @@
 import { get, has, omit } from 'lodash';
 import LOCALIZED_FIELDS from './localizedFields';
 
-const localizedPath = ['pluginOptions', 'mktlng', 'localized'];
+const localePath = ['pluginOptions', 'mktlng', 'locales'];
 
 const addLocalisationToFields = attributes =>
   Object.keys(attributes).reduce((p, current) => {
     const currentAttribute = attributes[current];
     if (LOCALIZED_FIELDS.includes(currentAttribute.type)) {
-      const mktlng = { localized: true };
+      const mktlng = { locales: true };
       const pluginOptions = currentAttribute.pluginOptions ? { ...currentAttribute.pluginOptions, mktlng } : { mktlng };
       p[current] = { ...currentAttribute, pluginOptions };
       return p;
@@ -24,13 +24,13 @@ const disableAttributesLocalisation = attributes =>
   }, {});
 
 const mutateCTBContentTypeSchema = (nextSchema, prevSchema) => {
-  console.log('mutateCTBContentTypeSchema', nextSchema, prevSchema, localizedPath);
+  console.log('mutateCTBContentTypeSchema', nextSchema, prevSchema, localePath);
   // Don't perform mutations components
-  if (!has(nextSchema, localizedPath)) {
+  if (!has(nextSchema, localePath)) {
     return nextSchema;
   }
-  const isNextSchemaLocalized = get(nextSchema, localizedPath, false);
-  const isPrevSchemaLocalized = get(prevSchema, ['schema', ...localizedPath], false);
+  const isNextSchemaLocalized = get(nextSchema, localePath, false);
+  const isPrevSchemaLocalized = get(prevSchema, ['schema', ...localePath], false);
   // No need to perform modification on the schema, if the mktlng feature was not changed
   // at the ct level
   if (isNextSchemaLocalized && isPrevSchemaLocalized) {

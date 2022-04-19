@@ -8,7 +8,7 @@ const addLocaleToLinksSearch = (links, kind, contentTypeSchemas, locales, permis
 
     const contentTypeSchema = contentTypeSchemas.find(({ uid }) => uid === contentTypeUID);
 
-    const hasMktlngEnabled = get(contentTypeSchema, 'pluginOptions.mktlng.localized', false);
+    const hasMktlngEnabled = get(contentTypeSchema, 'pluginOptions.mktlng.locales', false);
 
     if (!hasMktlngEnabled) {
       return link;
