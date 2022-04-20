@@ -40,7 +40,7 @@
       }
     },
     "test": {
-      "type": "string",
+      "type": "text",
       "pluginOptions": {
         "mktlng": {
           "locales": false

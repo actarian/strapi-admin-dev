@@ -3,8 +3,35 @@ import React from 'react';
 import LocaleListCell from '../components/LocaleListCell/LocaleListCell';
 
 const injectColumnInTable = ({ displayedHeaders, layout }) => {
-  const isFieldLocalized = get(layout, 'contentType.pluginOptions.mktlng.locales', false);
+  console.log('injectColumnInTable', displayedHeaders, layout);
 
+  return {
+    displayedHeaders: displayedHeaders.map(x => {
+      const hasLocales = get(x, 'fieldSchema.pluginOptions.mktlng.locales', false);
+      if (hasLocales) {
+        const displayedHeader = {...x};
+        displayedHeader.cellFormatter = (props) => {
+          const rawValue = props[x.name];
+          try{
+            const value = JSON.parse(props[x.name]);
+            return value['en'];
+          } catch(error) {
+            return rawValue;
+          }
+        }
+        return displayedHeader;
+      }
+      return x;
+    }),
+    layout,
+  };
+
+  const hasMarkets = get(layout, 'contentType.pluginOptions.mktlng.markets', false);
+  if (!hasMarkets) {
+    return { displayedHeaders, layout };
+  }
+
+  const isFieldLocalized = get(layout, 'contentType.pluginOptions.mktlng.locales', false);
   if (!isFieldLocalized) {
     return { displayedHeaders, layout };
   }

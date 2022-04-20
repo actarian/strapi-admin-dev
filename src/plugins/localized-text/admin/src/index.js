@@ -51,17 +51,13 @@ export default {
   async registerTrads({ locales }) {
     const translations = await Promise.all(
       locales.map(locale => {
-        return import(`./translations/${locale}.json`).then(({ default: data }) => (
-          {
+        return import(`./translations/${locale}.json`).then(({ default: data }) => ({
             data: prefixPluginTranslations(data, pluginId),
             locale,
-          }
-        )).catch(() => (
-          {
+          })).catch(() => ({
             data: {},
             locale,
-          }
-        ));
+          }));
       })
     );
 
