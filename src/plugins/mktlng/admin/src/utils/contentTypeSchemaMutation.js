@@ -2,7 +2,7 @@ import { get } from 'lodash';
 import LOCALIZED_FIELDS from './localizedFields';
 
 const contentTypeSchemaMutation = (next, prev) => {
-  // console.log('contentTypeSchemaMutation', next);
+  console.log('contentTypeSchemaMutation', next);
 
   // # attributes custom fields
   const attributes = Object.keys(next.attributes).reduce((p, key) => {
@@ -14,7 +14,7 @@ const contentTypeSchemaMutation = (next, prev) => {
       if (useLocales) {
         attribute.customField = {
           type: 'localizedText',
-          forType: attribute.type,
+          forType: attribute.customField ? attribute.customField.forType : attribute.type,
         };
         attribute.type = 'text';
       } else if (attribute.customField) {
@@ -34,7 +34,7 @@ const contentTypeSchemaMutation = (next, prev) => {
   const useMarkets = get(next, ['pluginOptions', 'mktlng', 'markets'], false);
   if (useMarkets) {
     attributes.markets = {
-      type: 'text',
+      type: 'json',
       configurable: true,
       customField: {
         type: 'marketSelector',

@@ -26,7 +26,7 @@
       },
       "customField": {
         "type": "localizedText",
-        "forType": "text"
+        "forType": "string"
       }
     },
     "abstract": {
@@ -49,13 +49,13 @@
         }
       }
     },
-    "Meta": {
+    "meta": {
       "type": "component",
       "repeatable": false,
       "component": "meta.meta"
     },
     "markets": {
-      "type": "text",
+      "type": "json",
       "customField": {
         "type": "marketSelector",
         "forType": "text"

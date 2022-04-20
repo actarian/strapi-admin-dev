@@ -6,7 +6,7 @@ const contentTypeBuilderListRow = require('./content-type-builder-list-row');
 const flags = {
   customFieldRenderer: true,
   editViewHeaderTitle: true,
-  contentTypeBuilderListRow: true,
+  contentTypeBuilderListRow: false,
 };
 
 patchSource(customFieldRenderer, flags.customFieldRenderer);

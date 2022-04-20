@@ -84,6 +84,8 @@ export default {
     if (plugin) {
       const forms = plugin.apis.forms;
 
+      console.log('forms', forms);
+
       // # mutate schema
       forms.addContentTypeSchemaMutation(contentTypeSchemaMutation);
 
@@ -134,7 +136,7 @@ export default {
         form: {
           advanced({ contentTypeSchema, forTarget, type, step }) {
             console.log('extendFields', contentTypeSchema, forTarget, type, step);
-            if (forTarget !== 'contentType') {
+            if (!['contentType', 'component'].includes(forTarget)) {
               return [];
             }
             // const hasMktlngEnabled = get(contentTypeSchema, ['schema', 'pluginOptions', 'mktlng', 'locales'], false);

@@ -8,16 +8,36 @@
   "options": {},
   "attributes": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "pluginOptions": {
+        "mktlng": {
+          "locales": true
+        }
+      }
     },
     "description": {
-      "type": "text"
+      "type": "text",
+      "pluginOptions": {
+        "mktlng": {
+          "locales": true
+        }
+      }
     },
     "author": {
-      "type": "string"
+      "type": "string",
+      "pluginOptions": {
+        "mktlng": {
+          "locales": true
+        }
+      }
     },
     "keywords": {
-      "type": "string"
+      "type": "string",
+      "pluginOptions": {
+        "mktlng": {
+          "locales": true
+        }
+      }
     }
   }
 }
