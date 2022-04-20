@@ -41,7 +41,7 @@ module.exports = createCoreController('api::document.document', ({ strapi }) => 
     const { id } = ctx.params;
     const { query } = ctx;
 
-    const entity = await strapi.service('api::generic.generic').findOne(id, query);
+    const entity = await strapi.service('api::document.document').findOne(id, query);
 
     console.log(id, query, entity);
 

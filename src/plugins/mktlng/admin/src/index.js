@@ -7,6 +7,8 @@ import CMEditViewInjectedComponents from './components/CMEditViewInjectedCompone
 import DeleteModalAdditionalInfos from './components/CMListViewInjectedComponents/DeleteModalAdditionalInfos';
 import Initializer from './components/Initializer/Initializer';
 import LocalePicker from './components/LocalePicker';
+import LocalizedText from './components/LocalizedText/LocalizedText';
+import MarketSelector from './components/MarketSelector/MarketSelector';
 import injectColumnInTable from './contentManagerHooks/injectColumnInTable';
 import mutateCollectionTypesLinks from './contentManagerHooks/mutateCollectionTypesLinks';
 import mutateEditViewLayout from './contentManagerHooks/mutateEditViewLayout';
@@ -18,7 +20,6 @@ import pluginId from './pluginId';
 import { getTrad } from './utils';
 import contentTypeSchemaMutation from './utils/contentTypeSchemaMutation';
 import LOCALIZED_FIELDS from './utils/localizedFields';
-// import mutateCTBContentTypeSchema from './utils/mutateCTBContentTypeSchema';
 
 const name = pluginPkg.strapi.name;
 
@@ -27,6 +28,11 @@ export default {
     app.addMiddlewares(middlewares);
 
     app.addReducers(reducers);
+
+    app.addFields([
+      { type: 'localizedText', Component: LocalizedText },
+      { type: 'marketSelector', Component: MarketSelector },
+    ]);
 
     app.registerPlugin({
       id: pluginId,
@@ -54,7 +60,7 @@ export default {
       to: '/settings/language',
       Component: async () => {
         const component = await import(/* webpackChunkName: "mktlng-language-settings-page" */ './pages/LanguageSettingsPage/LanguageSettingsPage');
-        console.log(component);
+        // console.log(component);
         return component;
       },
       permissions: pluginPermissions.accessMain,
@@ -67,7 +73,7 @@ export default {
       to: '/settings/market',
       Component: async () => {
         const component = await import(/* webpackChunkName: "mktlng-market-settings-page" */ './pages/MarketSettingsPage/MarketSettingsPage');
-        console.log(component);
+        // console.log(component);
         return component;
       },
       permissions: pluginPermissions.accessMain,
@@ -77,7 +83,6 @@ export default {
     const plugin = app.getPlugin('content-type-builder');
     if (plugin) {
       const forms = plugin.apis.forms;
-      // console.log('admin.bootstrap', app, plugin, forms, forms.addContentTypeSchemaMutation, mutateCTBContentTypeSchema);
 
       // # mutate schema
       forms.addContentTypeSchemaMutation(contentTypeSchemaMutation);

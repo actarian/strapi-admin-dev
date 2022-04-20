@@ -17,7 +17,7 @@ import { getTrad } from '../../../utils';
 import AdvancedForm from './AdvancedForm';
 import BaseForm from './BaseForm';
 
-const initialFormValues = {
+const initialValues = {
   code: '',
   displayName: '',
   isDefault: false,
@@ -33,7 +33,7 @@ const MarketModalCreate = ({ onClose }) => {
    * since the all tree (from the root of the page) is destroyed and re-mounted
    * because of the RBAC refreshing and the potential move of the default market
    */
-  const handleMarketAdd = async values => {
+  const onSubmit = async values => {
     await addMarket({
       code: values.code,
       name: values.displayName,
@@ -44,7 +44,7 @@ const MarketModalCreate = ({ onClose }) => {
 
   return (
     <ModalLayout onClose={ onClose } labelledBy="add-market-title">
-      <Formik initialValues={ initialFormValues } onSubmit={ handleMarketAdd } validationSchema={ marketValidationSchema } validateOnChange={ false } >
+      <Formik initialValues={ initialValues } onSubmit={ onSubmit } validationSchema={ marketValidationSchema } validateOnChange={ false } >
         <Form>
           <ModalHeader>
             <Typography fontWeight="bold" textColor="neutral800" as="h2" id="add-market-title">

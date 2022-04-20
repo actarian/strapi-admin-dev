@@ -1,15 +1,14 @@
+const patchSource = require('./patch-source');
 const customFieldRenderer = require('./custom-field-renderer');
+const editViewHeaderTitle = require('./edit-view-header-title');
+const contentTypeBuilderListRow = require('./content-type-builder-list-row');
 
 const flags = {
-  ENABLE_CUSTOM_FIELD_RENDER: true,
-}
+  customFieldRenderer: true,
+  editViewHeaderTitle: true,
+  contentTypeBuilderListRow: true,
+};
 
-/**
- * Enable custom field renderer
- */
-if (flags.ENABLE_CUSTOM_FIELD_RENDER) {
-  console.log('custom-field-renderer: ENABLED');
-  customFieldRenderer();
-} else {
-  console.log('custom-field-renderer: DISABLED');
-}
+patchSource(customFieldRenderer, flags.customFieldRenderer);
+patchSource(editViewHeaderTitle, flags.editViewHeaderTitle);
+patchSource(contentTypeBuilderListRow, flags.contentTypeBuilderListRow);

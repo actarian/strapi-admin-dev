@@ -2,10 +2,7 @@ import { Box } from '@strapi/design-system/Box';
 import { Button } from '@strapi/design-system/Button';
 import { Divider } from '@strapi/design-system/Divider';
 import { Flex } from '@strapi/design-system/Flex';
-import {
-  ModalBody,
-  ModalFooter, ModalHeader, ModalLayout
-} from '@strapi/design-system/ModalLayout';
+import { ModalBody, ModalFooter, ModalHeader, ModalLayout } from '@strapi/design-system/ModalLayout';
 import { Tab, TabGroup, TabPanel, TabPanels, Tabs } from '@strapi/design-system/Tabs';
 import { Typography } from '@strapi/design-system/Typography';
 import { Form, useRBACProvider } from '@strapi/helper-plugin';
@@ -20,7 +17,7 @@ import { getTrad } from '../../../utils';
 import AdvancedForm from './AdvancedForm';
 import BaseForm from './BaseForm';
 
-const initialFormValues = {
+const initialValues = {
   code: '',
   displayName: '',
   isDefault: false,
@@ -36,7 +33,7 @@ const LanguageModalCreate = ({ onClose }) => {
    * since the all tree (from the root of the page) is destroyed and re-mounted
    * because of the RBAC refreshing and the potential move of the default locale
    */
-  const handleLocaleAdd = async values => {
+  const onSubmit = async values => {
     await addLocale({
       code: values.code,
       name: values.displayName,
@@ -47,7 +44,7 @@ const LanguageModalCreate = ({ onClose }) => {
 
   return (
     <ModalLayout onClose={ onClose } labelledBy="add-locale-title">
-      <Formik initialValues={ initialFormValues } onSubmit={ handleLocaleAdd } validationSchema={ localeValidationSchema } validateOnChange={ false } >
+      <Formik initialValues={ initialValues } onSubmit={ onSubmit } validationSchema={ localeValidationSchema } validateOnChange={ false } >
         <Form>
           <ModalHeader>
             <Typography fontWeight="bold" textColor="neutral800" as="h2" id="add-locale-title">

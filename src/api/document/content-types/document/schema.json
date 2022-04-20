@@ -18,14 +18,15 @@
   },
   "attributes": {
     "title": {
-      "type": "string",
+      "type": "text",
       "pluginOptions": {
         "mktlng": {
           "locales": true
         }
       },
-      "customFieldConfig": {
-        "fieldRenderer": "customFieldRenderer"
+      "customField": {
+        "type": "localizedText",
+        "forType": "text"
       }
     },
     "abstract": {
@@ -35,8 +36,9 @@
           "locales": true
         }
       },
-      "customFieldConfig": {
-        "fieldRenderer": "customFieldRenderer"
+      "customField": {
+        "type": "localizedText",
+        "forType": "text"
       }
     },
     "test": {
@@ -45,8 +47,19 @@
         "mktlng": {
           "locales": false
         }
-      },
-      "customFieldConfig": {}
+      }
+    },
+    "Meta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "meta.meta"
+    },
+    "markets": {
+      "type": "text",
+      "customField": {
+        "type": "marketSelector",
+        "forType": "text"
+      }
     }
   }
 }

@@ -9,13 +9,16 @@ const injectColumnInTable = ({ displayedHeaders, layout }) => {
     displayedHeaders: displayedHeaders.map(x => {
       const hasLocales = get(x, 'fieldSchema.pluginOptions.mktlng.locales', false);
       if (hasLocales) {
-        const displayedHeader = {...x};
+        const displayedHeader = { ...x };
         displayedHeader.cellFormatter = (props) => {
           const rawValue = props[x.name];
-          try{
-            const value = JSON.parse(props[x.name]);
-            return value['en'];
-          } catch(error) {
+          try {
+            const json = JSON.parse(rawValue);
+            const keys = Object.keys(json);
+            if (keys.length) {
+              return json[keys[0]];
+            }
+          } catch (error) {
             return rawValue;
           }
         }

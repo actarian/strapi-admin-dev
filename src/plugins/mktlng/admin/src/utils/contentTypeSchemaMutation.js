@@ -2,34 +2,51 @@ import { get } from 'lodash';
 import LOCALIZED_FIELDS from './localizedFields';
 
 const contentTypeSchemaMutation = (next, prev) => {
-  console.log('contentTypeSchemaMutation', next);
+  // console.log('contentTypeSchemaMutation', next);
 
-  const useMarkets = get(next, ['pluginOptions', 'mktlng', 'markets'], false);
-  if (useMarkets) {
-    console.log('contentTypeSchemaMutation', next.displayName, 'useMarkets', useMarkets);
-  }
-
+  // # attributes custom fields
   const attributes = Object.keys(next.attributes).reduce((p, key) => {
     let attribute = next.attributes[key];
     if (LOCALIZED_FIELDS.includes(attribute.type)) {
       attribute = { ...attribute };
-      console.log('contentTypeSchemaMutation.attribute', attribute);
+      // console.log('contentTypeSchemaMutation.attribute', attribute);
       const useLocales = get(attribute, ['pluginOptions', 'mktlng', 'locales'], false);
       if (useLocales) {
-        attribute.customFieldConfig = {
-          fieldRenderer: 'customFieldRenderer',
+        attribute.customField = {
+          type: 'localizedText',
+          forType: attribute.type,
         };
+        attribute.type = 'text';
+      } else if (attribute.customField) {
+        attribute.type = attribute.customField.forType;
+        delete attribute.customField;
       } else {
-        attribute.customFieldConfig = {};
+        delete attribute.customField;
       }
-      console.log('contentTypeSchemaMutation.attribute', attribute);
+      // console.log('contentTypeSchemaMutation.attribute', attribute);
     }
     p[key] = attribute;
     return p;
   }, {});
 
-  return { ...next, attributes };
+  // # markets
+  delete attributes.markets;
+  const useMarkets = get(next, ['pluginOptions', 'mktlng', 'markets'], false);
+  if (useMarkets) {
+    attributes.markets = {
+      type: 'text',
+      configurable: true,
+      customField: {
+        type: 'marketSelector',
+        forType: 'text',
+      },
+    };
+  }
+  // console.log('contentTypeSchemaMutation', next.displayName, 'useMarkets', useMarkets, attributes.markets);
+
+  const schema = { ...next, attributes };
+  console.log('contentTypeSchemaMutation', schema);
+  return schema;
 };
 
 export default contentTypeSchemaMutation;
-
