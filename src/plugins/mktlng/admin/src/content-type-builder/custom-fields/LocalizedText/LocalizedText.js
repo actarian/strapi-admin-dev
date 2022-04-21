@@ -5,11 +5,11 @@ import { Textarea } from '@strapi/design-system/Textarea';
 import { TextInput } from '@strapi/design-system/TextInput';
 import { Typography } from '@strapi/design-system/Typography';
 import React, { useState } from 'react';
-import useLocales from '../../hooks/useLocales/useLocales';
+import useLocales from '../../../hooks/useLocales/useLocales';
 
 const DEFAULT_LANG = 'en';
 
-const LocalizedText = (props) => {
+export function LocalizedText(props) {
   const { name, value, attribute, onChange } = props;
 
   const { locales } = useLocales();
@@ -35,6 +35,7 @@ const LocalizedText = (props) => {
         return {};
       }
     }
+    return {};
   };
 
   const deserializedValue = deserialize(value);
@@ -92,5 +93,3 @@ const LocalizedText = (props) => {
     </>
   );
 }
-
-export default LocalizedText;

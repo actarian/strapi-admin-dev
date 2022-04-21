@@ -3,18 +3,19 @@
 const { getService } = require('./utils');
 
 module.exports = async ({ strapi }) => {
-  const { sendDidInitializeEvent } = getService('metrics');
   const { decorator } = getService('entity-service-decorator');
+  const { sendDidInitializeEvent } = getService('metrics');
+  const { sectionsBuilder, actions, engine } = getService('permissions');
   const { initDefaultLocale } = getService('locales');
   const { initDefaultMarket } = getService('markets');
-  const { sectionsBuilder, actions, engine } = getService('permissions');
-
-  // Entity Service
-  strapi.entityService.decorate(decorator);
 
   // Data
   await initDefaultLocale();
   await initDefaultMarket();
+
+  // Entity Service
+  // decorate global api calls with by locale and by market selector
+  strapi.entityService.decorate(decorator);
 
   // Sections Builder
   sectionsBuilder.registerLocalesPropertyHandler();
@@ -28,24 +29,18 @@ module.exports = async ({ strapi }) => {
   engine.registerPermissionsHandlers();
 
   // Hooks & Models
-  registerModelsHooks();
+  dbLifecyclesSubscribe();
 
   sendDidInitializeEvent();
 };
 
-const registerModelsHooks = () => {
-  const mktlngModelUIDs = Object.values(strapi.contentTypes)
-    .filter(contentType => getService('content-types').isLocalizedContentType(contentType))
+const dbLifecyclesSubscribe = () => {
+
+  const ids = Object.values(strapi.contentTypes)
+    .filter(contentType => getService('content-types').hasLocalizedContentType(contentType))
     .map(contentType => contentType.uid);
 
-  if (mktlngModelUIDs.length > 0) {
-    strapi.db.lifecycles.subscribe({
-      models: mktlngModelUIDs,
-      async beforeCreate(event) {
-        await getService('localizations').assignDefaultLocale(event.params.data);
-      },
-    });
-  }
+  console.log('dbLifecyclesSubscribe', 'localized contentTypes ids', ids);
 
   strapi.db.lifecycles.subscribe({
     models: ['plugin::mktlng.locale'],
@@ -66,4 +61,16 @@ const registerModelsHooks = () => {
       await getService('permissions').actions.syncSuperAdminPermissionsWithMarkets();
     },
   });
+
+  // !!! ignored
+
+  if (ids.length > 0) {
+    strapi.db.lifecycles.subscribe({
+      models: ids,
+      async beforeCreate(event) {
+        await getService('localizations').assignDefaultLocale(event.params.data);
+      },
+    });
+  }
+
 };

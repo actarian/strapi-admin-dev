@@ -13,6 +13,10 @@
         "mktlng": {
           "locales": true
         }
+      },
+      "customField": {
+        "type": "localizedText",
+        "forType": "string"
       }
     },
     "description": {
@@ -21,22 +25,34 @@
         "mktlng": {
           "locales": true
         }
+      },
+      "customField": {
+        "type": "localizedText",
+        "forType": "text"
       }
     },
     "author": {
-      "type": "string",
+      "type": "text",
       "pluginOptions": {
         "mktlng": {
           "locales": true
         }
+      },
+      "customField": {
+        "type": "localizedText",
+        "forType": "string"
       }
     },
     "keywords": {
-      "type": "string",
+      "type": "text",
       "pluginOptions": {
         "mktlng": {
           "locales": true
         }
+      },
+      "customField": {
+        "type": "localizedText",
+        "forType": "string"
       }
     }
   }

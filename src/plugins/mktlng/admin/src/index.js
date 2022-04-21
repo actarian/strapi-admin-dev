@@ -2,24 +2,24 @@ import { prefixPluginTranslations } from '@strapi/helper-plugin';
 import get from 'lodash/get';
 import * as yup from 'yup';
 import pluginPkg from '../../package.json';
-import CheckboxConfirmation from './components/CheckboxConfirmation/CheckboxConfirmation';
-import CMEditViewInjectedComponents from './components/CMEditViewInjectedComponents';
-import DeleteModalAdditionalInfos from './components/CMListViewInjectedComponents/DeleteModalAdditionalInfos';
-import Initializer from './components/Initializer/Initializer';
-import LocalePicker from './components/LocalePicker';
-import LocalizedText from './components/LocalizedText/LocalizedText';
-import MarketSelector from './components/MarketSelector/MarketSelector';
-import injectColumnInTable from './contentManagerHooks/injectColumnInTable';
-import mutateCollectionTypesLinks from './contentManagerHooks/mutateCollectionTypesLinks';
-import mutateEditViewLayout from './contentManagerHooks/mutateEditViewLayout';
-import mutateSingleTypesLinks from './contentManagerHooks/mutateSingleTypesLinks';
-import reducers from './hooks/reducers';
-import middlewares from './middlewares/middlewares';
+import { Initializer } from './components/Initializer/Initializer';
+import { EditViewInformations } from './content-manager/edit-view/EditViewInformations/EditViewInformations';
+import { injectColumnInTable } from './content-manager/injectColumnInTable';
+import { DeleteModalAdditionalInfos } from './content-manager/list-view/DeleteModalAdditionalInfos/DeleteModalAdditionalInfos';
+import { LocalePicker } from './content-manager/list-view/LocalePicker/LocalePicker';
+import { mutateCollectionTypesLinks } from './content-manager/mutateCollectionTypesLinks';
+import { mutateEditViewLayout } from './content-manager/mutateEditViewLayout';
+import { mutateSingleTypesLinks } from './content-manager/mutateSingleTypesLinks';
+import { contentTypeSchemaMutation } from './content-type-builder/contentTypeSchemaMutation';
+import { CheckboxConfirmation } from './content-type-builder/custom-fields/CheckboxConfirmation/CheckboxConfirmation';
+import { LocalizedText } from './content-type-builder/custom-fields/LocalizedText/LocalizedText';
+import { MarketSelector } from './content-type-builder/custom-fields/MarketSelector/MarketSelector';
+import { middlewares } from './middlewares/middlewares';
 import pluginPermissions from './permissions';
 import pluginId from './pluginId';
+import { reducers } from './reducers/reducers';
 import { getTrad } from './utils';
-import contentTypeSchemaMutation from './utils/contentTypeSchemaMutation';
-import LOCALIZED_FIELDS from './utils/localizedFields';
+import { LOCALIZED_FIELDS } from './utils/localizedFields';
 
 const name = pluginPkg.strapi.name;
 
@@ -162,9 +162,9 @@ export default {
 
     // # content manager
     // inject component in editView with injectionZoneApi
-    app.injectContentManagerComponent('editView', 'informations', { name: 'mktlng-locale-filter-edit-view', Component: CMEditViewInjectedComponents, });
+    app.injectContentManagerComponent('editView', 'informations', { name: 'mktlng-locale-filter-edit-view', Component: EditViewInformations });
     // inject component in listView with injectionZoneApi
-    app.injectContentManagerComponent('listView', 'actions', { name: 'mktlng-locale-filter', Component: LocalePicker, });
+    app.injectContentManagerComponent('listView', 'actions', { name: 'mktlng-locale-filter', Component: LocalePicker });
     // inject component in listView with injectionZoneApi
     app.injectContentManagerComponent('listView', 'deleteModalAdditionalInfos', { name: 'mktlng-delete-bullets-in-modal', Component: DeleteModalAdditionalInfos, });
 

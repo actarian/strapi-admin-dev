@@ -10,7 +10,7 @@ import useLocales from '../../hooks/useLocales/useLocales';
 import useMarkets from '../../hooks/useMarkets/useMarkets';
 import pluginId from '../../pluginId';
 
-const Initializer = ({ setPlugin }) => {
+export function Initializer({ setPlugin }) {
   const ul = useLocales();
   const um = useMarkets();
   const ref = useRef();
@@ -29,5 +29,3 @@ const Initializer = ({ setPlugin }) => {
 Initializer.propTypes = {
   setPlugin: PropTypes.func.isRequired,
 };
-
-export default Initializer;

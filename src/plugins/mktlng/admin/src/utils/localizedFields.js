@@ -1,4 +1,4 @@
-const LOCALIZED_FIELDS = [
+export const LOCALIZED_FIELDS = [
   'biginteger',
   'boolean',
   'component',
@@ -19,5 +19,3 @@ const LOCALIZED_FIELDS = [
   'text',
   'time',
 ];
-
-export default LOCALIZED_FIELDS;

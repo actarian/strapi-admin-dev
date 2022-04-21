@@ -1,6 +1,6 @@
 import { prefixPluginTranslations } from '@strapi/helper-plugin';
 import pluginPkg from '../../package.json';
-import Initializer from './components/Initializer';
+import { Initializer } from './components/Initializer';
 import PluginIcon from './components/PluginIcon';
 import pluginId from './pluginId';
 
@@ -52,12 +52,12 @@ export default {
     const translations = await Promise.all(
       locales.map(locale => {
         return import(`./translations/${locale}.json`).then(({ default: data }) => ({
-            data: prefixPluginTranslations(data, pluginId),
-            locale,
-          })).catch(() => ({
-            data: {},
-            locale,
-          }));
+          data: prefixPluginTranslations(data, pluginId),
+          locale,
+        })).catch(() => ({
+          data: {},
+          locale,
+        }));
       })
     );
 

@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-// import LOCALIZED_FIELDS from '../utils/localizedFields';
+// import { LOCALIZED_FIELDS } from '../utils/localizedFields';
 
 const extendCTBAttributeInitialDataMiddleware = () => {
   return ({ getState }) => next => action => {

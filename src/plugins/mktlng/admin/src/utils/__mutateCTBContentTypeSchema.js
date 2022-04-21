@@ -1,5 +1,5 @@
 import { get, has, omit } from 'lodash';
-import LOCALIZED_FIELDS from './localizedFields';
+import { LOCALIZED_FIELDS } from './localizedFields';
 
 const localePath = ['pluginOptions', 'mktlng', 'locales'];
 
@@ -12,7 +12,7 @@ const addLocalisationToFields = attributes =>
       p[current] = { ...currentAttribute, pluginOptions };
       return p;
     }
-    console.log(currentAttribute);
+    // console.log(currentAttribute);
     p[current] = currentAttribute;
     return p;
   }, {});

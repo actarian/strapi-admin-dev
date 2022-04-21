@@ -23,7 +23,7 @@ module.exports = createCoreController('api::document.document', ({ strapi }) => 
     // some custom logic here
     ctx.query = { ...ctx.query, local: 'en' }
 
-    console.log(ctx.query);
+    // console.log('DocumentController.find', ctx.query);
 
     // Calling the default core action
     const { data, meta } = await super.find(ctx);
@@ -31,7 +31,7 @@ module.exports = createCoreController('api::document.document', ({ strapi }) => 
     // some more custom logic
     meta.date = Date.now()
 
-    console.log(data, meta);
+    // console.log('DocumentController.find', data, meta);
 
     return { data, meta };
   },
@@ -41,9 +41,11 @@ module.exports = createCoreController('api::document.document', ({ strapi }) => 
     const { id } = ctx.params;
     const { query } = ctx;
 
+    // console.log('DocumentController.findOne', id, query);
+
     const entity = await strapi.service('api::document.document').findOne(id, query);
 
-    console.log(id, query, entity);
+    // console.log('DocumentController.findOne', entity);
 
     // entity.title = JSON.parse(entity.title)[entity.locale];
 

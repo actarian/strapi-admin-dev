@@ -1,0 +1,32 @@
+{
+  "name": "mktlng",
+  "version": "0.0.0",
+  "description": "This is the description of the plugin.",
+  "strapi": {
+    "displayName": "Markets & Languages",
+    "name": "mktlng",
+    "description": "This is the description of the plugin.",
+    "kind": "plugin",
+    "required": false
+  },
+  "author": {
+    "name": "A Strapi developer"
+  },
+  "maintainers": [
+    {
+      "name": "A Strapi developer"
+    }
+  ],
+  "license": "SEE LICENSE IN LICENSE",
+  "scripts": {
+    "test:unit": "jest --verbose"
+  },
+  "dependencies": {
+    "@strapi/utils": "4.1.7",
+    "lodash": "4.17.21"
+  },
+  "engines": {
+    "node": ">=12.22.0 <=16.x.x",
+    "npm": ">=6.0.0"
+  }
+}
