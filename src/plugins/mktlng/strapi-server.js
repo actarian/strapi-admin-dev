@@ -5,7 +5,7 @@ const contentTypes = require('./server/content-types/content-types');
 const controllers = require('./server/controllers');
 const register = require('./server/register');
 const routes = require('./server/routes');
-const services = require('./server/services');
+const services = require('./server/services/services');
 
 module.exports = () => ({
   bootstrap,

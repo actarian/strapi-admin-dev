@@ -7,7 +7,7 @@ const { shouldBeProcessed, getUpdatesInfo, getSortedLocales } = require('./utils
 const BATCH_SIZE = 1000;
 
 const migrateBatch = async (entries, { model, attributesToMigrate }, { transacting }) => {
-  const { copyNonLocalizedAttributes } = getService('content-types');
+  const { copyNonLocalizedAttributes } = getService('contentTypes');
 
   const updatePromises = entries.map(entity => {
     const updateValues = pick(attributesToMigrate, copyNonLocalizedAttributes(model, entity));

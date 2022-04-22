@@ -95,8 +95,8 @@ const extendLocalizedContentTypes = (strapi) => {
 
   // !!! ignored
 
-  const contentTypeService = getService('content-types');
-  const coreApiService = getService('core-api');
+  const contentTypeService = getService('contentTypes');
+  const coreApiService = getService('coreApi');
 
   Object.values(strapi.contentTypes).forEach((contentType) => {
     console.log('server.register.contentType', contentType.kind, contentType.collectionName, /*.info.displayName*/);

@@ -7,7 +7,7 @@ const { getService } = require('../utils');
 const validateMarketCreation = async (ctx, next) => {
   const { model } = ctx.params;
   const { query, body } = ctx.request;
-  const { getValidMarket, getNewLocalizationsFrom, hasLocalizedContentType, getAndValidateRelatedEntity, fillNonLocalizedAttributes, } = getService('content-types');
+  const { getValidMarket, getNewLocalizationsFrom, hasLocalizedContentType, getAndValidateRelatedEntity, fillNonLocalizedAttributes, } = getService('contentTypes');
   const modelDef = strapi.getModel(model);
   if (!hasLocalizedContentType(modelDef)) {
     return next();

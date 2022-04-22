@@ -42,7 +42,7 @@ const syncLocalizations = async (entry, { model }) => {
  * @param {Object} options.model corresponding model
  */
 const syncNonLocalizedAttributes = async (entry, { model }) => {
-  const { copyNonLocalizedAttributes } = getService('content-types');
+  const { copyNonLocalizedAttributes } = getService('contentTypes');
 
   if (Array.isArray(entry.localizations)) {
     const nonLocalizedAttributes = copyNonLocalizedAttributes(model, entry);

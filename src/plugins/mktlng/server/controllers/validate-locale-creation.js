@@ -7,7 +7,7 @@ const { getService } = require('../utils');
 const validateLocaleCreation = async (ctx, next) => {
   const { model } = ctx.params;
   const { query, body } = ctx.request;
-  const { getValidLocale, getNewLocalizationsFrom, hasLocalizedContentType, getAndValidateRelatedEntity, fillNonLocalizedAttributes } = getService('content-types');
+  const { getValidLocale, getNewLocalizationsFrom, hasLocalizedContentType, getAndValidateRelatedEntity, fillNonLocalizedAttributes } = getService('contentTypes');
   const modelDef = strapi.getModel(model);
   if (!hasLocalizedContentType(modelDef)) {
     return next();

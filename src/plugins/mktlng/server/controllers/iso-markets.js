@@ -4,7 +4,7 @@ const { getService } = require('../utils');
 
 module.exports = {
   listIsoMarkets(ctx) {
-    const isoMarketsService = getService('iso-markets');
+    const isoMarketsService = getService('isoMarkets');
     ctx.body = isoMarketsService.getIsoMarkets();
   },
 };

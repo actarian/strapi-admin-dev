@@ -5,7 +5,7 @@ const { DEFAULT_LOCALE } = require('../../../constants');
 
 // Disable mktlng on CT -> Delete all entities that are not in the default locale
 module.exports = async ({ oldContentTypes, contentTypes }) => {
-  const { hasLocalizedContentType } = getService('content-types');
+  const { hasLocalizedContentType } = getService('contentTypes');
   const { getDefaultLocale } = getService('locales');
   if (!oldContentTypes) {
     return;

@@ -3,7 +3,7 @@
 const { getService } = require('./utils');
 
 module.exports = async ({ strapi }) => {
-  const { decorator } = getService('entity-service-decorator');
+  const entityService = getService('entityService');
   const { sendDidInitializeEvent } = getService('metrics');
   const { sectionsBuilder, actions, engine } = getService('permissions');
   const { initDefaultLocale } = getService('locales');
@@ -15,7 +15,7 @@ module.exports = async ({ strapi }) => {
 
   // Entity Service
   // decorate global api calls with by locale and by market selector
-  strapi.entityService.decorate(decorator);
+  strapi.entityService.decorate(entityService.decorator);
 
   // Sections Builder
   sectionsBuilder.registerLocalesPropertyHandler();
@@ -37,7 +37,7 @@ module.exports = async ({ strapi }) => {
 const dbLifecyclesSubscribe = () => {
 
   const ids = Object.values(strapi.contentTypes)
-    .filter(contentType => getService('content-types').hasLocalizedContentType(contentType))
+    .filter(contentType => getService('contentTypes').hasLocalizedContentType(contentType))
     .map(contentType => contentType.uid);
 
   console.log('dbLifecyclesSubscribe', 'localized contentTypes ids', ids);

@@ -12,7 +12,7 @@ const migrateForBookshelf = require('./migrate-for-bookshelf');
 
 // Migration when mktlng is disabled on a field of a content-type that have mktlng enabled
 const after = async ({ model, definition, previousDefinition, ORM }) => {
-  const { hasLocalizedContentType, getLocalizedAttributes } = getService('content-types');
+  const { hasLocalizedContentType, getLocalizedAttributes } = getService('contentTypes');
 
   if (!hasLocalizedContentType(model) || !hasLocalizedContentType(previousDefinition)) {
     return;

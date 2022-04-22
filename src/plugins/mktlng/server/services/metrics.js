@@ -4,7 +4,7 @@ const { reduce } = require('lodash/fp');
 const { getService } = require('../utils');
 
 const sendDidInitializeEvent = async () => {
-  const { hasLocalizedContentType } = getService('content-types');
+  const { hasLocalizedContentType } = getService('contentTypes');
   const numberOfContentTypes = reduce((sum, contentType) => (hasLocalizedContentType(contentType) ? sum + 1 : sum), 0)(strapi.contentTypes);
   await strapi.telemetry.send('didInitializeMktlng', { numberOfContentTypes });
 };

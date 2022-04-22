@@ -24,7 +24,7 @@ module.exports = {
       copyNonLocalizedAttributes,
       hasLocalizedContentType,
       getNestedPopulateOfNonLocalizedAttributes,
-    } = getService('content-types');
+    } = getService('contentTypes');
     const { READ_ACTION, CREATE_ACTION } = strapi.admin.services.constants;
 
     const modelDef = strapi.contentType(model);

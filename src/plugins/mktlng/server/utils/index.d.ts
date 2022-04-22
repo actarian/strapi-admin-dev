@@ -1,8 +1,8 @@
-import * as contentTypes from '../services/content-types';
-import * as coreAPI from '../services/core-api';
-import * as entityServiceDecorator from '../services/entity-service-decorator';
-import * as ISOLocales from '../services/iso-locales';
-import * as ISOMarkets from '../services/iso-markets';
+import * as contentTypes from '../services/contentTypes';
+import * as coreAPI from '../services/coreApi';
+import * as entityService from '../services/entityService';
+import * as isoLocales from '../services/isoLocales';
+import * as isoMarkets from '../services/isoMarkets';
 import * as locales from '../services/locales';
 import * as localizations from '../services/localizations';
 import * as markets from '../services/markets';
@@ -15,11 +15,11 @@ type S = {
   locales: typeof locales;
   markets: typeof markets;
   localizations: typeof localizations;
-  ['iso-locales']: typeof ISOLocales;
-  ['iso-markets']: typeof ISOMarkets;
-  ['content-types']: typeof contentTypes;
-  ['entity-service-decorator']: typeof entityServiceDecorator;
-  ['core-api']: typeof coreAPI;
+  isoLocales: typeof isoLocales;
+  isoMarkets: typeof isoMarkets;
+  contentTypes: typeof contentTypes;
+  entityService: typeof entityService;
+  coreAPI: typeof coreAPI;
 };
 
 export function getService<T extends keyof S>(name: T): ReturnType<S[T]>;

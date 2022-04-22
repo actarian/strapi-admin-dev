@@ -59,7 +59,7 @@ const wrapParams = async (params = {}, ctx = {}) => {
  * @param {object} data
  */
 const assignValidLocale = async (data) => {
-  const { getValidLocale } = getService('content-types');
+  const { getValidLocale } = getService('contentTypes');
   if (!data) {
     return;
   }
@@ -85,7 +85,7 @@ const decorator = (service) => ({
     console.log('entityServiceDecorator.wrapParams', params, ctx);
     const wrappedParams = await service.wrapParams.call(this, params, ctx);
     const model = strapi.getModel(ctx.uid);
-    const { hasLocalizedContentType } = getService('content-types');
+    const { hasLocalizedContentType } = getService('contentTypes');
     // console.log('entityServiceDecorator.wrapParams', params, wrappedParams);
     if (!hasLocalizedContentType(model)) {
       return wrappedParams;
@@ -96,7 +96,7 @@ const decorator = (service) => ({
   async findOne(uid, id, parameters = {}) {
     // const { syncLocalizations, syncNonLocalizedAttributes } = getService('localizations');
     /*
-    const { hasLocalizedContentType } = getService('content-types');
+    const { hasLocalizedContentType } = getService('contentTypes');
     if (!hasLocalizedContentType(model)) {
       return service.create.call(this, uid, parameters);
     }
@@ -199,7 +199,7 @@ const decorator = (service) => ({
     const model = strapi.getModel(uid);
     console.log('create', uid, model);
     const { syncLocalizations, syncNonLocalizedAttributes } = getService('localizations');
-    const { hasLocalizedContentType } = getService('content-types');
+    const { hasLocalizedContentType } = getService('contentTypes');
 
     if (!hasLocalizedContentType(model)) {
       return service.create.call(this, uid, opts);
@@ -225,7 +225,7 @@ const decorator = (service) => ({
     const model = strapi.getModel(uid);
     console.log('update', uid, entityId);
     const { syncNonLocalizedAttributes } = getService('localizations');
-    const { hasLocalizedContentType } = getService('content-types');
+    const { hasLocalizedContentType } = getService('contentTypes');
 
     if (!hasLocalizedContentType(model)) {
       return service.update.call(this, uid, entityId, opts);

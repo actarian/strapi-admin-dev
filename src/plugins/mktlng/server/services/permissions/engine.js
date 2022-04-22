@@ -22,7 +22,7 @@ const willRegisterPermission = context => {
     return;
   }
   const { locales, markets } = properties || {};
-  const { hasLocalizedContentType } = getService('content-types');
+  const { hasLocalizedContentType } = getService('contentTypes');
   // If there is no subject defined, ignore the permission
   if (!subject) {
     return;

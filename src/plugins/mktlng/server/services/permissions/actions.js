@@ -41,7 +41,7 @@ const addLocalesPropertyIfNeeded = ({ value: action }) => {
 const shouldApplyLocalesPropertyToSubject = ({ property, subject }) => {
   if (property === 'locales') {
     const model = strapi.getModel(subject);
-    return getService('content-types').hasLocalizedContentType(model);
+    return getService('contentTypes').hasLocalizedContentType(model);
   }
   return true;
 };

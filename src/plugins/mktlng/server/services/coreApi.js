@@ -96,7 +96,7 @@ const createLocalizationHandler = contentType => {
 };
 
 const createCreateLocalizationHandler = contentType => async (args = {}) => {
-  const { copyNonLocalizedAttributes } = getService('content-types');
+  const { copyNonLocalizedAttributes } = getService('contentTypes');
   const { sanitizeInput, sanitizeInputFiles } = createSanitizer(contentType);
   const entry = isSingleType(contentType)
     ? await strapi.query(contentType.uid).findOne({ populate: ['localizations'] })

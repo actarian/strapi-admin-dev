@@ -62,7 +62,7 @@ const initDefaultMarket = async () => {
 };
 
 const deleteAllLocalizedEntriesFor = async ({ market }) => {
-  const { hasLocalizedContentType } = getService('content-types');
+  const { hasLocalizedContentType } = getService('contentTypes');
   const localizedModels = Object.values(strapi.contentTypes).filter(hasLocalizedContentType);
   for (const model of localizedModels) {
     // FIXME: delete many content & their associations

@@ -4,7 +4,7 @@ const { getService } = require('../utils');
 
 module.exports = {
   listIsoLocales(ctx) {
-    const isoLocalesService = getService('iso-locales');
+    const isoLocalesService = getService('isoLocales');
     ctx.body = isoLocalesService.getIsoLocales();
   },
 };
