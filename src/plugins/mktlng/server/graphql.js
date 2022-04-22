@@ -23,10 +23,12 @@ module.exports = ({ strapi }) => ({
     const { service: getMktlngService } = strapi.plugin('mktlng');
     const { hasLocalizedContentType } = getMktlngService('content-types');
     const extensionService = getGraphQLService('extension');
+
     const getCreateLocalizationMutationType = contentType => {
       const { getTypeName } = getGraphQLService('utils').naming;
       return `create${getTypeName(contentType)}Localization`;
     };
+
     extensionService.shadowCRUD('plugin::mktlng.locale').disableMutations();
     extensionService.shadowCRUD('plugin::mktlng.market').disableMutations();
 

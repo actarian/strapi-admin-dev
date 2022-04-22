@@ -4,7 +4,6 @@ const _ = require('lodash');
 
 const validateLocaleCreation = require('./controllers/validate-locale-creation');
 const { getService } = require('./utils');
-
 const enableContentType = require('./migrations/content-type/enable');
 const disableContentType = require('./migrations/content-type/disable');
 

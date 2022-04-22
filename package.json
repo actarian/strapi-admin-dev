@@ -11,6 +11,9 @@
     "build": "strapi build",
     "strapi": "strapi"
   },
+  "workspaces": [
+    "./src/plugins/*"
+  ],
   "devDependencies": {},
   "dependencies": {
     "@strapi/design-system": "0.0.1-alpha.79",

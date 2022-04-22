@@ -12,3 +12,10 @@ const flags = {
 patchSource(customFieldRenderer, flags.customFieldRenderer);
 patchSource(editViewHeaderTitle, flags.editViewHeaderTitle);
 patchSource(contentTypeBuilderListRow, flags.contentTypeBuilderListRow);
+
+/*
+StrapiApp.js
+if (this.customConfigurations?.theme) {
+  merge(this.configurations.themes.light, this.customConfigurations.theme);
+}
+*/
