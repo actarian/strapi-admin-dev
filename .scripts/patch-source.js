@@ -7,23 +7,20 @@ function patchSource(item, enable) {
     const content = fs.readFileSync(source, 'utf-8');
     const FROM = enable ? item.find : item.replace;
     const TO = enable ? item.replace : item.find;
+    if (FROM.indexOf(TO) !== -1 || TO.indexOf(FROM) !== -1) {
+      return console.warn(`ERROR > invalid patch ${item.name}`);
+    }
     if (content.indexOf(TO) !== -1) {
-      console.log(
-`PATCH > ${item.name} already ${enable ? 'enabled' : 'disabled'}
-${source}`
-      );
+      console.log(`PATCH > ${item.name} already ${enable ? 'enabled' : 'disabled'}
+${source}`);
     } else if (content.indexOf(FROM) !== -1) {
       const patchedContent = content.replace(FROM, TO);
       fs.writeFileSync(source, patchedContent, { encoding: 'utf-8' });
-      console.log(
-`PATCH > ${item.name} successfully ${enable ? 'enabled' : 'disabled'}
-${source}`
-      );
+      console.log(`PATCH > ${item.name} successfully ${enable ? 'enabled' : 'disabled'}
+${source}`);
     } else {
-      console.warn(
-`ERROR > unable to patch ${item.name}
-${source}`
-      );
+      console.warn(`ERROR > unable to patch ${item.name}
+${source}`);
     }
   }
 }
