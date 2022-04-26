@@ -8,7 +8,7 @@
   "options": {},
   "attributes": {
     "title": {
-      "type": "string",
+      "type": "json",
       "pluginOptions": {
         "mktlng": {
           "locales": true
@@ -20,7 +20,7 @@
       }
     },
     "description": {
-      "type": "text",
+      "type": "json",
       "pluginOptions": {
         "mktlng": {
           "locales": true
@@ -32,7 +32,7 @@
       }
     },
     "author": {
-      "type": "text",
+      "type": "json",
       "pluginOptions": {
         "mktlng": {
           "locales": true
@@ -44,7 +44,7 @@
       }
     },
     "keywords": {
-      "type": "text",
+      "type": "json",
       "pluginOptions": {
         "mktlng": {
           "locales": true

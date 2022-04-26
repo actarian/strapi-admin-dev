@@ -10,6 +10,7 @@ import { LocalePicker } from './content-manager/list-view/LocalePicker/LocalePic
 import { mutateCollectionTypesLinks } from './content-manager/mutateCollectionTypesLinks';
 import { mutateEditViewLayout } from './content-manager/mutateEditViewLayout';
 import { mutateSingleTypesLinks } from './content-manager/mutateSingleTypesLinks';
+import { componentSchemaMutation } from './content-type-builder/componentSchemaMutation';
 import { contentTypeSchemaMutation } from './content-type-builder/contentTypeSchemaMutation';
 import { CheckboxConfirmation } from './content-type-builder/custom-fields/CheckboxConfirmation/CheckboxConfirmation';
 import { LocalizedText } from './content-type-builder/custom-fields/LocalizedText/LocalizedText';
@@ -88,6 +89,7 @@ export default {
 
       // # mutate schema
       forms.addContentTypeSchemaMutation(contentTypeSchemaMutation);
+      forms.addComponentSchemaMutation(componentSchemaMutation);
 
       // # add components
       forms.components.add({ id: 'checkboxConfirmation', component: CheckboxConfirmation });
