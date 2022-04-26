@@ -5,7 +5,7 @@ const { getService } = require('./utils');
 module.exports = async ({ strapi }) => {
   const entityService = getService('entityService');
   const { sendDidInitializeEvent } = getService('metrics');
-  const { sectionsBuilder, actions, engine } = getService('permissions');
+  const permissionService = getService('permissions');
   const { initDefaultLocale } = getService('locales');
   const { initDefaultMarket } = getService('markets');
 
@@ -17,16 +17,16 @@ module.exports = async ({ strapi }) => {
   // decorate global api calls with by locale and by market selector
   strapi.entityService.decorate(entityService.decorator);
 
-  // Sections Builder
-  sectionsBuilder.registerLocalesPropertyHandler();
+  // Builder Permissions
+  permissionService.builder.registerLocalesPropertyHandler();
 
-  // Actions
-  await actions.registerActions();
-  actions.registerActionsHooks();
-  actions.updateActionsProperties();
+  // Actions Permissions
+  await permissionService.actions.registerActions();
+  permissionService.actions.registerActionsHooks();
+  permissionService.actions.updateActionsProperties();
 
-  // Engine/Permissions
-  engine.registerPermissionsHandlers();
+  // Engine Permissions
+  permissionService.engine.registerPermissionsHandlers();
 
   // Hooks & Models
   dbLifecyclesSubscribe();

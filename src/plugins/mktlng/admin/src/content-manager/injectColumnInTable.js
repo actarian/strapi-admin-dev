@@ -7,6 +7,27 @@ export function injectColumnInTable({ displayedHeaders, layout }) {
 
   return {
     displayedHeaders: displayedHeaders.map(x => {
+      // console.log(x);
+      const displayedHeader = { ...x };
+      if (x.fieldSchema.pluginOptions && x.fieldSchema.pluginOptions.mktlng && x.fieldSchema.pluginOptions.mktlng.locales) {
+        displayedHeader.cellFormatter = (props) => {
+          const json = props[x.name];
+          try {
+            const keys = Object.keys(json);
+            if (keys.length) {
+              return json[keys[0]];
+            }
+          } catch (error) {
+            return JSON.stringify(props[x.name]);
+          }
+        }
+      } else if (x.fieldSchema.type === 'json') {
+        displayedHeader.cellFormatter = (props) => {
+          return JSON.stringify(props[x.name]);
+        }
+      }
+      return displayedHeader;
+      /*
       const hasLocales = get(x, 'fieldSchema.pluginOptions.mktlng.locales', false);
       if (hasLocales) {
         const displayedHeader = { ...x };
@@ -25,6 +46,7 @@ export function injectColumnInTable({ displayedHeaders, layout }) {
         return displayedHeader;
       }
       return x;
+      */
     }),
     layout,
   };

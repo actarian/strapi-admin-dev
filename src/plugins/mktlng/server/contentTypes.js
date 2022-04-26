@@ -1,7 +1,7 @@
 'use strict';
 
-const locale = require('./content-types/locale/locale');
-const market = require('./content-types/market/market');
+const locale = require('./locale/locale');
+const market = require('./market/market');
 
 module.exports = {
   locale,

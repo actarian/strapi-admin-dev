@@ -6,6 +6,9 @@
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
+module.exports = createCoreController('api::document.document');
+
+/*
 module.exports = createCoreController('api::document.document', ({ strapi }) => ({
   // find, findOne, create, update, delete
 
@@ -54,5 +57,5 @@ module.exports = createCoreController('api::document.document', ({ strapi }) => 
     return this.transformResponse(sanitizedEntity);
   }
 }));
-
+*/
 

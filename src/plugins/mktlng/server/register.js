@@ -2,10 +2,9 @@
 
 const _ = require('lodash');
 
-const validateLocaleCreation = require('./controllers/validate-locale-creation');
+const validateLocaleCreation = require('./locale/locale.validator');
 const { getService } = require('./utils');
-const enableContentType = require('./migrations/content-type/enable');
-const disableContentType = require('./migrations/content-type/disable');
+const contentTypeMigrations = require('./contentType/contentType.migrations');
 
 module.exports = ({ strapi }) => {
 
@@ -110,7 +109,7 @@ module.exports = ({ strapi }) => {
     return next();
   });
 
-  strapi.hook('strapi::content-types.beforeSync').register(disableContentType);
-  strapi.hook('strapi::content-types.afterSync').register(enableContentType);
+  strapi.hook('strapi::content-types.beforeSync').register(contentTypeMigrations.disable);
+  strapi.hook('strapi::content-types.afterSync').register(contentTypeMigrations.enable);
 
 };

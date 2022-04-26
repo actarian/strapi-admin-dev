@@ -11,7 +11,7 @@ const MARKET_ARG_PLUGIN_NAME = 'MktlngMarketArg';
 
 const getLocalizedTypesFromRegistry = ({ strapi, typeRegistry }) => {
   const { KINDS } = strapi.plugin('graphql').service('constants');
-  const { hasLocalizedContentType } = strapi.plugin('mktlng').service('content-types');
+  const { hasLocalizedContentType } = strapi.plugin('mktlng').service('contentTypes');
   return typeRegistry.where(
     ({ config }) => config.kind === KINDS.type && hasLocalizedContentType(config.contentType)
   );
@@ -19,13 +19,14 @@ const getLocalizedTypesFromRegistry = ({ strapi, typeRegistry }) => {
 
 module.exports = ({ strapi }) => ({
   register() {
-    const { service: getGraphQLService } = strapi.plugin('graphql');
-    const { service: getMktlngService } = strapi.plugin('mktlng');
-    const { hasLocalizedContentType } = getMktlngService('content-types');
-    const extensionService = getGraphQLService('extension');
+    const graphqlPlugin = strapi.plugin('graphql');
+    const mktlngPlugin = strapi.plugin('mktlng');
+
+    const { hasLocalizedContentType } = mktlngPlugin.service('contentTypes');
+    const extensionService = graphqlPlugin.service('extension');
 
     const getCreateLocalizationMutationType = contentType => {
-      const { getTypeName } = getGraphQLService('utils').naming;
+      const { getTypeName } = graphqlPlugin.service('utils').naming;
       return `create${getTypeName(contentType)}Localization`;
     };
 
@@ -33,33 +34,29 @@ module.exports = ({ strapi }) => ({
     extensionService.shadowCRUD('plugin::mktlng.market').disableMutations();
 
     // Disable unwanted fields for localized content types
-    Object.entries(strapi.contentTypes).forEach(([uid, ct]) => {
-      if (hasLocalizedContentType(ct)) {
+    Object.entries(strapi.contentTypes).forEach(([uid, contentType]) => {
+      if (hasLocalizedContentType(contentType)) {
+        // !!! non esiste
         // Disable locale field in localized inputs
-        extensionService
-          .shadowCRUD(uid)
-          .field('locale')
-          .disableInput();
+        extensionService.shadowCRUD(uid).field('locale').disableInput();
 
+        // !!! esiste non disabilitarlo
         // Disable market field in localized inputs
-        extensionService
-          .shadowCRUD(uid)
-          .field('market')
-          .disableInput();
+        extensionService.shadowCRUD(uid).field('market').disableInput();
 
+        // !!! non esiste
         // Disable localizations field in localized inputs
-        extensionService
-          .shadowCRUD(uid)
-          .field('localizations')
-          .disableInput();
+        extensionService.shadowCRUD(uid).field('localizations').disableInput();
       }
     });
 
     extensionService.use(({ nexus, typeRegistry }) => {
       const localePlugin = getLocalePlugin({ nexus, typeRegistry });
       const localeScalar = getLocaleScalar({ nexus });
+
       const marketPlugin = getMarketPlugin({ nexus, typeRegistry });
       const marketScalar = getMarketScalar({ nexus });
+
       const { mutations: createLocalizationMutations, resolversConfig: createLocalizationResolversConfig } = getCreateLocalizationMutations({ nexus, typeRegistry });
       return {
         plugins: [localePlugin, marketPlugin],
@@ -87,8 +84,8 @@ module.exports = ({ strapi }) => ({
     };
 
     const getCreateLocalizationComponents = (contentType, { nexus }) => {
-      const { getEntityResponseName, getContentTypeInputName } = getGraphQLService('utils').naming;
-      const { createCreateLocalizationHandler } = getMktlngService('core-api');
+      const { getEntityResponseName, getContentTypeInputName } = graphqlPlugin.service('utils').naming;
+      const { createCreateLocalizationHandler } = mktlngPlugin.service('coreApi');
       const responseType = getEntityResponseName(contentType);
       const mutationName = getCreateLocalizationMutationType(contentType);
       const resolverHandler = createCreateLocalizationHandler(contentType);
@@ -119,7 +116,7 @@ module.exports = ({ strapi }) => ({
     };
 
     const getLocalizedCreateMutationsResolversConfigs = ({ typeRegistry }) => {
-      const localizedCreateMutationsNames = getLocalizedTypesFromRegistry({ strapi, typeRegistry }).map(prop('config.contentType')).map(getGraphQLService('utils').naming.getCreateMutationTypeName);
+      const localizedCreateMutationsNames = getLocalizedTypesFromRegistry({ strapi, typeRegistry }).map(prop('config.contentType')).map(graphqlPlugin.service('utils').naming.getCreateMutationTypeName);
       return localizedCreateMutationsNames.reduce((p, mutationName) => ({
         ...p,
         [`Mutation.${mutationName}`]: {
@@ -135,7 +132,7 @@ module.exports = ({ strapi }) => ({
     };
 
     const getLocalePlugin = ({ nexus, typeRegistry }) => {
-      const { hasLocalizedContentType } = getMktlngService('content-types');
+      const { hasLocalizedContentType } = mktlngPlugin.service('contentTypes');
       const addLocaleArg = config => {
         const { parentType } = config;
         // Only target queries or mutations
@@ -163,7 +160,7 @@ module.exports = ({ strapi }) => ({
     };
 
     const getLocaleScalar = ({ nexus }) => {
-      const locales = getMktlngService('iso-locales').getIsoLocales();
+      const locales = mktlngPlugin.service('isoLocales').getIsoLocales();
       return nexus.scalarType({
         name: LOCALE_SCALAR_TYPENAME,
         description: 'A string used to identify an mktlng locale',
@@ -183,7 +180,7 @@ module.exports = ({ strapi }) => ({
     };
 
     const getMarketPlugin = ({ nexus, typeRegistry }) => {
-      const { hasLocalizedContentType } = getMktlngService('content-types');
+      const { hasLocalizedContentType } = mktlngPlugin.service('contentTypes');
       const addMarketArg = config => {
         const { parentType } = config;
         // Only target queries or mutations
@@ -211,7 +208,7 @@ module.exports = ({ strapi }) => ({
     };
 
     const getMarketScalar = ({ nexus }) => {
-      const markets = getMktlngService('iso-markets').getIsoMarkets();
+      const markets = mktlngPlugin.service('isoMarkets').getIsoMarkets();
       return nexus.scalarType({
         name: MARKET_SCALAR_TYPENAME,
         description: 'A string used to identify an mktlng market',

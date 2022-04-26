@@ -3,6 +3,7 @@
 module.exports = {
   type: 'admin',
   routes: [
+
     {
       method: 'GET',
       path: '/iso-locales',
@@ -17,6 +18,7 @@ module.exports = {
         ],
       },
     },
+
     {
       method: 'GET',
       path: '/locales',
@@ -82,6 +84,7 @@ module.exports = {
         ],
       },
     },
+
     {
       method: 'GET',
       path: '/markets',
@@ -133,9 +136,6 @@ module.exports = {
       },
     },
 
-
-
-
     {
       method: 'POST',
       path: '/content-manager/actions/get-non-localized-fields',
@@ -144,5 +144,6 @@ module.exports = {
         policies: ['admin::isAuthenticatedAdmin'],
       },
     },
+
   ],
 };

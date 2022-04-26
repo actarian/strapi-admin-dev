@@ -1,10 +1,10 @@
 'use strict';
 
-const localesService = require('../locales')();
+const localesService = require('../../services/locales')();
 
 const fakeMetricsService = {
-  sendDidInitializeEvent() {},
-  sendDidUpdateMktlngLocalesEvent() {},
+  sendDidInitializeEvent() { },
+  sendDidUpdateMktlngLocalesEvent() { },
 };
 
 describe('Locales', () => {

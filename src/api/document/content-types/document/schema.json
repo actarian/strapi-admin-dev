@@ -18,7 +18,7 @@
   },
   "attributes": {
     "title": {
-      "type": "string",
+      "type": "json",
       "pluginOptions": {
         "mktlng": {
           "locales": true
@@ -30,7 +30,7 @@
       }
     },
     "abstract": {
-      "type": "text",
+      "type": "json",
       "pluginOptions": {
         "mktlng": {
           "locales": true
@@ -39,14 +39,6 @@
       "customField": {
         "type": "localizedText",
         "forType": "text"
-      }
-    },
-    "test": {
-      "type": "text",
-      "pluginOptions": {
-        "mktlng": {
-          "locales": false
-        }
       }
     },
     "meta": {
