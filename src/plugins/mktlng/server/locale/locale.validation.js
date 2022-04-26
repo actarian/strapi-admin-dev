@@ -3,7 +3,7 @@
 const { prop } = require('lodash/fp');
 const { yup, validateYupSchema } = require('@strapi/utils');
 
-const { isoLocales } = require('../constants');
+const { isoLocales } = require('../isoLocale/isoLocale');
 
 const allowedLocaleCodes = isoLocales.map(prop('code'));
 

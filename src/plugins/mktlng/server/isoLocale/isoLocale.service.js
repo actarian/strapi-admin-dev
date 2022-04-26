@@ -2,7 +2,9 @@
 
 const { isoLocales } = require('./isoLocale');
 
-const getIsoLocales = () => isoLocales;
+function getIsoLocales() {
+  return isoLocales;
+}
 
 module.exports = () => ({
   getIsoLocales,

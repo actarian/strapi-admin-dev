@@ -3,7 +3,7 @@
 const { prop } = require('lodash/fp');
 const { yup, validateYupSchema } = require('@strapi/utils');
 
-const { isoMarkets } = require('../constants');
+const { isoMarkets } = require('../isoMarket/isoMarket');
 
 const allowedMarketCodes = isoMarkets.map(prop('code'));
 

@@ -1,7 +1,7 @@
 'use strict';
 
 const { isNil } = require('lodash/fp');
-const { DEFAULT_MARKET } = require('../constants');
+const { DEFAULT_MARKET } = require('../isoMarket/isoMarket');
 const { getService, getCoreStore } = require('../utils');
 
 const find = params => strapi.query('plugin::mktlng.market').findMany({ where: params });

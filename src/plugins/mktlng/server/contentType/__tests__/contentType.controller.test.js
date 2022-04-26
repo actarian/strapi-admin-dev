@@ -1,8 +1,8 @@
 'use strict';
 
 const { ApplicationError } = require('@strapi/utils').errors;
-const { getNonLocalizedAttributes } = require('../content-types');
-const ctService = require('../../services/content-types')();
+const { getNonLocalizedAttributes } = require('../contentType.controller');
+const contentTypeService = require('../contentType.service')();
 
 describe('mktlng - Controller - content-types', () => {
   describe('getNonLocalizedAttributes', () => {
@@ -12,7 +12,7 @@ describe('mktlng - Controller - content-types', () => {
       global.strapi = {
         contentType,
         getModel,
-        plugins: { mktlng: { services: { 'content-types': ctService } } },
+        plugins: { mktlng: { services: { 'content-types': contentTypeService } } },
         admin: { services: { constants: { READ_ACTION: 'read', CREATE_ACTION: 'create' } } },
       };
     });

@@ -1,7 +1,7 @@
 'use strict';
 
 const { isNil } = require('lodash/fp');
-const { DEFAULT_LOCALE } = require('../constants');
+const { DEFAULT_LOCALE } = require('../isoLocale/isoLocale');
 const { getService, getCoreStore } = require('../utils');
 
 const find = params => strapi.query('plugin::mktlng.locale').findMany({ where: params });

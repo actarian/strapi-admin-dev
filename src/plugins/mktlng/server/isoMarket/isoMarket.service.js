@@ -2,7 +2,9 @@
 
 const { isoMarkets } = require('./isoMarket');
 
-const getIsoMarkets = () => isoMarkets;
+function getIsoMarkets() {
+  return isoMarkets;
+}
 
 module.exports = () => ({
   getIsoMarkets,
