@@ -4,7 +4,7 @@ const { get } = require('lodash/fp');
 const { ApplicationError } = require('@strapi/utils').errors;
 const { getService } = require('../utils');
 
-const validateMarketCreation = async (ctx, next) => {
+async function validateMarketCreation(ctx, next) {
   const { model } = ctx.params;
   const { query, body } = ctx.request;
   const { getValidMarket, getNewLocalizationsFrom, hasLocalizedContentType, getAndValidateRelatedEntity, fillNonLocalizedAttributes, } = getService('contentTypes');

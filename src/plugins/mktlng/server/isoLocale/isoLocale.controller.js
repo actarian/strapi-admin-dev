@@ -2,9 +2,11 @@
 
 const { getService } = require('../utils');
 
+function listIsoLocales(ctx) {
+  const service = getService('isoLocales');
+  ctx.body = service.getIsoLocales();
+}
+
 module.exports = {
-  listIsoLocales(ctx) {
-    const isoLocalesService = getService('isoLocales');
-    ctx.body = isoLocalesService.getIsoLocales();
-  },
+  listIsoLocales,
 };

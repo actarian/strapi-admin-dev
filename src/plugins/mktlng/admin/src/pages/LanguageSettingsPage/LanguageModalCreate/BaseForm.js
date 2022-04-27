@@ -15,7 +15,7 @@ const BaseForm = () => {
    * since it renders ~500 locales and that formik would trigger a re-render on it without
    * it
    */
-  const handleLocaleChange = useCallback(
+  const onLocaleChange = useCallback(
     nextLocale => {
       setFieldValue('displayName', nextLocale.displayName);
       setFieldValue('code', nextLocale.code);
@@ -28,7 +28,7 @@ const BaseForm = () => {
    * since it renders ~500 locales and that formik would trigger a re-render on it without
    * it
    */
-  const handleClear = useCallback(() => {
+  const onClear = useCallback(() => {
     setFieldValue('displayName', '');
     setFieldValue('code', '');
   }, [setFieldValue]);
@@ -39,8 +39,8 @@ const BaseForm = () => {
         <LocaleSelect
           error={ errors.code }
           value={ values.code }
-          onLocaleChange={ handleLocaleChange }
-          onClear={ handleClear }
+          onLocaleChange={ onLocaleChange }
+          onClear={ onClear }
         />
       </GridItem>
 

@@ -19,17 +19,13 @@ async function getNonLocalizedAttributes(ctx) {
 
   await validateGetNonLocalizedAttributesInput({ model, id, locale });
 
-  const {
-    copyNonLocalizedAttributes,
-    hasLocalizedContentType,
-    getNestedPopulateOfNonLocalizedAttributes,
-  } = getService('contentTypes');
+  const service = getService('contentTypes');
   const { READ_ACTION, CREATE_ACTION } = strapi.admin.services.constants;
 
   const modelDef = strapi.contentType(model);
-  const attributesToPopulate = getNestedPopulateOfNonLocalizedAttributes(model);
+  const attributesToPopulate = service.getNestedPopulateOfNonLocalizedAttributes(model);
 
-  if (!hasLocalizedContentType(modelDef)) {
+  if (!service.hasLocalizedContentType(modelDef)) {
     throw new ApplicationError('model.not.localized');
   }
 
@@ -59,7 +55,7 @@ async function getNonLocalizedAttributes(ctx) {
 
   const permittedFields = pipe(flatten, getFirstLevelPath, uniq)(localePermissions);
 
-  const nonLocalizedFields = copyNonLocalizedAttributes(modelDef, entity);
+  const nonLocalizedFields = service.copyNonLocalizedAttributes(modelDef, entity);
   const sanitizedNonLocalizedFields = pick(permittedFields, nonLocalizedFields);
 
   ctx.body = {

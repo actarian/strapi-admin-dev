@@ -1,6 +1,7 @@
 'use strict';
 
 const contentType = require('./contentType/contentType.routes');
+const isoCountry = require('./isoCountry/isoCountry.routes');
 const isoLocale = require('./isoLocale/isoLocale.routes');
 const isoMarket = require('./isoMarket/isoMarket.routes');
 const locale = require('./locale/locale.routes');
@@ -11,6 +12,7 @@ module.exports = {
     type: 'admin',
     routes: [
       ...contentType.adminRoutes,
+      ...isoCountry.adminRoutes,
       ...isoLocale.adminRoutes,
       ...isoMarket.adminRoutes,
       ...locale.adminRoutes,

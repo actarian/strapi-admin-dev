@@ -4,27 +4,35 @@ const { isNil } = require('lodash/fp');
 const { DEFAULT_MARKET } = require('../isoMarket/isoMarket');
 const { getService, getCoreStore } = require('../utils');
 
-const find = params => strapi.query('plugin::mktlng.market').findMany({ where: params });
+function find(params) {
+  return strapi.query('plugin::mktlng.market').findMany({ where: params });
+}
 
-const findById = id => strapi.query('plugin::mktlng.market').findOne({ where: { id } });
+function findById(id) {
+  return strapi.query('plugin::mktlng.market').findOne({ where: { id } });
+}
 
-const findByCode = code => strapi.query('plugin::mktlng.market').findOne({ where: { code } });
+function findByCode(code) {
+  return strapi.query('plugin::mktlng.market').findOne({ where: { code } });
+}
 
-const count = params => strapi.query('plugin::mktlng.market').count({ where: params });
+function count(params) {
+  return strapi.query('plugin::mktlng.market').count({ where: params });
+}
 
-const create = async market => {
+async function create(market) {
   const result = await strapi.query('plugin::mktlng.market').create({ data: market });
   getService('metrics').sendDidUpdateMktlngMarketsEvent();
   return result;
-};
+}
 
-const update = async (params, updates) => {
+async function update(params, updates) {
   const result = await strapi.query('plugin::mktlng.market').update({ where: params, data: updates });
   getService('metrics').sendDidUpdateMktlngMarketsEvent();
   return result;
-};
+}
 
-const deleteFn = async ({ id }) => {
+async function deleteFn({ id }) {
   const marketToDelete = await findById(id);
   if (marketToDelete) {
     await deleteAllLocalizedEntriesFor({ market: marketToDelete.code });
@@ -33,13 +41,17 @@ const deleteFn = async ({ id }) => {
     return result;
   }
   return marketToDelete;
-};
+}
 
-const setDefaultMarket = ({ code }) => getCoreStore().set({ key: 'default_market', value: code });
+function setDefaultMarket({ code }) {
+  return getCoreStore().set({ key: 'default_market', value: code });
+}
 
-const getDefaultMarket = () => getCoreStore().get({ key: 'default_market' });
+function getDefaultMarket() {
+  return getCoreStore().get({ key: 'default_market' });
+}
 
-const setIsDefault = async markets => {
+async function setIsDefault(markets) {
   if (isNil(markets)) {
     return markets;
   }
@@ -50,24 +62,24 @@ const setIsDefault = async markets => {
     // single market
     return { ...markets, isDefault: actualDefault === markets.code };
   }
-};
+}
 
-const initDefaultMarket = async () => {
-  const existingMarketsNb = await strapi.query('plugin::mktlng.market').count();
-  if (existingMarketsNb === 0) {
+async function initDefaultMarket() {
+  const count = await strapi.query('plugin::mktlng.market').count();
+  if (count === 0) {
     await create(DEFAULT_MARKET);
     await setDefaultMarket({ code: DEFAULT_MARKET.code });
   }
-};
+}
 
-const deleteAllLocalizedEntriesFor = async ({ market }) => {
+async function deleteAllLocalizedEntriesFor({ market }) {
   const { hasLocalizedContentType } = getService('contentTypes');
   const localizedModels = Object.values(strapi.contentTypes).filter(hasLocalizedContentType);
   for (const model of localizedModels) {
     // FIXME: delete many content & their associations
     await strapi.query(model.uid).deleteMany({ where: { market } });
   }
-};
+}
 
 module.exports = () => ({
   find,

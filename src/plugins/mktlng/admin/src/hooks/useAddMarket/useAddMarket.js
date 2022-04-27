@@ -5,17 +5,16 @@ import { useDispatch } from 'react-redux';
 import { getTrad } from '../../utils';
 import { ADD_MARKET } from '../constants';
 
-const addMarket = async ({ code, name, isDefault }, toggleNotification) => {
+async function addMarket({ code, name, isDefault }, toggleNotification) {
   const data = await request(`/mktlng/markets`, { method: 'POST', body: { name, code, isDefault } });
   toggleNotification({ type: 'success', message: { id: getTrad('settings.markets.modal.create.success') } });
   return data;
-};
+}
 
-const useAddMarket = () => {
+function useAddMarket() {
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const toggleNotification = useNotification();
-
   const persistMarket = async market => {
     setLoading(true);
     try {
@@ -33,8 +32,7 @@ const useAddMarket = () => {
       setLoading(false);
     }
   };
-
   return { isAdding: isLoading, addMarket: persistMarket };
-};
+}
 
 export default useAddMarket;

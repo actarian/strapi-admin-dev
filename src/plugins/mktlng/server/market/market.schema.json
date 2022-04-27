@@ -18,15 +18,15 @@
     }
   },
   "attributes": {
+    "code": {
+      "type": "string",
+      "unique": true,
+      "configurable": false
+    },
     "name": {
       "type": "string",
       "min": 1,
       "max": 50,
-      "configurable": false
-    },
-    "code": {
-      "type": "string",
-      "unique": true,
       "configurable": false
     }
   }

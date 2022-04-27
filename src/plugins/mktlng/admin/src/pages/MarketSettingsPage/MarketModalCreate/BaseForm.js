@@ -15,7 +15,7 @@ const BaseForm = () => {
    * since it renders ~500 locales and that formik would trigger a re-render on it without
    * it
    */
-  const handleMarketChange = useCallback(
+  const onMarketChange = useCallback(
     nextMarket => {
       setFieldValue('displayName', nextMarket.displayName);
       setFieldValue('code', nextMarket.code);
@@ -28,7 +28,7 @@ const BaseForm = () => {
    * since it renders ~500 locales and that formik would trigger a re-render on it without
    * it
    */
-  const handleClear = useCallback(() => {
+  const onClear = useCallback(() => {
     setFieldValue('displayName', '');
     setFieldValue('code', '');
   }, [setFieldValue]);
@@ -39,8 +39,8 @@ const BaseForm = () => {
         <MarketSelect
           error={ errors.code }
           value={ values.code }
-          onMarketChange={ handleMarketChange }
-          onClear={ handleClear }
+          onMarketChange={ onMarketChange }
+          onClear={ onClear }
         />
       </GridItem>
       <GridItem col={ 6 }>

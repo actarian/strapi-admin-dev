@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { useQuery } from 'react-query';
 import { getTrad } from '../../utils';
 
-const fetchDefaultMarketsList = async toggleNotification => {
+async function fetchDefaultMarketsList(toggleNotification) {
   try {
     const data = await request('/mktlng/iso-markets', { method: 'GET' });
     return data;
@@ -12,9 +12,9 @@ const fetchDefaultMarketsList = async toggleNotification => {
     toggleNotification({ type: 'warning', message: { id: 'notification.error' } });
     return [];
   }
-};
+}
 
-const useDefaultMarkets = () => {
+function useDefaultMarkets() {
   const { formatMessage } = useIntl();
   const { notifyStatus } = useNotifyAT();
   const toggleNotification = useNotification();
@@ -27,6 +27,6 @@ const useDefaultMarkets = () => {
     })
   );
   return { defaultMarkets: data, isLoading };
-};
+}
 
 export default useDefaultMarkets;

@@ -3,10 +3,11 @@
 const { prop, propEq, identity, merge } = require('lodash/fp');
 const { ValidationError } = require('@strapi/utils').errors;
 
+const COUNTRY_SCALAR_TYPENAME = 'MktlngCountryCode';
 const LOCALE_SCALAR_TYPENAME = 'MktlngLocaleCode';
-const LOCALE_ARG_PLUGIN_NAME = 'MktlngLocaleArg';
-
 const MARKET_SCALAR_TYPENAME = 'MktlngMarketCode';
+
+const LOCALE_ARG_PLUGIN_NAME = 'MktlngLocaleArg';
 const MARKET_ARG_PLUGIN_NAME = 'MktlngMarketArg';
 
 const getLocalizedTypesFromRegistry = ({ strapi, typeRegistry }) => {
@@ -51,16 +52,18 @@ module.exports = ({ strapi }) => ({
     });
 
     extensionService.use(({ nexus, typeRegistry }) => {
-      const localePlugin = getLocalePlugin({ nexus, typeRegistry });
+      const countryScalar = getCountryScalar({ nexus });
       const localeScalar = getLocaleScalar({ nexus });
-
-      const marketPlugin = getMarketPlugin({ nexus, typeRegistry });
       const marketScalar = getMarketScalar({ nexus });
 
+      const localePlugin = getLocalePlugin({ nexus, typeRegistry });
+      const marketPlugin = getMarketPlugin({ nexus, typeRegistry });
+
       const { mutations: createLocalizationMutations, resolversConfig: createLocalizationResolversConfig } = getCreateLocalizationMutations({ nexus, typeRegistry });
+
       return {
         plugins: [localePlugin, marketPlugin],
-        types: [localeScalar, marketScalar, createLocalizationMutations],
+        types: [countryScalar, localeScalar, marketScalar, createLocalizationMutations],
         resolversConfig: {
           // Auth for createLocalization mutations
           ...createLocalizationResolversConfig,
@@ -131,6 +134,66 @@ module.exports = ({ strapi }) => ({
       }), {});
     };
 
+    const getCountryScalar = ({ nexus }) => {
+      const markets = mktlngPlugin.service('isoCountries').getIsoCountries();
+      return nexus.scalarType({
+        name: COUNTRY_SCALAR_TYPENAME,
+        description: 'A string used to identify an mktlng market',
+        serialize: identity,
+        parseValue: identity,
+        parseLiteral(ast) {
+          if (ast.kind !== 'StringValue') {
+            throw new ValidationError('Country cannot represent non string type');
+          }
+          const isValidCountry = ast.value === 'all' || markets.find(propEq('code', ast.value));
+          if (!isValidCountry) {
+            throw new ValidationError('Unknown market supplied');
+          }
+          return ast.value;
+        },
+      });
+    };
+
+    const getLocaleScalar = ({ nexus }) => {
+      const locales = mktlngPlugin.service('isoLocales').getIsoLocales();
+      return nexus.scalarType({
+        name: LOCALE_SCALAR_TYPENAME,
+        description: 'A string used to identify an mktlng locale',
+        serialize: identity,
+        parseValue: identity,
+        parseLiteral(ast) {
+          if (ast.kind !== 'StringValue') {
+            throw new ValidationError('Locale cannot represent non string type');
+          }
+          const isValidLocale = ast.value === 'all' || locales.find(propEq('code', ast.value));
+          if (!isValidLocale) {
+            throw new ValidationError('Unknown locale supplied');
+          }
+          return ast.value;
+        },
+      });
+    };
+
+    const getMarketScalar = ({ nexus }) => {
+      const markets = mktlngPlugin.service('isoMarkets').getIsoMarkets();
+      return nexus.scalarType({
+        name: MARKET_SCALAR_TYPENAME,
+        description: 'A string used to identify an mktlng market',
+        serialize: identity,
+        parseValue: identity,
+        parseLiteral(ast) {
+          if (ast.kind !== 'StringValue') {
+            throw new ValidationError('Market cannot represent non string type');
+          }
+          const isValidMarket = ast.value === 'all' || markets.find(propEq('code', ast.value));
+          if (!isValidMarket) {
+            throw new ValidationError('Unknown market supplied');
+          }
+          return ast.value;
+        },
+      });
+    };
+
     const getLocalePlugin = ({ nexus, typeRegistry }) => {
       const { hasLocalizedContentType } = mktlngPlugin.service('contentTypes');
       const addLocaleArg = config => {
@@ -159,26 +222,6 @@ module.exports = ({ strapi }) => ({
       });
     };
 
-    const getLocaleScalar = ({ nexus }) => {
-      const locales = mktlngPlugin.service('isoLocales').getIsoLocales();
-      return nexus.scalarType({
-        name: LOCALE_SCALAR_TYPENAME,
-        description: 'A string used to identify an mktlng locale',
-        serialize: identity,
-        parseValue: identity,
-        parseLiteral(ast) {
-          if (ast.kind !== 'StringValue') {
-            throw new ValidationError('Locale cannot represent non string type');
-          }
-          const isValidLocale = ast.value === 'all' || locales.find(propEq('code', ast.value));
-          if (!isValidLocale) {
-            throw new ValidationError('Unknown locale supplied');
-          }
-          return ast.value;
-        },
-      });
-    };
-
     const getMarketPlugin = ({ nexus, typeRegistry }) => {
       const { hasLocalizedContentType } = mktlngPlugin.service('contentTypes');
       const addMarketArg = config => {
@@ -203,26 +246,6 @@ module.exports = ({ strapi }) => ({
         onAddOutputField(config) {
           // Add the market arg to the queries on localized CTs
           addMarketArg(config);
-        },
-      });
-    };
-
-    const getMarketScalar = ({ nexus }) => {
-      const markets = mktlngPlugin.service('isoMarkets').getIsoMarkets();
-      return nexus.scalarType({
-        name: MARKET_SCALAR_TYPENAME,
-        description: 'A string used to identify an mktlng market',
-        serialize: identity,
-        parseValue: identity,
-        parseLiteral(ast) {
-          if (ast.kind !== 'StringValue') {
-            throw new ValidationError('Market cannot represent non string type');
-          }
-          const isValidMarket = ast.value === 'all' || markets.find(propEq('code', ast.value));
-          if (!isValidMarket) {
-            throw new ValidationError('Unknown market supplied');
-          }
-          return ast.value;
         },
       });
     };

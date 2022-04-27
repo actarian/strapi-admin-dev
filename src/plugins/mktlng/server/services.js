@@ -3,6 +3,7 @@
 const contentTypes = require('./contentType/contentType.service');
 const coreApi = require('./coreApi/coreApi.service');
 const entityService = require('./entity/entity.service');
+const isoCountries = require('./isoCountry/isoCountry.service');
 const isoLocales = require('./isoLocale/isoLocale.service');
 const isoMarkets = require('./isoMarket/isoMarket.service');
 const locales = require('./locale/locale.service');
@@ -15,6 +16,7 @@ module.exports = {
   contentTypes,
   coreApi,
   entityService,
+  isoCountries,
   isoLocales,
   isoMarkets,
   locales,

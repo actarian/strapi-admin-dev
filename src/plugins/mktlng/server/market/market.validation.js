@@ -10,14 +10,14 @@ const allowedMarketCodes = isoMarkets.map(prop('code'));
 const createMarketSchema = yup
   .object()
   .shape({
-    name: yup
-      .string()
-      .max(50)
-      .nullable(),
     code: yup
       .string()
       .oneOf(allowedMarketCodes)
       .required(),
+    name: yup
+      .string()
+      .max(50)
+      .nullable(),
     isDefault: yup.boolean().required(),
   })
   .noUnknown();

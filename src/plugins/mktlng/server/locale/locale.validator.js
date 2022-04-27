@@ -4,7 +4,7 @@ const { get } = require('lodash/fp');
 const { ApplicationError } = require('@strapi/utils').errors;
 const { getService } = require('../utils');
 
-const validateLocaleCreation = async (ctx, next) => {
+async function validateLocaleCreation(ctx, next) {
   const { model } = ctx.params;
   const { query, body } = ctx.request;
   const { getValidLocale, getNewLocalizationsFrom, hasLocalizedContentType, getAndValidateRelatedEntity, fillNonLocalizedAttributes } = getService('contentTypes');
