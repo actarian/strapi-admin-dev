@@ -2,7 +2,7 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
 const server = setupServer(
-  rest.get('*/mktlng/iso-locales', (req, res, ctx) => {
+  rest.get('*/mktlng/iso-markets', (req, res, ctx) => {
     const defaultLocales = [
       {
         code: 'af',
@@ -20,7 +20,7 @@ const server = setupServer(
 
     return res(ctx.json(defaultLocales));
   }),
-  rest.get('*/mktlng/locales', (req, res, ctx) => {
+  rest.get('*/mktlng/markets', (req, res, ctx) => {
     const defaultLocales = [
       {
         code: 'en',

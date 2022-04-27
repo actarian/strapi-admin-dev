@@ -1,13 +1,13 @@
-import React from 'react';
-import { ThemeProvider, lightTheme } from '@strapi/design-system';
+import { lightTheme, ThemeProvider } from '@strapi/design-system';
 import { render as renderTL } from '@testing-library/react';
-import { QueryClientProvider, QueryClient } from 'react-query';
+import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
 import { combineReducers, createStore } from 'redux';
-import en from '../../../translations/en.json';
-import server from './server';
 import reducers from '../../../hooks/reducers';
-import LocaleSelect from '..';
+import en from '../../../translations/en.json';
+import LanguageCombobox from '../LanguageCombobox';
+import server from './server';
 
 jest.mock('../../../utils', () => ({
   getTrad: x => x,
@@ -35,17 +35,17 @@ const store = createStore(combineReducers(reducers));
 
 const render = props =>
   renderTL(
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <ThemeProvider theme={lightTheme}>
-          <LocaleSelect {...props} />
+    <QueryClientProvider client={ queryClient }>
+      <Provider store={ store }>
+        <ThemeProvider theme={ lightTheme }>
+          <LanguageCombobox { ...props } />
         </ThemeProvider>
       </Provider>
     </QueryClientProvider>,
     { container: document.body }
   );
 
-describe('LocaleSelect', () => {
+describe('LanguageCombobox', () => {
   beforeAll(() => server.listen());
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
@@ -240,7 +240,7 @@ describe('LocaleSelect', () => {
               class="c5 c6"
               wrap="wrap"
             >
-              
+
               <input
                 aria-activedescendant=""
                 aria-autocomplete="list"
@@ -263,7 +263,7 @@ describe('LocaleSelect', () => {
             <div
               class="c3"
             >
-              
+
               <button
                 aria-hidden="true"
                 class="c8 c9 c10"

@@ -14,38 +14,17 @@ const BaseForm = ({ item }) => {
   return (
     <Grid gap={ 4 }>
       <GridItem col={ 6 }>
-        <Select
-          label={ formatMessage({
-            id: getTrad('settings.locales.modal.locales.label'),
-            defaultMessage: 'Locales',
-          }) }
-          value={ item.code }
-          disabled
-        >
+        <Select label={ formatMessage({ id: getTrad('settings.locales.modal.locales.label'), defaultMessage: 'Locales' }) } value={ item.code } disabled>
           <Option value={ item.code }>{ item.name }</Option>
         </Select>
       </GridItem>
-
       <GridItem col={ 6 }>
         <TextInput
-          name="displayName"
-          label={ formatMessage({
-            id: getTrad('settings.locales.modal.locales.displayName'),
-            defaultMessage: 'Locale display name',
-          }) }
-          hint={ formatMessage({
-            id: getTrad('settings.locales.modal.locales.displayName.description'),
-            defaultMessage: 'Locale will be displayed under that name in the administration panel',
-          }) }
-          error={
-            errors.displayName
-              ? formatMessage({
-                id: getTrad('settings.locales.modal.locales.displayName.error'),
-                defaultMessage: 'The locale display name can only be less than 50 characters.',
-              })
-              : undefined
-          }
-          value={ values.displayName }
+          name="name"
+          label={ formatMessage({ id: getTrad('settings.locales.modal.locales.name'), defaultMessage: 'Locale display name' }) }
+          hint={ formatMessage({ id: getTrad('settings.locales.modal.locales.name.description'), defaultMessage: 'Locale will be displayed under that name in the administration panel' }) }
+          error={ errors.name ? formatMessage({ id: getTrad('settings.locales.modal.locales.name.error'), defaultMessage: 'The locale display name can only be less than 50 characters.' }) : undefined }
+          value={ values.name }
           onChange={ handleChange }
         />
       </GridItem>

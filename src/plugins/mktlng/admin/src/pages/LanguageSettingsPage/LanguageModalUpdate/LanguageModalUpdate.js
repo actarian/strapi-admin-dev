@@ -2,10 +2,7 @@ import { Box } from '@strapi/design-system/Box';
 import { Button } from '@strapi/design-system/Button';
 import { Divider } from '@strapi/design-system/Divider';
 import { Flex } from '@strapi/design-system/Flex';
-import {
-  ModalBody,
-  ModalFooter, ModalHeader, ModalLayout
-} from '@strapi/design-system/ModalLayout';
+import { ModalBody, ModalFooter, ModalHeader, ModalLayout } from '@strapi/design-system/ModalLayout';
 import { Tab, TabGroup, TabPanel, TabPanels, Tabs } from '@strapi/design-system/Tabs';
 import { Typography } from '@strapi/design-system/Typography';
 import { Form, useRBACProvider } from '@strapi/helper-plugin';
@@ -25,65 +22,40 @@ const LanguageModalUpdate = ({ item, onClose }) => {
   const { isEditing, editLocale } = useEditLocale();
   const { formatMessage } = useIntl();
 
-  const handleSubmit = async ({ displayName, isDefault }) => {
-    await editLocale(item.id, { name: displayName, isDefault });
+  const handleSubmit = async ({ name, isDefault }) => {
+    await editLocale(item.id, { name, isDefault });
     await refetchPermissions();
   };
 
   return (
     <ModalLayout onClose={ onClose } labelledBy="edit-locale-title">
-      <Formik
-        initialValues={ {
-          code: item?.code,
-          displayName: item?.name || '',
-          isDefault: Boolean(item?.isDefault),
-        } }
-        onSubmit={ handleSubmit }
-        validationSchema={ localeValidationSchema }
-      >
+      <Formik initialValues={ {
+        code: item?.code,
+        name: item?.name || '',
+        isDefault: Boolean(item?.isDefault),
+      } } onSubmit={ handleSubmit } validationSchema={ localeValidationSchema }>
         <Form>
           <ModalHeader>
             <Typography fontWeight="bold" textColor="neutral800" as="h2" id="edit-locale-title">
-              { formatMessage({
-                id: getTrad('settings.list.actions.edit'),
-                defaultMessage: 'Edit a locale',
-              }) }
+              { formatMessage({ id: getTrad('settings.list.actions.edit'), defaultMessage: 'Edit a locale' }) }
             </Typography>
           </ModalHeader>
           <ModalBody>
-            <TabGroup
-              label={ formatMessage({
-                id: getTrad('settings.locales.modal.title'),
-                defaultMessage: 'Configurations',
-              }) }
-              id="tabs"
-              variant="simple"
-            >
+            <TabGroup id="tabs" variant="simple" label={ formatMessage({ id: getTrad('settings.locales.modal.title'), defaultMessage: 'Configurations' }) }>
               <Flex justifyContent="space-between">
                 <Typography as="h2">
-                  { formatMessage({
-                    id: getTrad('settings.locales.modal.title'),
-                    defaultMessage: 'Configurations',
-                  }) }
+                  { formatMessage({ id: getTrad('settings.locales.modal.title'), defaultMessage: 'Configurations' }) }
                 </Typography>
                 <Tabs>
                   <Tab>
-                    { formatMessage({
-                      id: getTrad('settings.locales.modal.base'),
-                      defaultMessage: 'Base settings',
-                    }) }
+                    { formatMessage({ id: getTrad('settings.locales.modal.base'), defaultMessage: 'Base settings' }) }
                   </Tab>
                   <Tab>
-                    { formatMessage({
-                      id: getTrad('settings.locales.modal.advanced'),
-                      defaultMessage: 'Advanced settings',
-                    }) }
+                    { formatMessage({ id: getTrad('settings.locales.modal.advanced'), defaultMessage: 'Advanced settings' }) }
                   </Tab>
                 </Tabs>
               </Flex>
-
               <Divider />
-
               <Box paddingTop={ 7 } paddingBottom={ 7 }>
                 <TabPanels>
                   <TabPanel>
@@ -96,7 +68,6 @@ const LanguageModalUpdate = ({ item, onClose }) => {
               </Box>
             </TabGroup>
           </ModalBody>
-
           <ModalFooter
             startActions={
               <Button variant="tertiary" onClick={ onClose }>

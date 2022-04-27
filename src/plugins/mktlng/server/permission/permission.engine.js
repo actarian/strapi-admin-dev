@@ -21,7 +21,7 @@ const willRegisterPermission = context => {
   if (isSuperAdmin) {
     return;
   }
-  const { locales, markets } = properties || {};
+  const { countries, locales, markets } = properties || {};
   const { hasLocalizedContentType } = getService('contentTypes');
   // If there is no subject defined, ignore the permission
   if (!subject) {
@@ -30,6 +30,10 @@ const willRegisterPermission = context => {
   const ct = strapi.contentTypes[subject];
   // If the subject exists but isn't localized, ignore the permission
   if (!hasLocalizedContentType(ct)) {
+    return;
+  }
+  // If the subject is localized but the countries property is null (access to all countries), ignore the permission
+  if (countries === null) {
     return;
   }
   // If the subject is localized but the locales property is null (access to all locales), ignore the permission
@@ -41,6 +45,9 @@ const willRegisterPermission = context => {
     return;
   }
   condition.and({
+    country: {
+      $in: countries || [],
+    },
     locale: {
       $in: locales || [],
     },

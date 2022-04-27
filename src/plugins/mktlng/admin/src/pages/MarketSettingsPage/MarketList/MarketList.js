@@ -45,13 +45,11 @@ const MarketList = ({ canUpdate, canDelete, onToggleCreateModal, isCreating }) =
           <EmptyStateLayout
             icon={ <EmptyDocuments width={ undefined } height={ undefined } /> }
             content={ formatMessage({ id: getTrad('settings.list.empty.title') }) }
-            action={
-              onToggleCreateModal ? (
-                <Button variant="secondary" startIcon={ <Plus /> } onClick={ onToggleCreateModal }>
-                  { formatMessage({ id: getTrad('settings.list.actions.add') }) }
-                </Button>
-              ) : null
-            }
+            action={ onToggleCreateModal ? (
+              <Button variant="secondary" startIcon={ <Plus /> } onClick={ onToggleCreateModal }>
+                { formatMessage({ id: getTrad('settings.list.actions.add') }) }
+              </Button>
+            ) : null }
           />
         ) }
       </ContentLayout>

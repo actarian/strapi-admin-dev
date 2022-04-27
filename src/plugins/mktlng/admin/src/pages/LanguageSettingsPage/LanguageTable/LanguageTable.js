@@ -24,7 +24,7 @@ const LanguageTable = ({ locales, onDelete, onUpdate }) => {
             <Typography variant="sigma" textColor="neutral600">{ formatMessage({ id: getTrad('settings.locales.row.code') }) }</Typography>
           </Th>
           <Th>
-            <Typography variant="sigma" textColor="neutral600">{ formatMessage({ id: getTrad('settings.locales.row.displayName') }) }</Typography>
+            <Typography variant="sigma" textColor="neutral600">{ formatMessage({ id: getTrad('settings.locales.row.name') }) }</Typography>
           </Th>
           <Th>
             <Typography variant="sigma" textColor="neutral600">{ formatMessage({ id: getTrad('settings.locales.row.default-locale') }) }</Typography>

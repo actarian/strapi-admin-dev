@@ -62,6 +62,16 @@ const dbLifecyclesSubscribe = () => {
     },
   });
 
+  strapi.db.lifecycles.subscribe({
+    models: ['plugin::mktlng.country'],
+    async afterCreate() {
+      await getService('permissions').actions.syncSuperAdminPermissionsWithCountries();
+    },
+    async afterDelete() {
+      await getService('permissions').actions.syncSuperAdminPermissionsWithCountries();
+    },
+  });
+
   // !!! ignored
 
   if (ids.length > 0) {

@@ -25,7 +25,7 @@ const MarketTable = ({ markets, onDelete, onUpdate }) => {
             <Typography variant="sigma" textColor="neutral600">{ formatMessage({ id: getTrad('settings.markets.row.code') }) }</Typography>
           </Th>
           <Th>
-            <Typography variant="sigma" textColor="neutral600">{ formatMessage({ id: getTrad('settings.markets.row.displayName') }) }</Typography>
+            <Typography variant="sigma" textColor="neutral600">{ formatMessage({ id: getTrad('settings.markets.row.name') }) }</Typography>
           </Th>
           <Th>
             <Typography variant="sigma" textColor="neutral600">{ formatMessage({ id: getTrad('settings.markets.row.default-market') }) }</Typography>
@@ -36,27 +36,27 @@ const MarketTable = ({ markets, onDelete, onUpdate }) => {
         </Tr>
       </Thead>
       <Tbody>
-        { markets.map(locale => (
-          <Tr key={ locale.id } { ...onRowClick({ fn: () => onUpdate(locale), condition: onUpdate }) }>
+        { markets.map(market => (
+          <Tr key={ market.id } { ...onRowClick({ fn: () => onUpdate(market), condition: onUpdate }) }>
             <Td>
-              <Typography textColor="neutral800">{ locale.id }</Typography>
+              <Typography textColor="neutral800">{ market.id }</Typography>
             </Td>
             <Td>
-              <Typography textColor="neutral800">{ locale.code }</Typography>
+              <Typography textColor="neutral800">{ market.code }</Typography>
             </Td>
             <Td>
-              <Typography textColor="neutral800">{ locale.name }</Typography>
+              <Typography textColor="neutral800">{ market.name }</Typography>
             </Td>
             <Td>
-              <Typography textColor="neutral800">{ locale.isDefault ? formatMessage({ id: getTrad('settings.markets.default') }) : null }</Typography>
+              <Typography textColor="neutral800">{ market.isDefault ? formatMessage({ id: getTrad('settings.markets.default') }) : null }</Typography>
             </Td>
             <Td>
               <Stack horizontal spacing={ 1 } style={ { justifyContent: 'flex-end' } } { ...stopPropagation }>
                 { onUpdate && (
-                  <IconButton label={ formatMessage({ id: getTrad('settings.list.actions.edit') }) } noBorder onClick={ () => onUpdate(locale) } icon={ <Pencil /> } />
+                  <IconButton label={ formatMessage({ id: getTrad('settings.list.actions.edit') }) } noBorder onClick={ () => onUpdate(market) } icon={ <Pencil /> } />
                 ) }
-                { onDelete && !locale.isDefault && (
-                  <IconButton label={ formatMessage({ id: getTrad('settings.list.actions.delete') }) } noBorder onClick={ () => onDelete(locale) } icon={ <Trash /> } />
+                { onDelete && !market.isDefault && (
+                  <IconButton label={ formatMessage({ id: getTrad('settings.list.actions.delete') }) } noBorder onClick={ () => onDelete(market) } icon={ <Trash /> } />
                 ) }
               </Stack>
             </Td>

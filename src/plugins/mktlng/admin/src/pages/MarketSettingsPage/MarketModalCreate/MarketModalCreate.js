@@ -19,7 +19,9 @@ import BaseForm from './BaseForm';
 
 const initialValues = {
   code: '',
-  displayName: '',
+  name: '',
+  countries: [],
+  languages: [],
   isDefault: false,
 };
 
@@ -33,10 +35,10 @@ const MarketModalCreate = ({ onClose }) => {
    * since the all tree (from the root of the page) is destroyed and re-mounted
    * because of the RBAC refreshing and the potential move of the default market
    */
-  const onSubmit = async values => {
+  const onSubmit = async (values) => {
     await addMarket({
       code: values.code,
-      name: values.displayName,
+      name: values.name,
       isDefault: values.isDefault,
     });
     await refetchPermissions();
@@ -80,12 +82,10 @@ const MarketModalCreate = ({ onClose }) => {
             </TabGroup>
           </ModalBody>
           <ModalFooter startActions={
-            <Button variant="tertiary" onClick={ onClose }>
-              { formatMessage({ id: 'app.components.Button.cancel', defaultMessage: 'Cancel' }) }
-            </Button> } endActions={
-              <Button type="submit" startIcon={ <Check /> } disabled={ isAdding }>
-                { formatMessage({ id: 'global.save', defaultMessage: 'Save' }) }
-              </Button> } />
+            <Button variant="tertiary" onClick={ onClose }>{ formatMessage({ id: 'app.components.Button.cancel', defaultMessage: 'Cancel' }) }</Button>
+          } endActions={
+            <Button type="submit" startIcon={ <Check /> } disabled={ isAdding }>{ formatMessage({ id: 'global.save', defaultMessage: 'Save' }) }</Button>
+          } />
         </Form>
       </Formik>
     </ModalLayout>

@@ -25,18 +25,22 @@ const MarketModalUpdate = ({ item, onClose }) => {
   const { isEditing, editMarket } = useEditMarket();
   const { formatMessage } = useIntl();
 
-  const handleSubmit = async ({ displayName, isDefault }) => {
-    await editMarket(item.id, { name: displayName, isDefault });
+  const handleSubmit = async ({ name, isDefault }) => {
+    await editMarket(item.id, { name, isDefault });
     await refetchPermissions();
   };
 
+  const initialValues = Object.assign({
+    code: '',
+    name: '',
+    countries: [],
+    languages: [],
+    isDefault: false
+  }, item || {});
+
   return (
     <ModalLayout onClose={ onClose } labelledBy="edit-market-title">
-      <Formik
-        initialValues={ { code: item?.code, displayName: item?.name || '', isDefault: Boolean(item?.isDefault) } }
-        onSubmit={ handleSubmit }
-        validationSchema={ marketValidationSchema }
-      >
+      <Formik initialValues={ initialValues } onSubmit={ handleSubmit } validationSchema={ marketValidationSchema } >
         <Form>
           <ModalHeader>
             <Typography fontWeight="bold" textColor="neutral800" as="h2" id="edit-market-title">
@@ -44,11 +48,7 @@ const MarketModalUpdate = ({ item, onClose }) => {
             </Typography>
           </ModalHeader>
           <ModalBody>
-            <TabGroup
-              label={ formatMessage({ id: getTrad('settings.markets.modal.title'), defaultMessage: 'Configurations' }) }
-              id="tabs"
-              variant="simple"
-            >
+            <TabGroup id="tabs" variant="simple" label={ formatMessage({ id: getTrad('settings.markets.modal.title'), defaultMessage: 'Configurations' }) }>
               <Flex justifyContent="space-between">
                 <Typography as="h2">
                   { formatMessage({ id: getTrad('settings.markets.modal.title'), defaultMessage: 'Configurations' }) }
@@ -62,9 +62,7 @@ const MarketModalUpdate = ({ item, onClose }) => {
                   </Tab>
                 </Tabs>
               </Flex>
-
               <Divider />
-
               <Box paddingTop={ 7 } paddingBottom={ 7 }>
                 <TabPanels>
                   <TabPanel>
@@ -77,7 +75,6 @@ const MarketModalUpdate = ({ item, onClose }) => {
               </Box>
             </TabGroup>
           </ModalBody>
-
           <ModalFooter
             startActions={
               <Button variant="tertiary" onClick={ onClose }>
@@ -105,6 +102,8 @@ MarketModalUpdate.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     code: PropTypes.string.isRequired,
+    // countries: PropTypes.array.isRequired,
+    // languages: PropTypes.array.isRequired,
     isDefault: PropTypes.bool.isRequired,
   }),
   onClose: PropTypes.func.isRequired,

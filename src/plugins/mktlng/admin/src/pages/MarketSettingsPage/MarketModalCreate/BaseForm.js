@@ -4,60 +4,78 @@ import { useFormikContext } from 'formik';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { getTrad } from '../../../utils';
-import MarketSelect from '../MarketSelect/MarketSelect';
+import CountrySelect from '../CountrySelect/CountrySelect';
+import LanguageSelect from '../LanguageSelect/LanguageSelect';
 
 const BaseForm = () => {
   const { formatMessage } = useIntl();
   const { values, handleChange, setFieldValue, errors } = useFormikContext();
 
   /**
-   * This is needed because the MarketSelect component is a memoized component
+   * This is needed because the MarketCombobox component is a memoized component
    * since it renders ~500 locales and that formik would trigger a re-render on it without
    * it
    */
-  const onMarketChange = useCallback(
-    nextMarket => {
-      setFieldValue('displayName', nextMarket.displayName);
-      setFieldValue('code', nextMarket.code);
-    },
-    [setFieldValue]
-  );
+  const onMarketChange = useCallback((market) => {
+    setFieldValue('name', market.name);
+    setFieldValue('code', market.code);
+  }, [setFieldValue]);
 
   /**
-   * This is needed because the MarketSelect component is a memoized component
+   * This is needed because the MarketCombobox component is a memoized component
    * since it renders ~500 locales and that formik would trigger a re-render on it without
    * it
    */
-  const onClear = useCallback(() => {
-    setFieldValue('displayName', '');
+  const onMarketClear = useCallback(() => {
+    setFieldValue('name', '');
     setFieldValue('code', '');
+  }, [setFieldValue]);
+
+  const onCountriesChange = useCallback((value) => {
+    setFieldValue('countries', value);
+  }, [setFieldValue]);
+
+  const onCountriesClear = useCallback((value) => {
+    setFieldValue('countries', []);
+  }, [setFieldValue]);
+
+  const onLanguagesChange = useCallback((value) => {
+    setFieldValue('languages', value);
+  }, [setFieldValue]);
+
+  const onLanguagesClear = useCallback((value) => {
+    setFieldValue('languages', []);
   }, [setFieldValue]);
 
   return (
     <Grid gap={ 4 }>
       <GridItem col={ 6 }>
-        <MarketSelect
-          error={ errors.code }
+        <TextInput
+          name="code"
+          label={ formatMessage({ id: getTrad('settings.markets.modal.markets.code'), defaultMessage: 'Market code' }) }
+          error={ errors.code ? formatMessage({ id: getTrad('settings.markets.modal.markets.code.error'), defaultMessage: 'The market display name can only be less than 50 characters.' }) : undefined }
           value={ values.code }
-          onMarketChange={ onMarketChange }
-          onClear={ onClear }
+          onChange={ handleChange }
         />
+        { /* <MarketCombobox error={ errors.code } value={ values.code } onClear={ onMarketClear } onChange={ onMarketChange } /> */ }
       </GridItem>
       <GridItem col={ 6 }>
         <TextInput
-          name="displayName"
-          label={ formatMessage({ id: getTrad('settings.locales.modal.locales.displayName'), defaultMessage: 'Market display name' }) }
-          hint={ formatMessage({ id: getTrad('settings.locales.modal.locales.displayName.description'), defaultMessage: 'Market will be displayed under that name in the administration panel' }) }
-          error={
-            errors.displayName
-              ? formatMessage({ id: getTrad('settings.locales.modal.locales.displayName.error'), defaultMessage: 'The locale display name can only be less than 50 characters.' })
-              : undefined
-          }
-          value={ values.displayName }
+          name="name"
+          label={ formatMessage({ id: getTrad('settings.markets.modal.markets.name'), defaultMessage: 'Market display name' }) }
+          hint={ formatMessage({ id: getTrad('settings.markets.modal.markets.name.description'), defaultMessage: 'Market will be displayed under that name in the administration panel' }) }
+          error={ errors.name ? formatMessage({ id: getTrad('settings.markets.modal.markets.name.error'), defaultMessage: 'The market display name can only be less than 50 characters.' }) : undefined }
+          value={ values.name }
           onChange={ handleChange }
         />
       </GridItem>
-    </Grid>
+      <GridItem col={ 6 }>
+        <CountrySelect error={ errors.countries } value={ values.countries } onClear={ onCountriesClear } onChange={ onCountriesChange } />
+      </GridItem>
+      <GridItem col={ 6 }>
+        <LanguageSelect error={ errors.languages } value={ values.languages } onClear={ onLanguagesClear } onChange={ onLanguagesChange } />
+      </GridItem>
+    </Grid >
   );
 };
 

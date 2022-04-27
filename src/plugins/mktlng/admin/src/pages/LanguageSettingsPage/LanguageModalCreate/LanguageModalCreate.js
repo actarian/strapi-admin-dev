@@ -19,7 +19,7 @@ import BaseForm from './BaseForm';
 
 const initialValues = {
   code: '',
-  displayName: '',
+  name: '',
   isDefault: false,
 };
 
@@ -36,7 +36,7 @@ const LanguageModalCreate = ({ onClose }) => {
   const onSubmit = async values => {
     await addLocale({
       code: values.code,
-      name: values.displayName,
+      name: values.name,
       isDefault: values.isDefault,
     });
     await refetchPermissions();

@@ -10,11 +10,10 @@ const AdvancedForm = () => {
   const onChange = () => setFieldValue('isDefault', !values.isDefault);
   return (
     <Checkbox
-      hint={ formatMessage({ id: getTrad('settings.locales.modal.advanced.setAsDefault.hint'), defaultMessage: 'One default locale is required, change it by selecting another one' }) }
+      hint={ formatMessage({ id: getTrad('settings.markets.modal.advanced.setAsDefault.hint'), defaultMessage: 'One default market is required, change it by selecting another one' }) }
       onChange={ onChange }
-      value={ values.isDefault }>
-      { formatMessage({ id: getTrad('settings.locales.modal.advanced.setAsDefault'), defaultMessage: 'Set as default locale' }) }
-    </Checkbox>
+      value={ values.isDefault }
+    >{ formatMessage({ id: getTrad('settings.markets.modal.advanced.setAsDefault'), defaultMessage: 'Set as default market' }) }</Checkbox>
   );
 };
 

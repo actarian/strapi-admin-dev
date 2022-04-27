@@ -24,6 +24,15 @@ actions.push(...keys.map(key => ({
   uid: `market.${key}`,
 })));
 
+actions.push(...keys.map(key => ({
+  section: 'settings',
+  category: 'Countries',
+  subCategory: 'Countries',
+  pluginName: 'mktlng',
+  displayName: capitalize(key),
+  uid: `country.${key}`,
+})));
+
 const addLocalesPropertyIfNeeded = ({ value: action }) => {
   const { section, options: { applyToProperties } } = action;
   // Only add the locales property to contentTypes' actions
@@ -54,11 +63,7 @@ const addAllLocalesToPermissions = async permissions => {
   return Promise.all(
     permissions.map(async permission => {
       const { action, subject } = permission;
-      const appliesToLocalesProperty = await actionProvider.appliesToProperty(
-        'locales',
-        action,
-        subject
-      );
+      const appliesToLocalesProperty = await actionProvider.appliesToProperty('locales', action, subject);
       if (!appliesToLocalesProperty) {
         return permission;
       }
@@ -94,11 +99,7 @@ const addAllMarketsToPermissions = async permissions => {
   return Promise.all(
     permissions.map(async permission => {
       const { action, subject } = permission;
-      const appliesToMarketsProperty = await actionProvider.appliesToProperty(
-        'markets',
-        action,
-        subject
-      );
+      const appliesToMarketsProperty = await actionProvider.appliesToProperty('markets', action, subject);
       if (!appliesToMarketsProperty) {
         return permission;
       }
@@ -123,6 +124,42 @@ const syncSuperAdminPermissionsWithMarkets = async () => {
     },
   });
   const newSuperAdminPermissions = await addAllMarketsToPermissions(superAdminPermissions);
+  await roleService.assignPermissions(superAdminRole.id, newSuperAdminPermissions);
+};
+
+const addAllCountriesToPermissions = async permissions => {
+  const { actionProvider } = strapi.admin.services.permission;
+  const { find: findAllCountries } = getService('countries');
+  const allCountries = await findAllCountries();
+  const allCountriesCode = allCountries.map(prop('code'));
+  return Promise.all(
+    permissions.map(async permission => {
+      const { action, subject } = permission;
+      const appliesToCountriesProperty = await actionProvider.appliesToProperty('countries', action, subject);
+      if (!appliesToCountriesProperty) {
+        return permission;
+      }
+      const oldPermissionProperties = getOr({}, 'properties', permission);
+      return { ...permission, properties: { ...oldPermissionProperties, countries: allCountriesCode } };
+    })
+  );
+};
+
+const syncSuperAdminPermissionsWithCountries = async () => {
+  const roleService = strapi.admin.services.role;
+  const permissionService = strapi.admin.services.permission;
+  const superAdminRole = await roleService.getSuperAdmin();
+  if (!superAdminRole) {
+    return;
+  }
+  const superAdminPermissions = await permissionService.findMany({
+    where: {
+      role: {
+        id: superAdminRole.id,
+      },
+    },
+  });
+  const newSuperAdminPermissions = await addAllCountriesToPermissions(superAdminPermissions);
   await roleService.assignPermissions(superAdminRole.id, newSuperAdminPermissions);
 };
 
@@ -153,4 +190,5 @@ module.exports = {
   updateActionsProperties,
   syncSuperAdminPermissionsWithLocales,
   syncSuperAdminPermissionsWithMarkets,
+  syncSuperAdminPermissionsWithCountries,
 };

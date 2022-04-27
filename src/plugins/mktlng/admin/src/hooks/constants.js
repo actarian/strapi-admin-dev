@@ -9,3 +9,5 @@ export const RESOLVE_MARKETS = `${pluginId}/markets/resolve-markets`;
 export const ADD_MARKET = `${pluginId}/markets/add`;
 export const DELETE_MARKET = `${pluginId}/markets/delete`;
 export const UPDATE_MARKET = `${pluginId}/markets/update`;
+
+export const RESOLVE_COUNTRIES = `${pluginId}/countries/resolve-countries`;
