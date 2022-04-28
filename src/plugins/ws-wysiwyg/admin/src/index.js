@@ -15,13 +15,13 @@ const myComponent = async () => {
 export default {
   register(app) {
     app.createSettingSection(
-      { id: 'tiptap-editor', intlLabel: { id: 'my-plugin.plugin.name', defaultMessage: 'TipTap Editor' } }, // Section to create
+      { id: 'ws-wysiwyg', intlLabel: { id: 'ws-wysiwyg.plugin.name', defaultMessage: 'Wysiwyg' } }, // Section to create
       [
         // links
         {
-          intlLabel: { id: 'my-plugin.plugin.name', defaultMessage: 'Settings' },
+          intlLabel: { id: 'ws-wysiwyg.plugin.name', defaultMessage: 'Settings' },
           id: 'Settings',
-          to: '/settings/tiptap-editor',
+          to: '/settings/ws-wysiwyg',
           Component: myComponent,
           permissions: [],
         },

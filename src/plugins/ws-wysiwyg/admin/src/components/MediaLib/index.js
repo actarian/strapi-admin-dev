@@ -1,6 +1,6 @@
-import React from 'react';
 import { prefixFileUrlWithBackendUrl, useLibrary } from '@strapi/helper-plugin';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 const MediaLib = ({ isOpen, onChange, onToggle }) => {
     const { components } = useLibrary();

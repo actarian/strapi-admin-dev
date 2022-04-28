@@ -1,37 +1,29 @@
-import React, {useState, useRef, useEffect} from "react"
-
-// Icons
+import { Box } from '@strapi/design-system/Box'
+import { Button } from '@strapi/design-system/Button'
+import { Dialog, DialogBody, DialogFooter } from '@strapi/design-system/Dialog'
+import { Field, FieldLabel } from '@strapi/design-system/Field'
+import { Flex } from '@strapi/design-system/Flex'
+import { IconButton, IconButtonGroup } from '@strapi/design-system/IconButton'
+import { Option, Select } from '@strapi/design-system/Select'
+import { Stack } from '@strapi/design-system/Stack'
+import { Textarea } from '@strapi/design-system/Textarea'
+import { TextInput } from '@strapi/design-system/TextInput'
 import Bold from "@strapi/icons/Bold"
+import BulletList from "@strapi/icons/BulletList"
+import Code from "@strapi/icons/Code"
 import Italic from "@strapi/icons/Italic"
+import Landscape from "@strapi/icons/Landscape"
+import Link from "@strapi/icons/Link"
+import NumberList from "@strapi/icons/NumberList"
+import PaintBrush from "@strapi/icons/PaintBrush"
 import Strikethrough from "@strapi/icons/StrikeThrough"
 import Underline from "@strapi/icons/Underline"
-import {AiOutlineAlignCenter, AiOutlineAlignLeft, AiOutlineAlignRight, AiOutlineTable} from "react-icons/ai"
-import BulletList from "@strapi/icons/BulletList"
-import NumberList from "@strapi/icons/NumberList"
-import {BsLayoutSplit} from "react-icons/bs"
-import {BsLayoutThreeColumns} from "react-icons/bs"
-import Code from "@strapi/icons/Code"
-import {GrBlockQuote} from "react-icons/gr"
-import Link from "@strapi/icons/Link"
-import Landscape from "@strapi/icons/Landscape"
-import {FaImage} from "react-icons/fa"
-import PaintBrush from "@strapi/icons/PaintBrush"
-import Paint from "@strapi/icons/Paint"
+import React, { useRef, useState } from "react"
 import { IconContext } from "react-icons"
-
-
-// Layout
-import { Box } from '@strapi/design-system/Box';
-import { Flex } from '@strapi/design-system/Flex';
-import { Button } from '@strapi/design-system/Button';
-import { TextInput } from '@strapi/design-system/TextInput';
-import { Textarea } from '@strapi/design-system/Textarea';
-import { Stack } from '@strapi/design-system/Stack';
-import { Dialog, DialogBody, DialogFooter } from '@strapi/design-system/Dialog';
-import { IconButton, IconButtonGroup } from '@strapi/design-system/IconButton';
-import { Select, Option } from '@strapi/design-system/Select';
-import { Popover } from '@strapi/design-system/Popover';
-import { Field, FieldLabel } from '@strapi/design-system/Field';
+import { AiOutlineAlignCenter, AiOutlineAlignLeft, AiOutlineAlignRight, AiOutlineTable } from "react-icons/ai"
+import { BsLayoutSplit, BsLayoutThreeColumns } from "react-icons/bs"
+import { FaImage } from "react-icons/fa"
+import { GrBlockQuote } from "react-icons/gr"
 
 const onHeadingChange = (editor, type) => {
   switch (type) {

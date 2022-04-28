@@ -1,6 +1,5 @@
-import styled from "styled-components";
 import { Box } from "@strapi/design-system/Box";
-
+import styled from "styled-components";
 
 export default styled(Box)`
   ${({ theme }) => {

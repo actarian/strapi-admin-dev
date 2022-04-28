@@ -1,19 +1,19 @@
 {
-  "name": "tiptap-editor",
+  "name": "ws-wysiwyg",
   "version": "0.7.8",
   "description": "A drop-in replacement for the strapi editor",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "strapi": {
-    "name": "tiptap-editor",
-    "displayName": "TipTap Editor",
+    "name": "ws-wysiwyg",
+    "displayName": "Wysiwyg",
     "description": "A drop-in replacement for the strapi editor",
     "kind": "plugin"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dasmikko/tiptap-editor.git"
+    "url": "git+https://github.com/dasmikko/ws-wysiwyg.git"
   },
   "keywords": [
     "strapi",
@@ -23,9 +23,9 @@
   "author": "dasmikko",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dasmikko/tiptap-editor/issues"
+    "url": "https://github.com/dasmikko/ws-wysiwyg/issues"
   },
-  "homepage": "https://github.com/dasmikko/tiptap-editor#readme",
+  "homepage": "https://github.com/dasmikko/ws-wysiwyg#readme",
   "dependencies": {
     "@tiptap/core": "2.0.0-beta.174",
     "@tiptap/extension-gapcursor": "2.0.0-beta.34",

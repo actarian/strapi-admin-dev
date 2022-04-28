@@ -1,22 +1,9 @@
-/*
- *
- * HomePage
- *
- */
-
 import { Box } from '@strapi/design-system/Box'
 import { Button } from '@strapi/design-system/Button'
 import { ContentLayout, HeaderLayout } from '@strapi/design-system/Layout'
-// Fields and UI
 import { Main } from '@strapi/design-system/Main'
 import { Tab, TabGroup, TabPanel, TabPanels, Tabs } from '@strapi/design-system/Tabs'
-import {
-  Form,
-  LoadingIndicatorPage,
-  useNotification,
-  useOverlayBlocker
-} from '@strapi/helper-plugin'
-// Icons
+import { Form, LoadingIndicatorPage, useNotification, useOverlayBlocker } from '@strapi/helper-plugin'
 import Check from '@strapi/icons/Check'
 import { Formik } from 'formik'
 import React, { memo } from 'react'
@@ -25,12 +12,7 @@ import { getSettings, updateSettings } from '../../../../utils/api.js'
 import defaultSettings from '../../../../utils/defaults.js'
 import EmbedsTabContent from './Tabs/Embeds.js'
 import LayoutTabContent from './Tabs/Layout.js'
-// Tab contents
 import TextTabContent from './Tabs/Text.js'
-
-
-
-
 
 const HomePage = (ctx) => {
   const toggleNotification = useNotification()
@@ -44,14 +26,14 @@ const HomePage = (ctx) => {
       await queryClient.invalidateQueries('settings')
       toggleNotification({
         type: 'success',
-        message: { id: 'tiptap-editor-save-success', defaultMessage: 'Saved' }
+        message: { id: 'ws-wysiwyg-save-success', defaultMessage: 'Saved' }
       })
       unlockApp()
     },
     onError: async () => {
       toggleNotification({
         type: 'warning',
-        message: { id: 'tiptap-editor-save-error', defaultMessage: 'Saved failed' }
+        message: { id: 'ws-wysiwyg-save-error', defaultMessage: 'Saved failed' }
       })
       unlockApp()
     }
@@ -61,7 +43,7 @@ const HomePage = (ctx) => {
     return (
       <Main aria-busy="true">
         <HeaderLayout
-          title={ 'TipTap Editor settings' }
+          title={ 'Wysiwyg Settings' }
           subtitle={ 'Change how the editor should behave' }
         />
         <ContentLayout>
@@ -83,7 +65,7 @@ const HomePage = (ctx) => {
           return (
             <Form>
               <HeaderLayout
-                title={ 'TipTap Editor settings' }
+                title={ 'Wysiwyg Settings' }
                 subtitle={ 'Change how the editor should behave' }
                 primaryAction={
                   <Button

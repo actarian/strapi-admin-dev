@@ -1,32 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Stack } from '@strapi/design-system/Stack';
 import { Box } from '@strapi/design-system/Box';
-import { Field, FieldLabel, FieldHint, FieldError, FieldInput, FieldAction } from '@strapi/design-system/Field';
+import { FieldLabel } from '@strapi/design-system/Field';
+import { Stack } from '@strapi/design-system/Stack';
 import { Typography } from '@strapi/design-system/Typography';
-import MediaLib from '../MediaLib/index.js';
-import Editor from '../Editor';
+import { Extension } from '@tiptap/core';
+import { Color as ColorExtension } from '@tiptap/extension-color';
+import ImageExtension from '@tiptap/extension-image';
+import LinkExtension from '@tiptap/extension-link';
+import TableExtension from '@tiptap/extension-table';
+import TableCellExtension from '@tiptap/extension-table-cell';
+import TableHeaderExtension from '@tiptap/extension-table-header';
+import TableRowExtension from '@tiptap/extension-table-row';
+import TextAlignExtension from '@tiptap/extension-text-align';
+import TextStyleExtension from '@tiptap/extension-text-style';
+import UnderlineExtension from '@tiptap/extension-underline';
+import { useEditor } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import {getSettings} from "../../../../utils/api";
-import {defaultSettings} from "../../../../utils/defaults";
 import { useQuery } from 'react-query';
-import Earth from "@strapi/icons/Earth"
-
-// Editor
-import {useEditor} from '@tiptap/react'
-import {Extension, mergeAttributes, wrappingInputRule} from '@tiptap/core'
-import StarterKit from '@tiptap/starter-kit'
-import UnderlineExtension from '@tiptap/extension-underline'
-import LinkExtension from '@tiptap/extension-link'
-import ImageExtension from '@tiptap/extension-image'
-import TextAlignExtension from '@tiptap/extension-text-align'
-import TableExtension from '@tiptap/extension-table'
-import TableRowExtension from '@tiptap/extension-table-row'
-import TableCellExtension from '@tiptap/extension-table-cell'
-import TableHeaderExtension from '@tiptap/extension-table-header'
-import TextStyleExtension from '@tiptap/extension-text-style'
-import { Color as ColorExtension } from '@tiptap/extension-color'
-
+import { getSettings } from "../../../../utils/api";
+import Editor from '../Editor';
 
 const Wysiwyg = ({ name, onChange, value, intlLabel, labelAction, disabled, error, description, required }) => {
   const {data: settings, isLoading} = useQuery('settings', getSettings)

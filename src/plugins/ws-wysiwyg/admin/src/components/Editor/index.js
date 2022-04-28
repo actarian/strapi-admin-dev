@@ -1,51 +1,13 @@
-import React, {useState, Fragment} from 'react';
+import { Box } from '@strapi/design-system/Box';
+import { Flex } from '@strapi/design-system/Flex';
+import { IconButton, IconButtonGroup } from '@strapi/design-system/IconButton';
+import { BubbleMenu, EditorContent } from '@tiptap/react';
 import PropTypes from 'prop-types';
-
-// TipTap Editor
-import {EditorContent, FloatingMenu, BubbleMenu} from '@tiptap/react'
-import {useEditor} from '@tiptap/react'
-import {Extension, mergeAttributes, wrappingInputRule} from '@tiptap/core'
-import StarterKit from '@tiptap/starter-kit'
-import UnderlineExtension from '@tiptap/extension-underline'
-import LinkExtension from '@tiptap/extension-link'
-import ImageExtension from '@tiptap/extension-image'
-import TextAlignExtension from '@tiptap/extension-text-align'
-import TableExtension from '@tiptap/extension-table'
-import TableRowExtension from '@tiptap/extension-table-row'
-import TableCellExtension from '@tiptap/extension-table-cell'
-import TableHeaderExtension from '@tiptap/extension-table-header'
-import TextStyleExtension from '@tiptap/extension-text-style'
-import { Color as ColorExtension } from '@tiptap/extension-color'
-import packageInfo from '../../../../package.json'
-import {Toolbar} from "./Toolbar";
-
-// Media library
+import React, { Fragment, useState } from 'react';
+import { AiOutlineDelete, AiOutlineDeleteColumn, AiOutlineDeleteRow, AiOutlineInsertRowAbove, AiOutlineInsertRowBelow, AiOutlineInsertRowLeft, AiOutlineInsertRowRight, AiOutlineMergeCells, AiOutlineSplitCells } from 'react-icons/ai';
 import MediaLib from "../MediaLib";
-
-// Layout
-import {Box} from '@strapi/design-system/Box';
-import {Flex} from '@strapi/design-system/Flex';
-import {IconButton, IconButtonGroup} from '@strapi/design-system/IconButton';
-
-import Wrapper from './styles.js'
-
-// Icons
-import {
-  AiOutlineTable,
-  AiOutlineInsertRowBelow,
-  AiOutlineInsertRowAbove,
-  AiOutlineInsertRowRight,
-  AiOutlineInsertRowLeft,
-  AiOutlineDeleteColumn,
-  AiOutlineDeleteRow,
-  AiOutlineDelete,
-  AiOutlineMergeCells,
-  AiOutlineSplitCells
-} from 'react-icons/ai';
-
-
-
-
+import Wrapper from './styles.js';
+import { Toolbar } from "./Toolbar";
 
 const TableMenuBar = (editor) => {
   return (
@@ -140,13 +102,10 @@ const BubbleMenuComponent = ({editor, toggleMediaLib}) => {
   return null
 }
 
-
 const Editor = ({onChange, name, value, editor, disabled, settings}) => {
-  // Media library handling
   const [mediaLibVisible, setMediaLibVisible] = useState(false);
   const [forceInsert, setForceInsert] = useState(false);
   const handleToggleMediaLib = () => setMediaLibVisible(prev => !prev);
-
   const handleChangeAssets = assets => {
     if (!forceInsert && editor.isActive('image')) {
       assets.map(asset => {
@@ -161,16 +120,13 @@ const Editor = ({onChange, name, value, editor, disabled, settings}) => {
         }
       });
     }
-
     setForceInsert(false)
     handleToggleMediaLib()
   };
-
   // Wait till we have the settings before showing the editor
   if (!settings) {
     return null
   }
-
   return (
     <Wrapper>
       <Box hasRadius={true} overflow={'hidden'} borderWidth="1px" borderStyle="solid" borderColor="neutral200">
