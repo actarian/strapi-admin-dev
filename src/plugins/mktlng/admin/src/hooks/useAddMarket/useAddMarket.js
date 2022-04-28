@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux';
 import { getTrad } from '../../utils';
 import { ADD_MARKET } from '../constants';
 
-async function addMarket({ code, name, isDefault }, toggleNotification) {
-  const data = await request(`/mktlng/markets`, { method: 'POST', body: { name, code, isDefault } });
+async function addMarket({ code, name, countries, languages, isDefault }, toggleNotification) {
+  const data = await request(`/mktlng/markets`, { method: 'POST', body: { code, name, countries, languages, isDefault } });
   toggleNotification({ type: 'success', message: { id: getTrad('settings.markets.modal.create.success') } });
   return data;
 }

@@ -51,7 +51,7 @@ async function updateMarket(ctx) {
   if (!existingMarket) {
     return ctx.notFound('market.notFound');
   }
-  const allowedParams = ['name'];
+  const allowedParams = ['name', 'countries', 'languages'];
   const cleanUpdates = setCreatorFields({ user, isEdition: true })(pick(allowedParams, updates));
   const updatedMarket = await service.update({ id }, cleanUpdates);
   if (isDefault) {

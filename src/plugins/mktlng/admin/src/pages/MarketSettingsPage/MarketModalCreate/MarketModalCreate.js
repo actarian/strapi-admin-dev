@@ -35,12 +35,8 @@ const MarketModalCreate = ({ onClose }) => {
    * since the all tree (from the root of the page) is destroyed and re-mounted
    * because of the RBAC refreshing and the potential move of the default market
    */
-  const onSubmit = async (values) => {
-    await addMarket({
-      code: values.code,
-      name: values.name,
-      isDefault: values.isDefault,
-    });
+  const onSubmit = async ({ code, name, countries, languages, isDefault }) => {
+    await addMarket({ code, name, countries, languages, isDefault });
     await refetchPermissions();
   };
 

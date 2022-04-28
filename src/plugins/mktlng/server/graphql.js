@@ -249,6 +249,5 @@ module.exports = ({ strapi }) => ({
         },
       });
     };
-
   },
 });

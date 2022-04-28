@@ -20,6 +20,8 @@
   "attributes": {
     "code": {
       "type": "string",
+      "min": 1,
+      "max": 6,
       "unique": true,
       "configurable": false
     },
@@ -27,6 +29,14 @@
       "type": "string",
       "min": 1,
       "max": 50,
+      "configurable": false
+    },
+    "countries": {
+      "type": "json",
+      "configurable": false
+    },
+    "languages": {
+      "type": "json",
       "configurable": false
     }
   }

@@ -29,6 +29,11 @@ const MarketList = ({ canUpdate, canDelete, onToggleCreateModal, isCreating }) =
 
   // Edit actions
   const closeModalToEdit = () => setUpdateItem(undefined);
+  /*
+  const onUpdate = canUpdate ? ({ id, code, name, countries, languages, isDefault }) => {
+    setUpdateItem({ id, code, name, countries: countries || [], languages: languages || [], isDefault });
+  } : undefined;
+  */
   const onUpdate = canUpdate ? setUpdateItem : undefined;
 
   return (

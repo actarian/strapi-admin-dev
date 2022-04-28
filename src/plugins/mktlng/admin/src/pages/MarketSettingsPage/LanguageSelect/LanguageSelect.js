@@ -39,7 +39,7 @@ const LanguageSelect = React.memo(({ value, onChange, onClear, error }) => {
       multi withTags clearLabel={ 'Clear the field' } customizeContent={ (values) => `${values ? values.length : 0} currently selected` }
       disabled={ false }
       error={ error ? formatMessage({ id: getTrad('settings.markets.modal.markets.languages.error'), defaultMessage: 'The market languages field is incomplete.' }) : undefined }
-      value={ value } onChange={ onSelectChange } onClear={ onSelectClear }>
+      value={ value || [] } onChange={ onSelectChange } onClear={ onSelectClear }>
       { options.map(option => (
         <Option key={ option.value } value={ option.value }>{ option.label }</Option>
       )) }

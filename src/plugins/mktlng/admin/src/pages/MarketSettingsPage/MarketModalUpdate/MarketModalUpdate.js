@@ -20,13 +20,13 @@ import { getTrad } from '../../../utils';
 import AdvancedForm from './AdvancedForm';
 import BaseForm from './BaseForm';
 
-const MarketModalUpdate = ({ item, onClose }) => {
+function MarketModalUpdate({ item, onClose }) {
   const { refetchPermissions } = useRBACProvider();
   const { isEditing, editMarket } = useEditMarket();
   const { formatMessage } = useIntl();
 
-  const handleSubmit = async ({ name, isDefault }) => {
-    await editMarket(item.id, { name, isDefault });
+  const handleSubmit = async ({ code, name, countries, languages, isDefault }) => {
+    await editMarket(item.id, { code, name, countries, languages, isDefault });
     await refetchPermissions();
   };
 
@@ -102,8 +102,8 @@ MarketModalUpdate.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     code: PropTypes.string.isRequired,
-    // countries: PropTypes.array.isRequired,
-    // languages: PropTypes.array.isRequired,
+    countries: PropTypes.array,
+    languages: PropTypes.array,
     isDefault: PropTypes.bool.isRequired,
   }),
   onClose: PropTypes.func.isRequired,

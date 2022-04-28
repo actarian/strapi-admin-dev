@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { getTrad } from '../../utils';
 import { UPDATE_MARKET } from '../constants';
 
-async function editMarket(id, payload, toggleNotification) {
+async function updateMarketRequest(id, payload, toggleNotification) {
   try {
     const data = await request(`/mktlng/markets/${id}`, { method: 'PUT', body: payload });
     toggleNotification({ type: 'success', message: { id: getTrad('settings.markets.modal.edit.success') } });
@@ -19,13 +19,13 @@ function useEditMarket() {
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const toggleNotification = useNotification();
-  const modifyMarket = async (id, payload) => {
+  const editMarket = async (id, payload) => {
     setLoading(true);
-    const editedMarket = await editMarket(id, payload, toggleNotification);
+    const editedMarket = await updateMarketRequest(id, payload, toggleNotification);
     dispatch({ type: UPDATE_MARKET, editedMarket });
     setLoading(false);
   };
-  return { isEditing: isLoading, editMarket: modifyMarket };
+  return { isEditing: isLoading, editMarket };
 }
 
 export default useEditMarket;

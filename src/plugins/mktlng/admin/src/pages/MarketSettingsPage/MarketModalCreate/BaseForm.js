@@ -11,6 +11,8 @@ const BaseForm = () => {
   const { formatMessage } = useIntl();
   const { values, handleChange, setFieldValue, errors } = useFormikContext();
 
+  console.log('MarketModalCreate.BaseForm', values);
+
   /**
    * This is needed because the MarketCombobox component is a memoized component
    * since it renders ~500 locales and that formik would trigger a re-render on it without

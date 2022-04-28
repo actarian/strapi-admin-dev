@@ -10,23 +10,25 @@ import LanguageSelect from '../LanguageSelect/LanguageSelect';
 
 const BaseForm = ({ item }) => {
   const { formatMessage } = useIntl();
-  const { values, handleChange, errors } = useFormikContext();
+  const { values, handleChange, setFieldValue, errors } = useFormikContext();
+
+  console.log('MarketModalUpdate.BaseForm', item, values);
 
   const onCountriesChange = useCallback((value) => {
-    handleChange();
-  }, [handleChange]);
+    setFieldValue('countries', value);
+  }, [setFieldValue]);
 
   const onCountriesClear = useCallback((value) => {
-    handleChange();
-  }, [handleChange]);
+    setFieldValue('countries', []);
+  }, [setFieldValue]);
 
   const onLanguagesChange = useCallback((value) => {
-    handleChange();
-  }, [handleChange]);
+    setFieldValue('languages', value);
+  }, [setFieldValue]);
 
   const onLanguagesClear = useCallback((value) => {
-    handleChange();
-  }, [handleChange]);
+    setFieldValue('languages', []);
+  }, [setFieldValue]);
 
   return (
     <Grid gap={ 4 }>
@@ -75,8 +77,8 @@ BaseForm.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     code: PropTypes.string.isRequired,
-    // countries: PropTypes.array.isRequired,
-    // languages: PropTypes.array.isRequired,
+    countries: PropTypes.array,
+    languages: PropTypes.array,
     isDefault: PropTypes.bool.isRequired,
   }).isRequired,
 };
