@@ -1,9 +1,9 @@
-import {request} from '@strapi/helper-plugin';
+import { request } from '@strapi/helper-plugin';
 
-export function getSettings () {
-  return request('/strapi-tiptap-editor/')
+export function getSettings() {
+  return request('/tiptap-editor/')
 }
 
-export function updateSettings (settings) {
-  return request('/strapi-tiptap-editor/update-settings', {method: 'PUT', body: settings })
+export function updateSettings(settings) {
+  return request('/tiptap-editor/update-settings', { method: 'PUT', body: settings })
 }

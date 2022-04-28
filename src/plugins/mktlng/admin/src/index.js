@@ -41,6 +41,35 @@ export default {
       isReady: false,
       name,
     });
+
+    app.createSettingSection(
+      { id: 'mktlng', intlLabel: { id: 'mktlng.plugin.name', defaultMessage: 'Localizations' } }, // Section to create
+      [
+        {
+          intlLabel: { id: getTrad('settings.language.title'), defaultMessage: 'Languages' },
+          id: 'mktlng',
+          to: '/settings/language',
+          Component: async () => {
+            const component = await import(/* webpackChunkName: "mktlng-language-settings-page" */ './pages/LanguageSettingsPage/LanguageSettingsPage');
+            // console.log(component);
+            return component;
+          },
+          permissions: pluginPermissions.accessMain,
+        },
+        {
+          intlLabel: { id: getTrad('settings.market.title'), defaultMessage: 'Markets' },
+          id: 'mktlng',
+          to: '/settings/market',
+          Component: async () => {
+            const component = await import(/* webpackChunkName: "mktlng-market-settings-page" */ './pages/MarketSettingsPage/MarketSettingsPage');
+            // console.log(component);
+            return component;
+          },
+          permissions: pluginPermissions.accessMain,
+        },
+      ]
+    );
+
   },
   bootstrap(app) {
     // # hooks
@@ -55,12 +84,13 @@ export default {
 
     // # settings
     // add the settings language link
+    /*
     app.addSettingsLink('global', {
       intlLabel: { id: getTrad('settings.language.title'), defaultMessage: 'Languages' },
       id: 'mktlng',
       to: '/settings/language',
       Component: async () => {
-        const component = await import(/* webpackChunkName: "mktlng-language-settings-page" */ './pages/LanguageSettingsPage/LanguageSettingsPage');
+        const component = await import(/* webpackChunkName: "mktlng-language-settings-page" / './pages/LanguageSettingsPage/LanguageSettingsPage');
         // console.log(component);
         return component;
       },
@@ -73,12 +103,13 @@ export default {
       id: 'mktlng',
       to: '/settings/market',
       Component: async () => {
-        const component = await import(/* webpackChunkName: "mktlng-market-settings-page" */ './pages/MarketSettingsPage/MarketSettingsPage');
+        const component = await import(/* webpackChunkName: "mktlng-market-settings-page" / './pages/MarketSettingsPage/MarketSettingsPage');
         // console.log(component);
         return component;
       },
       permissions: pluginPermissions.accessMain,
     });
+    */
 
     // # content type builder
     const plugin = app.getPlugin('content-type-builder');

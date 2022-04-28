@@ -1,8 +1,8 @@
 
-# Strapi TipTap Editor
-[![npm](https://img.shields.io/npm/v/strapi-tiptap-editor)](https://www.npmjs.com/package/strapi-tiptap-editor)
-[![NPM](https://img.shields.io/npm/l/strapi-tiptap-editor)](https://www.npmjs.com/package/strapi-tiptap-editor)
-[![GitHub issues](https://img.shields.io/github/issues/dasmikko/strapi-tiptap-editor)](https://github.com/dasmikko/strapi-tiptap-editor/issues)
+# TipTap Editor
+[![npm](https://img.shields.io/npm/v/tiptap-editor)](https://www.npmjs.com/package/tiptap-editor)
+[![NPM](https://img.shields.io/npm/l/tiptap-editor)](https://www.npmjs.com/package/tiptap-editor)
+[![GitHub issues](https://img.shields.io/github/issues/dasmikko/tiptap-editor)](https://github.com/dasmikko/tiptap-editor/issues)
 
 A drop-in replacement for the strapi editor.
 
@@ -27,7 +27,7 @@ Luckily it's very easy to use. Just follow these instructions:
 
 ```
 # Install the dependency
-npm install strapi-tiptap-editor
+npm install tiptap-editor
 
 # Build the Strapi Admin
 npm run build

@@ -7,7 +7,7 @@ const name = pluginPkg.strapi.name;
 const myComponent = async () => {
   const component = await import(
     /* webpackChunkName: "strapi-tiptip-editor-settings-page" */ './pages/App'
-    );
+  );
 
   return component;
 };
@@ -15,13 +15,13 @@ const myComponent = async () => {
 export default {
   register(app) {
     app.createSettingSection(
-      { id: 'strapi-tiptap-editor', intlLabel: { id: 'my-plugin.plugin.name', defaultMessage: 'Strapi TipTap Editor' } }, // Section to create
+      { id: 'tiptap-editor', intlLabel: { id: 'my-plugin.plugin.name', defaultMessage: 'TipTap Editor' } }, // Section to create
       [
         // links
         {
           intlLabel: { id: 'my-plugin.plugin.name', defaultMessage: 'Settings' },
           id: 'Settings',
-          to: '/settings/strapi-tiptap-editor',
+          to: '/settings/tiptap-editor',
           Component: myComponent,
           permissions: [],
         },
@@ -36,5 +36,5 @@ export default {
       name,
     });
   },
-  bootstrap() {},
+  bootstrap() { },
 };

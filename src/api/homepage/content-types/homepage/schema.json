@@ -4,7 +4,8 @@
   "info": {
     "singularName": "homepage",
     "pluralName": "homepages",
-    "displayName": "Homepage"
+    "displayName": "Homepage",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -27,6 +28,9 @@
         "type": "localizedText",
         "forType": "string"
       }
+    },
+    "body": {
+      "type": "richtext"
     },
     "markets": {
       "type": "json",

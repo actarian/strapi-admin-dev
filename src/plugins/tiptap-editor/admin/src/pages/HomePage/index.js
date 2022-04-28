@@ -4,37 +4,37 @@
  *
  */
 
-import React, {memo, Fragment} from 'react'
-import {useQuery, useMutation, useQueryClient} from 'react-query'
-import {getSettings, updateSettings} from '../../../../utils/api.js'
-
+import { Box } from '@strapi/design-system/Box'
+import { Button } from '@strapi/design-system/Button'
+import { ContentLayout, HeaderLayout } from '@strapi/design-system/Layout'
 // Fields and UI
-import {Main} from '@strapi/design-system/Main'
-import {HeaderLayout, ContentLayout} from '@strapi/design-system/Layout'
-import {Button} from '@strapi/design-system/Button'
-import {Box} from '@strapi/design-system/Box'
-import {Tabs, Tab, TabGroup, TabPanels, TabPanel} from '@strapi/design-system/Tabs'
-import {Formik} from 'formik'
+import { Main } from '@strapi/design-system/Main'
+import { Tab, TabGroup, TabPanel, TabPanels, Tabs } from '@strapi/design-system/Tabs'
 import {
   Form,
   LoadingIndicatorPage,
   useNotification,
   useOverlayBlocker
 } from '@strapi/helper-plugin'
-
-import defaultSettings from '../../../../utils/defaults.js'
-
 // Icons
 import Check from '@strapi/icons/Check'
-
+import { Formik } from 'formik'
+import React, { memo } from 'react'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { getSettings, updateSettings } from '../../../../utils/api.js'
+import defaultSettings from '../../../../utils/defaults.js'
+import EmbedsTabContent from './Tabs/Embeds.js'
+import LayoutTabContent from './Tabs/Layout.js'
 // Tab contents
 import TextTabContent from './Tabs/Text.js'
-import LayoutTabContent from './Tabs/Layout.js'
-import EmbedsTabContent from './Tabs/Embeds.js'
+
+
+
+
 
 const HomePage = (ctx) => {
   const toggleNotification = useNotification()
-  const {lockApp, unlockApp} = useOverlayBlocker()
+  const { lockApp, unlockApp } = useOverlayBlocker()
 
   const queryClient = useQueryClient()
   const query = useQuery('settings', getSettings)
@@ -44,14 +44,14 @@ const HomePage = (ctx) => {
       await queryClient.invalidateQueries('settings')
       toggleNotification({
         type: 'success',
-        message: {id: 'strapi-tiptap-editor-save-success', defaultMessage: 'Saved'}
+        message: { id: 'tiptap-editor-save-success', defaultMessage: 'Saved' }
       })
       unlockApp()
     },
     onError: async () => {
       toggleNotification({
         type: 'warning',
-        message: {id: 'strapi-tiptap-editor-save-error', defaultMessage: 'Saved failed'}
+        message: { id: 'tiptap-editor-save-error', defaultMessage: 'Saved failed' }
       })
       unlockApp()
     }
@@ -61,35 +61,35 @@ const HomePage = (ctx) => {
     return (
       <Main aria-busy="true">
         <HeaderLayout
-          title={'Strapi TipTap Editor settings'}
-          subtitle={'Change how the editor should behave'}
+          title={ 'TipTap Editor settings' }
+          subtitle={ 'Change how the editor should behave' }
         />
         <ContentLayout>
-          <LoadingIndicatorPage/>
+          <LoadingIndicatorPage />
         </ContentLayout>
       </Main>
     )
   }
 
   return (
-    <Main aria-busy={query.isLoading}>
+    <Main aria-busy={ query.isLoading }>
       <Formik
-        initialValues={{...defaultSettings, ...query.data}}
-        onSubmit={async (values) => {
+        initialValues={ { ...defaultSettings, ...query.data } }
+        onSubmit={ async (values) => {
           lockApp()
           await mutation.mutateAsync(values)
-        }}>
-        {({errors, values, handleChange, isSubmitting}) => {
+        } }>
+        { ({ errors, values, handleChange, isSubmitting }) => {
           return (
             <Form>
               <HeaderLayout
-                title={'Strapi TipTap Editor settings'}
-                subtitle={'Change how the editor should behave'}
+                title={ 'TipTap Editor settings' }
+                subtitle={ 'Change how the editor should behave' }
                 primaryAction={
                   <Button
-                    isLoading={mutation.isLoading}
+                    isLoading={ mutation.isLoading }
                     type="submit"
-                    startIcon={<Check/>}
+                    startIcon={ <Check /> }
                     size="L"
                   >
                     Save
@@ -101,10 +101,10 @@ const HomePage = (ctx) => {
                   background="neutral0"
                   hasRadius
                   shadow="filterShadow"
-                  paddingTop={6}
-                  paddingBottom={6}
-                  paddingLeft={7}
-                  paddingRight={7}
+                  paddingTop={ 6 }
+                  paddingBottom={ 6 }
+                  paddingLeft={ 7 }
+                  paddingRight={ 7 }
                 >
                   <TabGroup label="Some stuff for the label" id="tabs" variant="simple">
                     <Tabs>
@@ -114,44 +114,44 @@ const HomePage = (ctx) => {
                     </Tabs>
                     <TabPanels>
                       <TabPanel>
-                        <Box color="neutral800" padding={4} background="neutral0">
+                        <Box color="neutral800" padding={ 4 } background="neutral0">
                           <TextTabContent
-                            errors={errors}
-                            values={values}
-                            handleChange={handleChange}
-                            isSubmitting={isSubmitting}
+                            errors={ errors }
+                            values={ values }
+                            handleChange={ handleChange }
+                            isSubmitting={ isSubmitting }
                           />
                         </Box>
                       </TabPanel>
                       <TabPanel>
-                        <Box color="neutral800" padding={4} background="neutral0">
+                        <Box color="neutral800" padding={ 4 } background="neutral0">
                           <LayoutTabContent
-                            errors={errors}
-                            values={values}
-                            handleChange={handleChange}
-                            isSubmitting={isSubmitting}
+                            errors={ errors }
+                            values={ values }
+                            handleChange={ handleChange }
+                            isSubmitting={ isSubmitting }
                           />
                         </Box>
                       </TabPanel>
                       <TabPanel>
-                        {/* Embeds tab content*/}
-                        <Box color="neutral800" padding={4} background="neutral0">
+                        {/* Embeds tab content*/ }
+                        <Box color="neutral800" padding={ 4 } background="neutral0">
                           <EmbedsTabContent
-                            errors={errors}
-                            values={values}
-                            handleChange={handleChange}
-                            isSubmitting={isSubmitting}
+                            errors={ errors }
+                            values={ values }
+                            handleChange={ handleChange }
+                            isSubmitting={ isSubmitting }
                           />
                         </Box>
                       </TabPanel>
                     </TabPanels>
                   </TabGroup>
-                  {/* Main box end*/}
+                  {/* Main box end*/ }
                 </Box>
               </ContentLayout>
             </Form>
           )
-        }}
+        } }
       </Formik>
     </Main>
   )

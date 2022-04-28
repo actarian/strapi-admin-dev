@@ -6,14 +6,14 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "strapi": {
-    "name": "strapi-tiptap-editor",
-    "displayName": "Strapi TipTap Editor",
+    "name": "tiptap-editor",
+    "displayName": "TipTap Editor",
     "description": "A drop-in replacement for the strapi editor",
     "kind": "plugin"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dasmikko/strapi-tiptap-editor.git"
+    "url": "git+https://github.com/dasmikko/tiptap-editor.git"
   },
   "keywords": [
     "strapi",
@@ -23,9 +23,9 @@
   "author": "dasmikko",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dasmikko/strapi-tiptap-editor/issues"
+    "url": "https://github.com/dasmikko/tiptap-editor/issues"
   },
-  "homepage": "https://github.com/dasmikko/strapi-tiptap-editor#readme",
+  "homepage": "https://github.com/dasmikko/tiptap-editor#readme",
   "dependencies": {
     "@tiptap/core": "2.0.0-beta.174",
     "@tiptap/extension-gapcursor": "2.0.0-beta.34",
