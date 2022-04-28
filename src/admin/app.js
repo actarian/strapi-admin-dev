@@ -1,9 +1,9 @@
-import AuthLogo from './extensions/themes/default/auth-logo.png';
-import { colors as darkColors } from './extensions/themes/default/dark/colors';
-// import Favicon from './extensions/themes/default/favicon.ico';
-import Favicon from './extensions/themes/default/favicon-32x32.png';
-import { colors as lightColors } from './extensions/themes/default/light/colors';
-import MenuLogo from './extensions/themes/default/menu-logo.png';
+import AuthLogo from './extensions/themes/ws/auth-logo.png';
+import { colors as darkColors } from './extensions/themes/ws/dark/colors';
+// import Favicon from './extensions/themes/ws/favicon.ico';
+import Favicon from './extensions/themes/ws/favicon-32x32.png';
+import { colors as lightColors } from './extensions/themes/ws/light/colors';
+import MenuLogo from './extensions/themes/ws/menu-logo.png';
 
 export default {
   config: {
