@@ -1,6 +1,7 @@
 const patchSource = require('./patch-source');
 const contentManagerConfigurationAttributes = require('./content-manager-configuration-attributes');
 const contentManagerDisplayableAttributes = require('./content-manager-displayable-attributes');
+const contentManagerEditSettingsView = require('./content-manager-edit-settings-view');
 const contentTypeBuilderDataManagerProvider = require('./content-type-builder-data-manager-provider');
 const contentTypeBuilderFormApi = require('./content-type-builder-form-api');
 const contentTypeBuilderListRow = require('./content-type-builder-list-row');
@@ -11,6 +12,7 @@ const strapiAppConfigurationsThemes = require('./strapi-app-configurations-theme
 const flags = {
   contentManagerConfigurationAttributes: true,
   contentManagerDisplayableAttributes: true,
+  contentManagerEditSettingsView: true,
   contentTypeBuilderDataManagerProvider: true,
   contentTypeBuilderFormApi: true,
   contentTypeBuilderListRow: false,
@@ -21,6 +23,7 @@ const flags = {
 
 patchSource(contentManagerConfigurationAttributes, flags.contentManagerConfigurationAttributes);
 patchSource(contentManagerDisplayableAttributes, flags.contentManagerDisplayableAttributes);
+patchSource(contentManagerEditSettingsView, flags.contentManagerEditSettingsView);
 patchSource(contentTypeBuilderDataManagerProvider, flags.contentTypeBuilderDataManagerProvider);
 patchSource(contentTypeBuilderFormApi, flags.contentTypeBuilderFormApi);
 patchSource(contentTypeBuilderListRow, flags.contentTypeBuilderListRow);

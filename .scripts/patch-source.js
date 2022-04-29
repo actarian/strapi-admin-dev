@@ -45,7 +45,7 @@ function patchSource(item, enable) {
       return customLog('PATCH', item.name, `successfully ${enable ? 'enabled' : 'disabled'}`, source);
       // return console.log(`${chalk.green(`PATCH > ${item.name} successfully ${enable ? 'enabled' : 'disabled'}`)} ${getSourceLink(source, patchedContent, TO)}`);
     } else {
-      return customLog('ERROR', item.name, `unable to patch`, source, patchedContent, TO);
+      return customLog('ERROR', item.name, `unable to patch`, source);
       // return console.log(`${chalk.red(`ERROR > unable to patch ${item.name}`)} ${chalk.green(source)}`);
     }
   }
