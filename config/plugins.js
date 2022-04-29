@@ -4,5 +4,6 @@ module.exports = {
   'mktlng': { enabled: true, resolve: './src/plugins/mktlng' },
   'react-editorjs': { enabled: false, resolve: './src/plugins/react-editorjs' },
   'wysiwyg-tui-editor': { enabled: false, resolve: './src/plugins/wysiwyg-tui-editor' },
+  'ws-seo': { enabled: true, resolve: './src/plugins/ws-seo' },
   'ws-wysiwyg': { enabled: true, resolve: './src/plugins/ws-wysiwyg' },
 };

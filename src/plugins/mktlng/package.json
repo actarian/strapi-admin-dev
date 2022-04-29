@@ -23,7 +23,10 @@
   },
   "dependencies": {
     "@strapi/utils": "4.1.7",
-    "lodash": "4.17.21"
+    "lodash": "4.17.21",
+    "@cospired/i18n-iso-languages": "4.0.0",
+    "i18n-iso-countries": "7.4.0",
+    "i18n-nationality": "1.2.0"
   },
   "engines": {
     "node": ">=12.22.0 <=16.x.x",
