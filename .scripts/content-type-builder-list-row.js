@@ -1,6 +1,6 @@
 
 const contentTypeBuilderListRow = {
-  name: 'contentTypeBuilderListRow',
+  name: 'content-type-builder-list-row',
   source: `/node_modules/@strapi/plugin-content-type-builder/admin/src/components/ListRow/index.js`,
   find: /* javascript */`const ico = ['integer', 'biginteger', 'float', 'decimal'].includes(type) ? 'number' : type;`,
   replace: /* javascript */`const ico = ['integer', 'biginteger', 'float', 'decimal'].includes(type) ? 'number' : type;

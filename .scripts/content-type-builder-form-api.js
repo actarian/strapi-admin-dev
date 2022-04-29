@@ -1,5 +1,5 @@
 const contentTypeBuilderFormApi = {
-  name: 'contentTypeBuilderFormApi',
+  name: 'content-type-builder-form-api',
   source: `/node_modules/@strapi/plugin-content-type-builder/admin/src/utils/formApi.js`,
   find: /* javascript */`contentTypeSchemaMutations: [],
   addContentTypeSchemaMutation(cb) {

@@ -1,5 +1,5 @@
 const editViewHeaderTitle = {
-  name: 'editViewHeaderTitle',
+  name: 'edit-view-header-title',
   source: `/node_modules/@strapi/admin/admin/src/content-manager/pages/EditView/Header/index.js`,
   find: /* javascript */`title = initialData[currentContentTypeMainField] || currentContentTypeName;`,
   replace: /* javascript */`const parseLocale = () => {

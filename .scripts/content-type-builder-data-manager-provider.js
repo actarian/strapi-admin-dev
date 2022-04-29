@@ -1,5 +1,5 @@
 const contentTypeBuilderDataManagerProvider = {
-  name: 'contentTypeBuilderDataManagerProvider',
+  name: 'content-type-builder-data-manager-provider',
   source: `/node_modules/@strapi/plugin-content-type-builder/admin/src/components/DataManagerProvider/index.js`,
   find: /* javascript */`body.component = formatMainDataType(modifiedData.component, true);`,
   replace: /* javascript */`body.component = apis.forms.mutateComponentSchema(
