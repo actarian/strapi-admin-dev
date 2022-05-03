@@ -28,4 +28,16 @@ const createSeoComponent = async () => {
   }
 };
 
-export { fetchSeoComponent, fetchContentTypes, createSeoComponent };
+const updateContentType = async (uid, schema) => {
+  try {
+    const data = await request(`/${pluginId}/update-content-type/${uid}`, {
+      method: 'PUT',
+      body: schema
+    }, true);
+    return data.json();
+  } catch (error) {
+    return null;
+  }
+};
+
+export { fetchSeoComponent, fetchContentTypes, createSeoComponent, updateContentType };

@@ -15,22 +15,21 @@ module.exports = ({ strapi }) => ({
 
   getContentTypes() {
     const contentTypes = strapi.contentTypes;
-    const keys = Object.keys(contentTypes);
     let collectionTypes = [];
     let singleTypes = [];
-    keys.forEach((name) => {
-      const hasPageSeoComponent = _.get(contentTypes[name], 'attributes.meta.component', null);
-      if (name.includes('api::')) {
-        const object = {
+    Object.keys(contentTypes).forEach((key) => {
+      const contentType = contentTypes[key];
+      const hasPageSeoComponent = contentType.attributes && contentType.attributes.meta && contentType.attributes.meta.component;
+      if (key.includes('api::')) {
+        const type = {
           meta: hasPageSeoComponent ? true : false,
-          uid: contentTypes[name].uid,
-          kind: contentTypes[name].kind,
-          globalId: contentTypes[name].globalId,
-          attributes: contentTypes[name].attributes,
+          uid: contentType.uid,
+          kind: contentType.kind,
+          globalId: contentType.globalId,
+          attributes: contentType.attributes,
+          contentType,
         };
-        contentTypes[name].kind === 'collectionType'
-          ? collectionTypes.push(object)
-          : singleTypes.push(object);
+        contentType.kind === 'collectionType' ? collectionTypes.push(type) : singleTypes.push(type);
       }
     });
     return { collectionTypes, singleTypes } || null;

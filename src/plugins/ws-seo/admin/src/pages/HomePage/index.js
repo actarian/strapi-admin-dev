@@ -48,21 +48,16 @@ const HomePage = () => {
   return (
     <>
       <Header metaComponent={ metaComponent.current } />
-      <Box paddingLeft={ 8 } paddingRigth={ 8 }>
-        <ContentBox
-          title={ formatMessage({
-            id: 'Information',
-            defaultMessage: 'Information',
-          }) }
-          subtitle={ formatMessage({
-            id: getTrad('page.info.information'),
-            defaultMessage:
-              "When adding your Meta component, make sure to name it 'meta' and to include it in the root of your Content-Type.",
-          }) }
-          icon={ <InformationSquare /> }
-          iconBackground="primary100"
-        />
-      </Box>
+      { false &&
+        <Box paddingLeft={ 8 } paddingRigth={ 8 }>
+          <ContentBox
+            title={ formatMessage({ id: 'Information', defaultMessage: 'Information' }) }
+            subtitle={ formatMessage({ id: getTrad('page.info.information'), defaultMessage: "When adding your Meta component, make sure to name it 'meta' and to include it in the root of your Content-Type." }) }
+            icon={ <InformationSquare /> }
+            iconBackground="primary100"
+          />
+        </Box>
+      }
       <Info contentTypes={ contentTypes.current } />
     </>
   );

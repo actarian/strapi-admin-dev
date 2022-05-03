@@ -4,6 +4,7 @@ const contentManagerConfigurationAttributes = require('./content-manager-configu
 const contentManagerDisplayableAttributes = require('./content-manager-displayable-attributes');
 const contentManagerEditSettingsView = require('./content-manager-edit-settings-view');
 const contentTypeBuilderDataManagerProvider = require('./content-type-builder-data-manager-provider');
+const contentTypeBuilderDataManagerProvider2 = require('./content-type-builder-data-manager-provider-2');
 const contentTypeBuilderFormApi = require('./content-type-builder-form-api');
 const contentTypeBuilderListRow = require('./content-type-builder-list-row');
 const customFieldRenderer = require('./custom-field-renderer');
@@ -17,6 +18,7 @@ const flags = {
   contentManagerDisplayableAttributes: true,
   contentManagerEditSettingsView: true,
   contentTypeBuilderDataManagerProvider: true,
+  contentTypeBuilderDataManagerProvider2: true,
   contentTypeBuilderFormApi: true,
   contentTypeBuilderListRow: false,
   customFieldRenderer: true,
@@ -30,6 +32,7 @@ patchSource(contentManagerConfigurationAttributes, flags.contentManagerConfigura
 patchSource(contentManagerDisplayableAttributes, flags.contentManagerDisplayableAttributes);
 patchSource(contentManagerEditSettingsView, flags.contentManagerEditSettingsView);
 patchSource(contentTypeBuilderDataManagerProvider, flags.contentTypeBuilderDataManagerProvider);
+patchSource(contentTypeBuilderDataManagerProvider2, flags.contentTypeBuilderDataManagerProvider2);
 patchSource(contentTypeBuilderFormApi, flags.contentTypeBuilderFormApi);
 patchSource(contentTypeBuilderListRow, flags.contentTypeBuilderListRow);
 patchSource(customFieldRenderer, flags.customFieldRenderer);

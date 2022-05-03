@@ -26,4 +26,25 @@ module.exports = [
       policies: [],
     },
   },
+
+  {
+    method: 'GET',
+    path: '/pages',
+    handler: 'page.getPages',
+    config: {
+      auth: false,
+      policies: [],
+    },
+  },
+
+  {
+    method: 'POST',
+    path: '/update-content-type/:uid',
+    handler: 'page.updateContentType',
+    config: {
+      auth: false,
+      policies: [],
+    },
+  },
+
 ];
