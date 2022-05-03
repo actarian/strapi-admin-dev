@@ -1,16 +1,16 @@
-import React, { useContext, useEffect } from 'react';
-
-import _ from 'lodash';
-
-import { useIntl } from 'react-intl';
-import { getTrad } from '../../../../../../utils';
-
 import { Box } from '@strapi/design-system/Box';
 import { Typography } from '@strapi/design-system/Typography';
-
+import _ from 'lodash';
+import React, { useContext, useEffect } from 'react';
+import { useIntl } from 'react-intl';
+import { getTrad } from '../../../../../../utils';
+import { SeoCheckerContext } from '../../../Summary';
 import SEOAccordion from '../SEOAccordion';
 
-import { SeoCheckerContext } from '../../../Summary';
+
+
+
+
 
 const WordCountCheck = ({ wordCount, checks }) => {
   const { formatMessage } = useIntl();
@@ -18,7 +18,7 @@ const WordCountCheck = ({ wordCount, checks }) => {
 
   let status = {
     message: formatMessage({
-      id: getTrad('SEOChecks.wordCountCheck.default'),
+      id: getTrad('checks.wordCountCheck.default'),
       defaultMessage:
         'You have more than 300 words. The word counter is not a direct ranking factor. But your content should be as high quality as possible, with relevant and unique information. To meet these conditions, your content requires a minimum of paragraphs, and therefore of words.',
     }),
@@ -29,7 +29,7 @@ const WordCountCheck = ({ wordCount, checks }) => {
     if (_.isNull(wordCount)) {
       status = {
         message: formatMessage({
-          id: getTrad('SEOChecks.wordCountCheck.not-found'),
+          id: getTrad('checks.wordCountCheck.not-found'),
           defaultMessage: 'No Richtext content have been found.',
         }),
         color: 'danger',
@@ -38,7 +38,7 @@ const WordCountCheck = ({ wordCount, checks }) => {
     } else if (wordCount < 300) {
       status = {
         message: formatMessage({
-          id: getTrad('SEOChecks.wordCountCheck.300'),
+          id: getTrad('checks.wordCountCheck.300'),
           defaultMessage:
             'Your 1st level Richtext contents have less than 300 words.',
         }),
@@ -57,7 +57,7 @@ const WordCountCheck = ({ wordCount, checks }) => {
       title="Word Counter"
       status={checks.wordCount}
       label={formatMessage({
-        id: getTrad('SEOChecks.wordCountCheck.label'),
+        id: getTrad('checks.wordCountCheck.label'),
         defaultMessage:
           'Your content should be as high quality as possible, with relevant and unique information. You entry requires a minimum of paragraphs, and therefore of words.',
       })}
@@ -66,7 +66,7 @@ const WordCountCheck = ({ wordCount, checks }) => {
           <Box padding={2}>
             <Typography variant="omega">
               {formatMessage({
-                id: getTrad('SEOChecks.wordCountCheck.words'),
+                id: getTrad('checks.wordCountCheck.words'),
                 defaultMessage: 'Words:',
               })}{' '}
               {wordCount}

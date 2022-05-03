@@ -15,7 +15,7 @@ const TabContent = ({ item, keywords }) => {
         <Box paddingTop={ 6 } paddingBottom={ 6 }>
           { item.image && (
             <Flex alignItems="center" justifyContent="center">
-              { item.socialNetwork === 'Facebook' ? (
+              { item.type === 'Facebook' ? (
                 <FacebookPreview title={ item.title } description={ item.description } image={ item.image } />
               ) : (
                 <TwitterPreview title={ item.title } description={ item.description } image={ item.image } />
@@ -24,7 +24,7 @@ const TabContent = ({ item, keywords }) => {
           ) }
         </Box>
         <MetaChecks item={ item.title } max={ 60 } label="title" />
-        <MetaChecks item={ item.description } max={ item.socialNetwork === 'Facebook' ? 65 : 125 } label="description" />
+        <MetaChecks item={ item.description } max={ item.type === 'Facebook' ? 65 : 125 } label="description" />
         { keywords && (
           <>
             { item.title && (

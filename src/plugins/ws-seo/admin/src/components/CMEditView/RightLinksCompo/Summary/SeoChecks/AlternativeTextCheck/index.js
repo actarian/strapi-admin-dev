@@ -1,20 +1,20 @@
-import React, { useEffect, useContext } from 'react';
-
-import _ from 'lodash';
-
 import { Box } from '@strapi/design-system/Box';
 import { Icon } from '@strapi/design-system/Icon';
 import { Stack } from '@strapi/design-system/Stack';
 import { Typography } from '@strapi/design-system/Typography';
-
+import Dot from '@strapi/icons/Dot';
+import _ from 'lodash';
+import React, { useContext, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { getTrad } from '../../../../../../utils';
-
-import Dot from '@strapi/icons/Dot';
-
+import { SeoCheckerContext } from '../../../Summary';
 import SEOAccordion from '../SEOAccordion';
 
-import { SeoCheckerContext } from '../../../Summary';
+
+
+
+
+
 
 const AlternativeTextCheck = ({
   intersections,
@@ -27,7 +27,7 @@ const AlternativeTextCheck = ({
 
   let status = {
     message: formatMessage({
-      id: getTrad('SEOChecks.alternativeTextCheck.default'),
+      id: getTrad('checks.alternativeTextCheck.default'),
       defaultMessage: 'All your images contain an alt attribute! Congrats!',
     }),
     color: 'success',
@@ -41,7 +41,7 @@ const AlternativeTextCheck = ({
     if (intersections === 0) {
       status = {
         message: formatMessage({
-          id: getTrad('SEOChecks.alternativeTextCheck.intersection-zero'),
+          id: getTrad('checks.alternativeTextCheck.intersection-zero'),
           defaultMessage:
             'The name and the alternative text of your images are all the same. Strapi automatically generate the alt attribute from the name by default if the field was empty during the media upload. Having alt attribute clearly describing images is a very good practice.',
         }),
@@ -51,7 +51,7 @@ const AlternativeTextCheck = ({
       const count = altTexts.filter((x) => x === '').length;
       status = {
         message: `${count} ${formatMessage({
-          id: getTrad('SEOChecks.alternativeTextCheck.intersection-negative'),
+          id: getTrad('checks.alternativeTextCheck.intersection-negative'),
           defaultMessage:
             'Some images from a media field are missing an alt attribute.',
         })}`,
@@ -60,7 +60,7 @@ const AlternativeTextCheck = ({
     } else if (missingRichTextAlt >= 1) {
       status = {
         message: formatMessage({
-          id: getTrad('SEOChecks.alternativeTextCheck.richtext-missing-one'),
+          id: getTrad('checks.alternativeTextCheck.richtext-missing-one'),
           defaultMessage:
             'At least one image in any 1st level richtext editor is missing an alt attribute.',
         }),
@@ -79,7 +79,7 @@ const AlternativeTextCheck = ({
       title="Alt"
       status={checks.alternativeText}
       label={formatMessage({
-        id: getTrad('SEOChecks.alternativeTextCheck.label'),
+        id: getTrad('checks.alternativeTextCheck.label'),
         defaultMessage:
           'This will check if you have any missing alternative text for your images (media fields) and in your 1st level richtext editors.',
       })}
@@ -108,7 +108,7 @@ const AlternativeTextCheck = ({
               <Typography>
                 {alt.occurences}{' '}
                 {formatMessage({
-                  id: getTrad('SEOChecks.alternativeTextCheck.missing-text'),
+                  id: getTrad('checks.alternativeTextCheck.missing-text'),
                   defaultMessage:
                     'missing alt in the following richtext field:',
                 })}{' '}

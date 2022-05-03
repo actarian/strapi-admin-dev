@@ -15,9 +15,9 @@ import TabContent from './TabContent';
 
 const SocialPreview = ({ modifiedData, setIsVisible }) => {
   const { formatMessage } = useIntl();
-  const seo = _.get(modifiedData, 'seo', null);
-  const metaSocial = _.get(seo, 'metaSocial', []);
-  const keywords = _.get(seo, 'keywords', null);
+  const meta = _.get(modifiedData, 'meta', null);
+  const metaSocial = _.get(meta, 'metaSocial', []);
+  const keywords = _.get(meta, 'keywords', null);
 
   return (
     <ModalLayout labelledBy="title" onClose={ () => setIsVisible((prev) => !prev) }>
@@ -29,24 +29,24 @@ const SocialPreview = ({ modifiedData, setIsVisible }) => {
       <ModalBody>
         <Box paddingTop={ 2 } paddingBottom={ 4 } paddingLeft={ 4 }>
           <Typography variant="beta">
-            { formatMessage({ id: getTrad('Button.social-preview'), defaultMessage: 'Social Preview' }) }
+            { formatMessage({ id: getTrad('button.socialPreview'), defaultMessage: 'Social Preview' }) }
           </Typography>
           <Box paddingTop={ 4 }>
             <Divider />
           </Box>
         </Box>
-        { seo ? (
+        { meta ? (
           <Box padding={ 4 }>
             <TabGroup label="Some stuff for the label" id="tabs" variant="simple">
               <Tabs>
                 { metaSocial && metaSocial.map((item, index) => {
-                  if (item.socialNetwork)
-                    return <Tab key={ index }>{ item.socialNetwork }</Tab>;
+                  if (item.type)
+                    return <Tab key={ index }>{ item.type }</Tab>;
                 }) }
               </Tabs>
               <TabPanels>
                 { metaSocial && metaSocial.map((item, index) => {
-                  if (item.socialNetwork && item.title && item.description && item.image) {
+                  if (item.type && item.title && item.description && item.image) {
                     return (
                       <TabContent key={ index } item={ item } keywords={ keywords } />
                     );
@@ -54,7 +54,7 @@ const SocialPreview = ({ modifiedData, setIsVisible }) => {
                     return (
                       <Box paddingTop={ 4 } key={ index }>
                         <Alert closeLabel="Close alert" title="Notice">
-                          { formatMessage({ id: getTrad('Social-preview.alert'), defaultMessage: 'Complete you social component to see the preview' }) }
+                          { formatMessage({ id: getTrad('socialPreview.alert'), defaultMessage: 'Complete you social component to see the preview' }) }
                         </Alert>
                       </Box>
                     );
@@ -65,14 +65,14 @@ const SocialPreview = ({ modifiedData, setIsVisible }) => {
           </Box>
         ) : (
           <Box paddingLeft={ 4 }>
-            <EmptyStateLayout icon={ <Illo /> } content={ formatMessage({ id: getTrad('Modal.seo-component-empy'), defaultMessage: 'Your SEO component is empty...' }) }
+            <EmptyStateLayout icon={ <Illo /> } content={ formatMessage({ id: getTrad('modal.metaComponentEmpty'), defaultMessage: 'Your Meta component is empty...' }) }
             />
           </Box>
         ) }
       </ModalBody>
       <ModalFooter startActions={
         <Button variant="tertiary" onClick={ () => setIsVisible((prev) => !prev) }>
-          { formatMessage({ id: getTrad('Modal.cancel'), defaultMessage: 'Cancel' }) }
+          { formatMessage({ id: getTrad('modal.cancel'), defaultMessage: 'Cancel' }) }
         </Button>
       } />
     </ModalLayout>

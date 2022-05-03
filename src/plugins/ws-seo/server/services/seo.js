@@ -3,24 +3,26 @@
 const _ = require('lodash');
 const fetch = require('node-fetch');
 
-const seoContent = require('../components/seo.json');
+const metaContent = require('../components/meta.json');
 const metaSocialContent = require('../components/meta-social.json');
 
 module.exports = ({ strapi }) => ({
-  getSeoComponent() {
-    const seoComponent = strapi.components['shared.seo'];
-    return seoComponent ? { attributes: seoComponent.attributes, category: seoComponent.category } : null;
+
+  getMetaComponent() {
+    const metaComponent = strapi.components['page.meta'];
+    return metaComponent ? { attributes: metaComponent.attributes, category: metaComponent.category } : null;
   },
+
   getContentTypes() {
     const contentTypes = strapi.contentTypes;
     const keys = Object.keys(contentTypes);
     let collectionTypes = [];
     let singleTypes = [];
     keys.forEach((name) => {
-      const hasSharedSeoComponent = _.get(contentTypes[name], 'attributes.seo.component', null);
+      const hasPageSeoComponent = _.get(contentTypes[name], 'attributes.meta.component', null);
       if (name.includes('api::')) {
         const object = {
-          seo: hasSharedSeoComponent ? true : false,
+          meta: hasPageSeoComponent ? true : false,
           uid: contentTypes[name].uid,
           kind: contentTypes[name].kind,
           globalId: contentTypes[name].globalId,
@@ -35,20 +37,20 @@ module.exports = ({ strapi }) => ({
   },
 
   async createSeoComponent() {
-    const seoComponent = await this.getSeoComponent();
-    if (!seoComponent) {
-      if (metaSocialContent && seoContent) {
+    const metaComponent = await this.getMetaComponent();
+    if (!metaComponent) {
+      if (metaSocialContent && metaContent) {
         try {
           const res = await strapi.plugin('content-type-builder').services.components.createComponent({
             component: {
-              category: 'shared',
-              displayName: seoContent.info.displayName,
-              icon: seoContent.info.icon,
-              attributes: seoContent.attributes,
+              category: 'page',
+              displayName: metaContent.info.displayName,
+              icon: metaContent.info.icon,
+              attributes: metaContent.attributes,
             },
             components: [{
-              tmpUID: 'shared.meta-social',
-              category: 'shared',
+              tmpUID: 'page.meta-social',
+              category: 'page',
               displayName: metaSocialContent.info.displayName,
               icon: metaSocialContent.info.icon,
               attributes: metaSocialContent.attributes,

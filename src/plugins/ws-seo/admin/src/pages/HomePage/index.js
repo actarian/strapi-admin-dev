@@ -19,14 +19,14 @@ const HomePage = () => {
   const { lockAppWithAutoreload, unlockAppWithAutoreload } = useAutoReloadOverlayBlocker();
   const [isLoading, setIsLoading] = useState(true);
   const [shouldEffect, setShouldEffect] = useState(false);
-  const seoComponent = useRef({});
+  const metaComponent = useRef({});
   const contentTypes = useRef({});
 
-  // Fetching the SEO component & Content-Types
+  // Fetching the Meta component & Content-Types
   useEffect(async () => {
-    seoComponent.current = await fetchSeoComponent();
+    metaComponent.current = await fetchSeoComponent();
     contentTypes.current = await fetchContentTypes();
-    if (!seoComponent.current) {
+    if (!metaComponent.current) {
       try {
         lockAppWithAutoreload();
         await createSeoComponent();
@@ -47,7 +47,7 @@ const HomePage = () => {
 
   return (
     <>
-      <Header seoComponent={ seoComponent.current } />
+      <Header metaComponent={ metaComponent.current } />
       <Box paddingLeft={ 8 } paddingRigth={ 8 }>
         <ContentBox
           title={ formatMessage({
@@ -55,9 +55,9 @@ const HomePage = () => {
             defaultMessage: 'Information',
           }) }
           subtitle={ formatMessage({
-            id: getTrad('SEOPage.info.information'),
+            id: getTrad('page.info.information'),
             defaultMessage:
-              "When adding your SEO component, make sure to name it 'seo' and to include it in the root of your Content-Type.",
+              "When adding your Meta component, make sure to name it 'meta' and to include it in the root of your Content-Type.",
           }) }
           icon={ <InformationSquare /> }
           iconBackground="primary100"

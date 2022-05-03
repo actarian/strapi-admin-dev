@@ -1,37 +1,34 @@
-import React from 'react';
-
-import {
-  ModalLayout,
-  ModalBody,
-  ModalHeader,
-  ModalFooter,
-} from '@strapi/design-system/ModalLayout';
-
 import { Box } from '@strapi/design-system/Box';
 import { Button } from '@strapi/design-system/Button';
 import { Divider } from '@strapi/design-system/Divider';
-import { Typography } from '@strapi/design-system/Typography';
 import { EmptyStateLayout } from '@strapi/design-system/EmptyStateLayout';
-
-import { Illo } from '../../../../SeoPage/Info/EmptyComponentLayout/illo';
-
-import MetaRobotCheck from './MetaRobotCheck';
-import WordCountCheck from './WordCountCheck';
-import MetaTitleCheck from './MetaTitleCheck';
-import MetaSocialCheck from './MetaSocialCheck';
-import CanonicalUrlCheck from './CanonicalUrlCheck';
-import LastUpdatedAtCheck from './LastUpdatedAtCheck';
-import KeywordDensityCheck from './KeywordDensityCheck';
-import StructuredDataCheck from './StructuredDataCheck';
-import MetaDescriptionCheck from './MetaDescriptionCheck';
-import AlternativeTextCheck from './AlternativeTextCheck';
-
-import { getRichTextCheck } from '../../../utils';
-
+import {
+    ModalBody, ModalFooter, ModalHeader, ModalLayout
+} from '@strapi/design-system/ModalLayout';
+import { Typography } from '@strapi/design-system/Typography';
+import _ from 'lodash';
+import React from 'react';
 import { useIntl } from 'react-intl';
 import { getTrad } from '../../../../../utils';
+import { Illo } from '../../../../SeoPage/Info/EmptyComponentLayout/illo';
+import { getRichTextCheck } from '../../../utils';
+import AlternativeTextCheck from './AlternativeTextCheck';
+import CanonicalUrlCheck from './CanonicalUrlCheck';
+import KeywordDensityCheck from './KeywordDensityCheck';
+import LastUpdatedAtCheck from './LastUpdatedAtCheck';
+import MetaDescriptionCheck from './MetaDescriptionCheck';
+import MetaRobotCheck from './MetaRobotCheck';
+import MetaSocialCheck from './MetaSocialCheck';
+import MetaTitleCheck from './MetaTitleCheck';
+import StructuredDataCheck from './StructuredDataCheck';
+import WordCountCheck from './WordCountCheck';
 
-import _ from 'lodash';
+
+
+
+
+
+
 
 const SeoChecks = ({
   modifiedData,
@@ -48,7 +45,7 @@ const SeoChecks = ({
     contentType
   );
 
-  const seo = _.get(modifiedData, 'seo', null);
+  const meta = _.get(modifiedData, 'meta', null);
 
   return (
     <ModalLayout
@@ -64,7 +61,7 @@ const SeoChecks = ({
         <Box paddingTop={2} paddingBottom={4} paddingLeft={4}>
           <Typography variant="beta">
             {formatMessage({
-              id: getTrad('Button.seo-analyze'),
+              id: getTrad('button.metaAnalyze'),
               defaultMessage: 'SEO Analyze',
             })}
           </Typography>
@@ -73,14 +70,14 @@ const SeoChecks = ({
           </Box>
         </Box>
 
-        {seo ? (
+        {meta ? (
           <Box padding={4}>
             <MetaTitleCheck
-              metaTitle={_.get(modifiedData, 'seo.metaTitle', null)}
+              title={_.get(modifiedData, 'meta.title', null)}
               checks={checks}
             />
             <MetaDescriptionCheck
-              metaDescription={_.get(modifiedData, 'seo.metaDescription', null)}
+              description={_.get(modifiedData, 'meta.description', null)}
               checks={checks}
             />
             <WordCountCheck wordCount={wordCount} checks={checks} />
@@ -89,19 +86,19 @@ const SeoChecks = ({
               checks={checks}
             />
             <MetaSocialCheck
-              metaSocial={_.get(modifiedData, 'seo.metaSocial', null)}
+              metaSocial={_.get(modifiedData, 'meta.metaSocial', null)}
               checks={checks}
             />
             <CanonicalUrlCheck
-              canonicalUrl={_.get(modifiedData, 'seo.canonicalURL', null)}
+              canonicalUrl={_.get(modifiedData, 'meta.canonicalURL', null)}
               checks={checks}
             />
             <StructuredDataCheck
-              structuredData={_.get(modifiedData, 'seo.structuredData', null)}
+              structuredData={_.get(modifiedData, 'meta.structuredData', null)}
               checks={checks}
             />
             <MetaRobotCheck
-              metaRobots={_.get(modifiedData, 'seo.metaRobots', null)}
+              robots={_.get(modifiedData, 'meta.robots', null)}
               checks={checks}
             />
             <AlternativeTextCheck
@@ -120,8 +117,8 @@ const SeoChecks = ({
             <EmptyStateLayout
               icon={<Illo />}
               content={formatMessage({
-                id: getTrad('Modal.seo-component-empy'),
-                defaultMessage: 'Your SEO component is empty...',
+                id: getTrad('modal.metaComponentEmpty'),
+                defaultMessage: 'Your Meta component is empty...',
               })}
             />
           </Box>
@@ -134,7 +131,7 @@ const SeoChecks = ({
             variant="tertiary"
           >
             {formatMessage({
-              id: getTrad('Modal.cancel'),
+              id: getTrad('modal.cancel'),
               defaultMessage: 'Cancel',
             })}
           </Button>

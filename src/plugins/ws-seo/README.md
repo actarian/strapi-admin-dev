@@ -4,7 +4,7 @@ The official plugin to make your Strapi content SEO friendly
 
 ## Features
 
-- Possibility to import the default Strapi `shared.seo` & `shared.meta-social` components from our components [GitHub repository](https://github.com/strapi/components) in one click.
+- Possibility to import the default Strapi `page.meta` & `page.meta-social` components from our components [GitHub repository](https://github.com/strapi/components) in one click.
 - Easily see which Content-Types does have the SEO component.
 - Manage the meta title & meta description and preview your content in the SERP
 - Manage your meta social tags (Facebook & Twitter) and preview your post.
@@ -48,10 +48,10 @@ npm run build
 
 ## SEO settings page
 
-You'll be able from the SEO settings page to import a `shared.seo` & `shared.meta-social` components from any GitHub repository By default, our [components GitHub repository](https://github.com/strapi/components) is being used.
+You'll be able from the SEO settings page to import a `page.meta` & `page.meta-social` components from any GitHub repository By default, our [components GitHub repository](https://github.com/strapi/components) is being used.
 
-**Notice**: If you decide to import your own components, make sure that they belong to a `shared` category that their names is the same (`seo`, `meta-social`).
-**Notice2**: When adding your SEO component, make sure to name it 'seo' and to include it in the root of your Content-Type.
+**Notice**: If you decide to import your own components, make sure that they belong to a `page` category that their names is the same (`meta`, `meta-social`).
+**Notice2**: When adding your SEO component, make sure to name it 'meta' and to include it in the root of your Content-Type.
 
 ## EditView SEO button
 

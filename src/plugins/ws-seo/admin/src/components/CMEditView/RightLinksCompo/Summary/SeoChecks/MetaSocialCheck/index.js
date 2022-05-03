@@ -1,17 +1,17 @@
-import React, { useContext, useEffect } from 'react';
-
+import { Badge } from '@strapi/design-system/Badge';
+import { Box } from '@strapi/design-system/Box';
+import { Flex } from '@strapi/design-system/Flex';
 import _ from 'lodash';
-
+import React, { useContext, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { getTrad } from '../../../../../../utils';
-
-import { Box } from '@strapi/design-system/Box';
-import { Badge } from '@strapi/design-system/Badge';
-import { Flex } from '@strapi/design-system/Flex';
-
+import { SeoCheckerContext } from '../../../Summary';
 import SEOAccordion from '../SEOAccordion';
 
-import { SeoCheckerContext } from '../../../Summary';
+
+
+
+
 
 const MetaSocialCheck = ({ metaSocial, checks }) => {
   const { formatMessage } = useIntl();
@@ -26,7 +26,7 @@ const MetaSocialCheck = ({ metaSocial, checks }) => {
     if (_.isNull(metaSocial) || metaSocial === undefined) {
       status = {
         message: formatMessage({
-          id: getTrad('SEOChecks.metaSocialCheck.not-found'),
+          id: getTrad('checks.metaSocialCheck.not-found'),
           defaultMessage: 'No Meta Social tags have been found.',
         }),
         color: 'danger',
@@ -36,7 +36,7 @@ const MetaSocialCheck = ({ metaSocial, checks }) => {
       if (count === 0) {
         status = {
           message: formatMessage({
-            id: getTrad('SEOChecks.metaSocialCheck.not-found'),
+            id: getTrad('checks.metaSocialCheck.not-found'),
             defaultMessage: 'No Meta Social tags have been found.',
           }),
           color: 'danger',
@@ -44,7 +44,7 @@ const MetaSocialCheck = ({ metaSocial, checks }) => {
       } else if (count == 1) {
         status = {
           message: formatMessage({
-            id: getTrad('SEOChecks.metaSocialCheck.one'),
+            id: getTrad('checks.metaSocialCheck.one'),
             defaultMessage: 'Only one Meta Social tag is being used.',
           }),
           color: 'warning',
@@ -52,7 +52,7 @@ const MetaSocialCheck = ({ metaSocial, checks }) => {
       } else {
         status = {
           message: `${count} ${formatMessage({
-            id: getTrad('SEOChecks.metaSocialCheck.configured'),
+            id: getTrad('checks.metaSocialCheck.configured'),
             defaultMessage: ' Meta Social tags are configured',
           })}`,
           color: 'success',
@@ -72,7 +72,7 @@ const MetaSocialCheck = ({ metaSocial, checks }) => {
       title="Meta Social Tags"
       status={checks.metaSocial}
       label={formatMessage({
-        id: getTrad('SEOChecks.metaSocialCheck.label'),
+        id: getTrad('checks.metaSocialCheck.label'),
         defaultMessage:
           'Meta social tags allow you to manage the title, description & image of your posts.',
       })}
@@ -83,7 +83,7 @@ const MetaSocialCheck = ({ metaSocial, checks }) => {
             <Flex>
               {metaSocial.map((tag, index) => (
                 <Box padding={1} key={index}>
-                  <Badge>{tag.socialNetwork}</Badge>
+                  <Badge>{tag.type}</Badge>
                 </Box>
               ))}
             </Flex>

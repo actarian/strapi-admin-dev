@@ -51,13 +51,13 @@ const Info = ({ contentTypes }) => {
                         </Td>
                         <Td>
                           <Flex justifyContent="right" alignItems="right">
-                            { item.seo ? (
+                            { item.meta ? (
                               <LinkButton disabled startIcon={ <Check /> }>
-                                { formatMessage({ id: getTrad('SEOPage.info.added'), defaultMessage: 'Added' }) }
+                                { formatMessage({ id: getTrad('page.info.added'), defaultMessage: 'Added' }) }
                               </LinkButton>
                             ) : (
                               <LinkButton to={ `/plugins/content-type-builder/content-types/${item.uid}` } variant="secondary" startIcon={ <Plus /> }>
-                                { formatMessage({ id: getTrad('SEOPage.info.add'), defaultMessage: 'Add component' }) }
+                                { formatMessage({ id: getTrad('page.info.add'), defaultMessage: 'Add component' }) }
                               </LinkButton>
                             ) }
                           </Flex>
@@ -68,10 +68,10 @@ const Info = ({ contentTypes }) => {
                     <Box padding={ 8 } background="neutral0">
                       <EmptyStateLayout
                         icon={ <Illo /> }
-                        content={ formatMessage({ id: getTrad('SEOPage.info.no-collection-types'), defaultMessage: "You don't have any collection-types yet..." }) }
+                        content={ formatMessage({ id: getTrad('page.info.noCollectionTypes'), defaultMessage: "You don't have any collection-types yet..." }) }
                         action={
                           <LinkButton to="/plugins/content-type-builder" variant="secondary" startIcon={ <Plus /> }>
-                            { formatMessage({ id: getTrad('SEOPage.info.create-collection-type'), defaultMessage: 'Create your first collection-type' }) }
+                            { formatMessage({ id: getTrad('page.info.create-collection-type'), defaultMessage: 'Create your first collection-type' }) }
                           </LinkButton>
                         }
                       />
@@ -104,13 +104,13 @@ const Info = ({ contentTypes }) => {
                         </Td>
                         <Td>
                           <Flex justifyContent="right" alignItems="right">
-                            { item.seo ? (
+                            { item.meta ? (
                               <LinkButton disabled startIcon={ <Check /> }>
-                                { formatMessage({ id: getTrad('SEOPage.info.added'), defaultMessage: 'Added', }) }
+                                { formatMessage({ id: getTrad('page.info.added'), defaultMessage: 'Added', }) }
                               </LinkButton>
                             ) : (
                               <LinkButton to={ `/plugins/content-type-builder/content-types/${item.uid}` } variant="secondary" startIcon={ <Plus /> }>
-                                { formatMessage({ id: getTrad('SEOPage.info.add'), defaultMessage: 'Add component', }) }
+                                { formatMessage({ id: getTrad('page.info.add'), defaultMessage: 'Add component', }) }
                               </LinkButton>
                             ) }
                           </Flex>
@@ -121,10 +121,10 @@ const Info = ({ contentTypes }) => {
                     <Box padding={ 8 } background="neutral0">
                       <EmptyStateLayout
                         icon={ <Illo /> }
-                        content={ formatMessage({ id: getTrad('SEOPage.info.no-single-types'), defaultMessage: "You don't have any single-types yet..." }) }
+                        content={ formatMessage({ id: getTrad('page.info.no-single-types'), defaultMessage: "You don't have any single-types yet..." }) }
                         action={
                           <LinkButton to="/plugins/content-type-builder" variant="secondary" startIcon={ <Plus /> }>
-                            { formatMessage({ id: getTrad('SEOPage.info.create-single-type'), defaultMessage: 'Create your first single-type' }) }
+                            { formatMessage({ id: getTrad('page.info.create-single-type'), defaultMessage: 'Create your first single-type' }) }
                           </LinkButton>
                         }
                       />

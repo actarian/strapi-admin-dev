@@ -1,20 +1,20 @@
-import React, { useContext, useState, useEffect } from 'react';
-
+import { Box } from '@strapi/design-system/Box';
+import { Icon } from '@strapi/design-system/Icon';
+import { Stack } from '@strapi/design-system/Stack';
+import { Typography } from '@strapi/design-system/Typography';
+import Dot from '@strapi/icons/Dot';
 import _ from 'lodash';
-
+import React, { useContext, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { getTrad } from '../../../../../../utils';
-
-import { Box } from '@strapi/design-system/Box';
-import { Stack } from '@strapi/design-system/Stack';
-import { Icon } from '@strapi/design-system/Icon';
-import { Typography } from '@strapi/design-system/Typography';
-
-import Dot from '@strapi/icons/Dot';
-
+import { SeoCheckerContext } from '../../../Summary';
 import SEOAccordion from '../SEOAccordion';
 
-import { SeoCheckerContext } from '../../../Summary';
+
+
+
+
+
 
 const robotTags = [
   { name: 'noindex', message: 'Search engines will index this page.' },
@@ -38,13 +38,13 @@ const robotTags = [
   },
 ];
 
-const MetaRobotCheck = ({ metaRobots, checks }) => {
+const MetaRobotCheck = ({ robots, checks }) => {
   const { formatMessage } = useIntl();
   const dispatch = useContext(SeoCheckerContext);
 
   let status = {
     message: formatMessage({
-      id: getTrad('SEOChecks.metaRobotsCheck.default'),
+      id: getTrad('checks.robotsCheck.default'),
       defaultMessage: 'Robot meta tags have been found!',
     }),
     color: 'success',
@@ -52,30 +52,30 @@ const MetaRobotCheck = ({ metaRobots, checks }) => {
   const [tags, setTags] = useState([]);
 
   useEffect(() => {
-    if (_.isNull(metaRobots) || _.isEmpty(metaRobots)) {
+    if (_.isNull(robots) || _.isEmpty(robots)) {
       status = {
         message: formatMessage({
-          id: getTrad('SEOChecks.metaRobotsCheck.not-found'),
+          id: getTrad('checks.robotsCheck.not-found'),
           defaultMessage: 'No Robot meta tags have been found.',
         }),
         color: 'success',
       };
     } else {
-      setTags(metaRobots.split(','));
+      setTags(robots.split(','));
     }
-    if (!_.isEqual(status, checks.metaRobots))
+    if (!_.isEqual(status, checks.robots))
       dispatch({
         type: 'UPDATE_PONCTUAL',
-        value: { ...status, entity: 'metaRobots' },
+        value: { ...status, entity: 'robots' },
       });
   }, []);
 
   return (
     <SEOAccordion
       title="Meta Robots"
-      status={checks.metaRobots}
+      status={checks.robots}
       label={formatMessage({
-        id: getTrad('SEOChecks.metaRobotsCheck.label'),
+        id: getTrad('checks.robotsCheck.label'),
         defaultMessage:
           'The robots meta tag informs search engines which pages on your site should be indexed and more.',
       })}

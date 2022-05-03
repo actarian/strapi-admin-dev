@@ -1,16 +1,16 @@
-import React, { useContext, useEffect } from 'react';
-
-import _ from 'lodash';
-
-import { useIntl } from 'react-intl';
-import { getTrad } from '../../../../../../utils';
-
 import { Box } from '@strapi/design-system/Box';
 import { Typography } from '@strapi/design-system/Typography';
-
+import _ from 'lodash';
+import React, { useContext, useEffect } from 'react';
+import { useIntl } from 'react-intl';
+import { getTrad } from '../../../../../../utils';
+import { SeoCheckerContext } from '../../../Summary';
 import SEOAccordion from '../SEOAccordion';
 
-import { SeoCheckerContext } from '../../../Summary';
+
+
+
+
 
 const CanonicalUrlCheck = ({ canonicalUrl, checks }) => {
   const { formatMessage } = useIntl();
@@ -18,7 +18,7 @@ const CanonicalUrlCheck = ({ canonicalUrl, checks }) => {
 
   let status = {
     message: formatMessage({
-      id: getTrad('SEOChecks.canonicalUrlCheck.found'),
+      id: getTrad('checks.canonicalUrlCheck.found'),
       defaultMessage: 'A canonical URL has been found.',
     }),
     color: 'success',
@@ -28,7 +28,7 @@ const CanonicalUrlCheck = ({ canonicalUrl, checks }) => {
     if (_.isNull(canonicalUrl)) {
       status = {
         message: formatMessage({
-          id: getTrad('SEOChecks.canonicalUrlCheck.default'),
+          id: getTrad('checks.canonicalUrlCheck.default'),
           defaultMessage: 'No Canonical URL has been found.',
         }),
         color: 'warning',
@@ -46,7 +46,7 @@ const CanonicalUrlCheck = ({ canonicalUrl, checks }) => {
       title="Canonical URL"
       status={checks.canonicalUrl}
       label={formatMessage({
-        id: getTrad('SEOChecks.canonicalUrlCheck.label'),
+        id: getTrad('checks.canonicalUrlCheck.label'),
         defaultMessage: 'This will check if you have a canonical URL.',
       })}
       component={
@@ -54,7 +54,7 @@ const CanonicalUrlCheck = ({ canonicalUrl, checks }) => {
           <Box padding={2}>
             <Typography variant="omega">
               {formatMessage({
-                id: getTrad('SEOChecks.canonicalUrlCheck.url'),
+                id: getTrad('checks.canonicalUrlCheck.url'),
                 defaultMessage: 'Canonical URL:',
               })}{' '}
               {canonicalUrl}

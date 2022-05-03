@@ -1,16 +1,16 @@
-import React, { useContext, useEffect } from 'react';
-
-import _ from 'lodash';
-
 import { Box } from '@strapi/design-system/Box';
 import { Typography } from '@strapi/design-system/Typography';
-
+import _ from 'lodash';
+import React, { useContext, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { getTrad } from '../../../../../../utils';
-
+import { SeoCheckerContext } from '../../../Summary';
 import SEOAccordion from '../SEOAccordion';
 
-import { SeoCheckerContext } from '../../../Summary';
+
+
+
+
 
 const LastUpdatedAtCheck = ({ updatedAt, checks }) => {
   const { formatMessage } = useIntl();
@@ -18,7 +18,7 @@ const LastUpdatedAtCheck = ({ updatedAt, checks }) => {
 
   let status = {
     message: formatMessage({
-      id: getTrad('SSEOChecks.lastUpdatedAtCheck.default'),
+      id: getTrad('Schecks.lastUpdatedAtCheck.default'),
       defaultMessage:
         'This content was modified over a year ago! Search engines love fresh content.',
     }),
@@ -29,7 +29,7 @@ const LastUpdatedAtCheck = ({ updatedAt, checks }) => {
     if (_.isNull(updatedAt)) {
       status = {
         message: formatMessage({
-          id: getTrad('SEOChecks.lastUpdatedAtCheck.save-content'),
+          id: getTrad('checks.lastUpdatedAtCheck.save-content'),
           defaultMessage: 'You must save this entry first.',
         }),
         color: 'warning',
@@ -41,7 +41,7 @@ const LastUpdatedAtCheck = ({ updatedAt, checks }) => {
       if (Date.parse(updatedAt) >= oneYearAgo) {
         status = {
           message: formatMessage({
-            id: getTrad('SEOChecks.lastUpdatedAtCheck.success'),
+            id: getTrad('checks.lastUpdatedAtCheck.success'),
             defaultMessage:
               'Awesome! This content was last modified in less than an year ago!',
           }),
@@ -60,7 +60,7 @@ const LastUpdatedAtCheck = ({ updatedAt, checks }) => {
     <SEOAccordion
       title="Last updated at"
       label={formatMessage({
-        id: getTrad('SEOChecks.lastUpdatedAtCheck.label'),
+        id: getTrad('checks.lastUpdatedAtCheck.label'),
         defaultMessage:
           'Search engines love fresh content. This will check if your entry was last modified in less than an year ago.',
       })}
@@ -70,7 +70,7 @@ const LastUpdatedAtCheck = ({ updatedAt, checks }) => {
           <Box padding={2}>
             <Typography variant="omega">
               {formatMessage({
-                id: getTrad('SEOChecks.lastUpdatedAtCheck.last"'),
+                id: getTrad('checks.lastUpdatedAtCheck.last"'),
                 defaultMessage: 'Last updated at:',
               })}{' '}
               {updatedAt}

@@ -9,7 +9,7 @@ const EmptyComponentLayout = () => {
   const { formatMessage } = useIntl();
   return (
     <Box padding={ 8 } background="neutral100">
-      <EmptyStateLayout icon={ <Illo /> } content={ formatMessage({ id: getTrad('SEOPage.empty-component-layout.no-component'), defaultMessage: "You don't have any SEO component yet" }) }
+      <EmptyStateLayout icon={ <Illo /> } content={ formatMessage({ id: getTrad('page.emptyComponentLayout.no-component'), defaultMessage: "You don't have any Meta component yet" }) }
       />
     </Box>
   );

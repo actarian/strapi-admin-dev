@@ -1,14 +1,17 @@
 {
-  "collectionName": "components_page_meta_socials",
+  "collectionName": "components_page_meta_social_medias",
   "info": {
-    "displayName": "Meta Social",
+    "displayName": "Meta Social Media",
     "icon": "project-diagram"
   },
   "options": {},
   "attributes": {
     "type": {
       "type": "enumeration",
-      "enum": ["Facebook", "Twitter"],
+      "enum": [
+        "Facebook",
+        "Twitter"
+      ],
       "required": true
     },
     "title": {
@@ -22,7 +25,11 @@
       "required": true
     },
     "image": {
-      "allowedTypes": ["images", "files", "videos"],
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
       "type": "media",
       "multiple": false
     }

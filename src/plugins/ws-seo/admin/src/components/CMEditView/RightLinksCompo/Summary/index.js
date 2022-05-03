@@ -63,20 +63,20 @@ const Summary = () => {
         </Box>
         <Box paddingTop={ 1 }>
           <Button fullWidth variant="secondary" startIcon={ <Eye /> } onClick={ () => setIsBrowserPreviewVisible((prev) => !prev) }>
-            { formatMessage({ id: getTrad('Button.browser-preview'), defaultMessage: 'Browser Preview' }) }
+            { formatMessage({ id: getTrad('button.browserPreview'), defaultMessage: 'Browser Preview' }) }
           </Button>
         </Box>
 
         <Box paddingTop={ 2 }>
           <Button fullWidth variant="secondary" startIcon={ <Eye /> } onClick={ () => setIsSocialPreviewVisible((prev) => !prev) }>
-            { formatMessage({ id: getTrad('Button.social-preview'), defaultMessage: 'Social Preview' }) }
+            { formatMessage({ id: getTrad('button.socialPreview'), defaultMessage: 'Social Preview' }) }
           </Button>
         </Box>
 
         { !isLoading && <PreviewChecks checks={ checks } /> }
         <Box paddingTop={ 4 }>
           <TextButton startIcon={ <ArrowRight /> } onClick={ () => setIsSeoChecksVisible((prev) => !prev) } >
-            { formatMessage({ id: getTrad('Button.see-details'), defaultMessage: 'SEE DETAILS' }) }
+            { formatMessage({ id: getTrad('button.seeDetails'), defaultMessage: 'SEE DETAILS' }) }
           </TextButton>
         </Box>
 

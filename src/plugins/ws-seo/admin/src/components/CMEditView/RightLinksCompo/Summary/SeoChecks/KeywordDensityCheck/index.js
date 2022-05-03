@@ -1,17 +1,17 @@
-import React, { useContext, useEffect } from 'react';
-
-import _ from 'lodash';
-
+import { Badge } from '@strapi/design-system/Badge';
 import { Box } from '@strapi/design-system/Box';
 import { Flex } from '@strapi/design-system/Flex';
-import { Badge } from '@strapi/design-system/Badge';
-
+import _ from 'lodash';
+import React, { useContext, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { getTrad } from '../../../../../../utils';
-
+import { SeoCheckerContext } from '../../../Summary';
 import SEOAccordion from '../SEOAccordion';
 
-import { SeoCheckerContext } from '../../../Summary';
+
+
+
+
 
 const KeywordDensityCheck = ({ keywordsDensity, checks }) => {
   const { formatMessage } = useIntl();
@@ -19,7 +19,7 @@ const KeywordDensityCheck = ({ keywordsDensity, checks }) => {
 
   let status = {
     message: formatMessage({
-      id: getTrad('SEOChecks.keywordsDensityCheck.default'),
+      id: getTrad('checks.keywordsDensityCheck.default'),
       defaultMessage: 'Every keywords are used more than 2 times.',
     }),
     color: 'success',
@@ -29,7 +29,7 @@ const KeywordDensityCheck = ({ keywordsDensity, checks }) => {
     if (_.isEmpty(keywordsDensity)) {
       status = {
         message: formatMessage({
-          id: getTrad('SEOChecks.keywordsDensityCheck.no-keywords'),
+          id: getTrad('checks.keywordsDensityCheck.no-keywords'),
           defaultMessage: 'No keywords were found in your SEO component.',
         }),
         color: 'danger',
@@ -39,7 +39,7 @@ const KeywordDensityCheck = ({ keywordsDensity, checks }) => {
         if (_.get(keywordsDensity[keyword], 'count', 0) === 0) {
           status = {
             message: formatMessage({
-              id: getTrad('SEOChecks.keywordsDensityCheck.one-not-used'),
+              id: getTrad('checks.keywordsDensityCheck.one-not-used'),
               defaultMessage: 'One keyword is not being used in your content.',
             }),
             color: 'danger',
@@ -47,7 +47,7 @@ const KeywordDensityCheck = ({ keywordsDensity, checks }) => {
         } else if (_.get(keywordsDensity[keyword], 'count', 0) <= 1) {
           status = {
             message: formatMessage({
-              id: getTrad('SEOChecks.keywordsDensityCheck.one-used-once'),
+              id: getTrad('checks.keywordsDensityCheck.one-used-once'),
               defaultMessage: 'One keyword is only used once in your content.',
             }),
             color: 'warning',
@@ -70,7 +70,7 @@ const KeywordDensityCheck = ({ keywordsDensity, checks }) => {
       title="Keyword Density"
       status={checks.keywordsDensity}
       label={formatMessage({
-        id: getTrad('SEOChecks.keywordsDensityCheck.label'),
+        id: getTrad('checks.keywordsDensityCheck.label'),
         defaultMessage:
           'Define keywords you want to rank for in your SEO component. This will analyse the density of your keywords in your 1st level richtext editors.',
       })}
@@ -82,7 +82,7 @@ const KeywordDensityCheck = ({ keywordsDensity, checks }) => {
               {Object.keys(keywordsDensity).map((keyword) => (
                 <Box padding={1} key={keyword}>
                   <Badge>
-                    {`${keyword}: 
+                    {`${keyword}:
                       ${_.get(
                         keywordsDensity[keyword],
                         'count',

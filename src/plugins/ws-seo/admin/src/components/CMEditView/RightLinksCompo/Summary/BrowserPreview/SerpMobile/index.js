@@ -1,8 +1,8 @@
 import React from 'react';
-
 import './serpmobile.css';
 
-const SerpMobile = ({ metaTitle, metaDescription }) => {
+
+const SerpMobile = ({ title, description }) => {
   return (
     <div className="google-snippet-preview">
       <div className="wrap-snippet snipcss-N3O8b snip-div">
@@ -13,15 +13,15 @@ const SerpMobile = ({ metaTitle, metaDescription }) => {
         </div>
 
         <div className="snippet-title-custom snip-div">
-          {metaTitle && metaTitle.length > 60
-            ? `${metaTitle.substring(0, 60)}...`
-            : metaTitle}
+          {title && title.length > 60
+            ? `${title.substring(0, 60)}...`
+            : title}
         </div>
 
         <div className="snippet-description-default snip-div">
-          {metaDescription && metaDescription.length > 160
-            ? `${metaDescription.substring(0, 160)}...`
-            : metaDescription}
+          {description && description.length > 160
+            ? `${description.substring(0, 160)}...`
+            : description}
         </div>
       </div>
     </div>

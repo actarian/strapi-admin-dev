@@ -1,0 +1,49 @@
+{
+  "collectionName": "components_page_metas",
+  "info": {
+    "displayName": "Meta",
+    "icon": "search"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "required": true,
+      "type": "string",
+      "maxLength": 60
+    },
+    "description": {
+      "type": "string",
+      "required": true,
+      "maxLength": 160,
+      "minLength": 50
+    },
+    "keywords": {
+      "type": "text",
+      "regex": "[^,]+"
+    },
+    "robots": {
+      "type": "string",
+      "regex": "[^,]+"
+    },
+    "viewport": {
+      "type": "string"
+    },
+    "canonicalURL": {
+      "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": ["images", "files", "videos"]
+    },
+    "metaSocial": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.meta-social"
+    },
+    "structuredData": {
+      "type": "json"
+    }
+  }
+}

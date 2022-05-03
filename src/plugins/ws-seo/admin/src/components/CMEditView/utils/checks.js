@@ -2,24 +2,24 @@ import _ from 'lodash';
 import { getRichTextCheck } from '../utils';
 
 const getMetaTitleCheckPreview = (modifiedData) => {
-  const metaTitle = _.get(modifiedData, 'seo.metaTitle');
+  const title = _.get(modifiedData, 'meta.title');
   let status = { message: '', color: 'success' };
-  if (_.isNull(metaTitle) || _.isEmpty(metaTitle)) {
+  if (_.isNull(title) || _.isEmpty(title)) {
     status = { message: '', color: 'danger' };
-  } else if (metaTitle.length > 60) {
+  } else if (title.length > 60) {
     status = { message: '', color: 'warning' };
   }
   return status;
 };
 
 const getMetaDescriptionPreview = (modifiedData) => {
-  const metaDescription = _.get(modifiedData, 'seo.metaDescription');
+  const description = _.get(modifiedData, 'meta.description');
   let status = { message: '', color: 'success' };
-  if (_.isNull(metaDescription) || _.isEmpty(metaDescription)) {
+  if (_.isNull(description) || _.isEmpty(description)) {
     status = { message: '', color: 'danger' };
-  } else if (metaDescription.length > 160) {
+  } else if (description.length > 160) {
     status = { message: '', color: 'warning' };
-  } else if (metaDescription.length < 50) {
+  } else if (description.length < 50) {
     status = { message: '', color: 'warning' };
   }
   return status;
@@ -69,7 +69,7 @@ const getKeywordDensityPreview = (keywordsDensity) => {
 };
 
 const canonicalUrlPreview = (modifiedData) => {
-  const canonicalUrl = _.get(modifiedData, 'seo.canonicalURL');
+  const canonicalUrl = _.get(modifiedData, 'meta.canonicalURL');
   let status = { message: '', color: 'success' };
   if (_.isNull(canonicalUrl)) {
     status = { message: '', color: 'warning' };
@@ -94,16 +94,16 @@ const lastUpdatedAtPreview = (modifiedData) => {
 };
 
 const metaRobotPreview = (modifiedData) => {
-  const metaRobots = _.get(modifiedData, 'seo.metaRobots');
+  const robots = _.get(modifiedData, 'meta.robots');
   let status = { message: '', color: 'success' };
-  if (_.isNull(metaRobots) || _.isEmpty(metaRobots)) {
+  if (_.isNull(robots) || _.isEmpty(robots)) {
     status = { message: '', color: 'success' };
   }
   return status;
 };
 
 const metaSocialPreview = (modifiedData) => {
-  const metaSocial = _.get(modifiedData, 'seo.metaSocial');
+  const metaSocial = _.get(modifiedData, 'meta.metaSocial');
   let status = { message: '', color: '' };
   if (_.isNull(metaSocial) || metaSocial === undefined) {
     status = { message: '', color: 'danger' };
@@ -121,7 +121,7 @@ const metaSocialPreview = (modifiedData) => {
 };
 
 const structuredDataPreview = (modifiedData) => {
-  const structuredData = _.get(modifiedData, 'seo.structuredData');
+  const structuredData = _.get(modifiedData, 'meta.structuredData');
   let status = { message: '', color: 'success' };
   if (_.isEmpty(structuredData)) {
     status = { message: '', color: 'warning' };
@@ -133,13 +133,13 @@ const getAllChecks = (modifiedData, components, contentType) => {
   const { wordCount, keywordsDensity, emptyAltCount } = getRichTextCheck(modifiedData, components, contentType);
   let result = {
     wordCount: getWordCountPreview(wordCount),
-    metaRobots: metaRobotPreview(modifiedData),
+    robots: metaRobotPreview(modifiedData),
     metaSocial: metaSocialPreview(modifiedData),
     canonicalUrl: canonicalUrlPreview(modifiedData),
-    metaTitle: getMetaTitleCheckPreview(modifiedData),
+    title: getMetaTitleCheckPreview(modifiedData),
     lastUpdatedAt: lastUpdatedAtPreview(modifiedData),
     structuredData: structuredDataPreview(modifiedData),
-    metaDescription: getMetaDescriptionPreview(modifiedData),
+    description: getMetaDescriptionPreview(modifiedData),
     alternativeText: getAlternativeTextPreview(emptyAltCount),
     keywordsDensity: getKeywordDensityPreview(keywordsDensity),
   };

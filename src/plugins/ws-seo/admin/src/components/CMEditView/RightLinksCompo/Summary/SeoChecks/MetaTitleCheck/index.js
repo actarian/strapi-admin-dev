@@ -1,51 +1,51 @@
-import React, { useEffect, useContext } from 'react';
-
-import _ from 'lodash';
-
-import { useIntl } from 'react-intl';
-import { getTrad } from '../../../../../../utils';
-
 import { Box } from '@strapi/design-system/Box';
 import { Typography } from '@strapi/design-system/Typography';
-
+import _ from 'lodash';
+import React, { useContext, useEffect } from 'react';
+import { useIntl } from 'react-intl';
+import { getTrad } from '../../../../../../utils';
+import { SeoCheckerContext } from '../../../Summary';
 import SEOAccordion from '../SEOAccordion';
 
-import { SeoCheckerContext } from '../../../Summary';
 
-const MetaTitleCheck = ({ metaTitle, checks }) => {
+
+
+
+
+const MetaTitleCheck = ({ title, checks }) => {
   const { formatMessage } = useIntl();
   const dispatch = useContext(SeoCheckerContext);
 
   let status = {
     message: formatMessage({
-      id: getTrad('SEOChecks.metaTitleCheck.default'),
+      id: getTrad('checks.titleCheck.default'),
       defaultMessage: 'A Meta Title has been found!',
     }),
     color: 'success',
   };
 
   useEffect(() => {
-    if (_.isNull(metaTitle) || _.isEmpty(metaTitle)) {
+    if (_.isNull(title) || _.isEmpty(title)) {
       status = {
         message: formatMessage({
-          id: getTrad('SEOChecks.metaTitleCheck.not-found'),
+          id: getTrad('checks.titleCheck.not-found'),
           defaultMessage: 'No Meta Description has been found.',
         }),
         color: 'danger',
       };
-    } else if (metaTitle.length > 60) {
+    } else if (title.length > 60) {
       status = {
         message: formatMessage({
-          id: getTrad('Title-settings.metaTitle-too-long'),
+          id: getTrad('titleSettings.titleTooLong'),
           defaultMessage: 'Meta Title is too long',
         }),
         color: 'warning',
       };
     }
-    if (!_.isEqual(status, checks.metaTitle))
+    if (!_.isEqual(status, checks.title))
       dispatch({
         type: 'UPDATE_PONCTUAL',
-        value: { ...status, entity: 'metaTitle' },
+        value: { ...status, entity: 'title' },
       });
   }, []);
 
@@ -53,17 +53,17 @@ const MetaTitleCheck = ({ metaTitle, checks }) => {
     <>
       <SEOAccordion
         title="Meta title"
-        status={checks.metaTitle}
+        status={checks.title}
         label={formatMessage({
-          id: getTrad('Title-settings.metaTitle-tooltip'),
+          id: getTrad('titleSettings.titleTooltip'),
           defaultMessage:
             'The title tag is the clickable title of a webpage that appears with the result on the SERP (search engine page results page).\n You should aim to make your SEO titles around 60 characters long. Clear title tags will go a long way towards making your website easy to read and understand.',
         })}
         component={
-          metaTitle && (
+          title && (
             <Box padding={2}>
               <Typography variant="omega">
-                {metaTitle} ({metaTitle.length}/60)
+                {title} ({title.length}/60)
               </Typography>
             </Box>
           )

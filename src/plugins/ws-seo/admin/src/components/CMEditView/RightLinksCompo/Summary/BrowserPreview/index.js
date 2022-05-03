@@ -19,10 +19,10 @@ import SerpMobile from './SerpMobile';
 const BrowserPreview = ({ modifiedData, setIsVisible }) => {
   const { formatMessage } = useIntl();
   const [checked, setChecked] = useState(false);
-  const seo = _.get(modifiedData, 'seo', null);
-  const metaTitle = _.get(seo, 'metaTitle', null);
-  const metaDescription = _.get(seo, 'metaDescription', null);
-  const keywords = _.get(seo, 'keywords', null);
+  const meta = _.get(modifiedData, 'meta', null);
+  const title = _.get(meta, 'title', null);
+  const description = _.get(meta, 'description', null);
+  const keywords = _.get(meta, 'keywords', null);
   return (
     <ModalLayout onClose={ () => setIsVisible((prev) => !prev) } labelledBy="title" >
       <ModalHeader>
@@ -33,13 +33,13 @@ const BrowserPreview = ({ modifiedData, setIsVisible }) => {
       <ModalBody>
         <Box paddingTop={ 2 } paddingBottom={ 4 } paddingLeft={ 4 }>
           <Typography variant="beta">
-            { formatMessage({ id: getTrad('Button.browser-preview'), defaultMessage: 'Browser Preview', }) }
+            { formatMessage({ id: getTrad('button.browserPreview'), defaultMessage: 'Browser Preview', }) }
           </Typography>
           <Box paddingTop={ 4 }>
             <Divider />
           </Box>
         </Box>
-        { seo ? (
+        { meta ? (
           <Stack size={ 2 } padding={ 4 }>
             <Box paddingBottom={ 6 }>
               <Box paddingBottom={ 4 }>
@@ -53,38 +53,38 @@ const BrowserPreview = ({ modifiedData, setIsVisible }) => {
                 />
               </Box>
               { checked ? (
-                <SerpMobile metaTitle={ metaTitle } metaDescription={ metaDescription } />
+                <SerpMobile title={ title } description={ description } />
               ) : (
-                <Serp metaTitle={ metaTitle } metaDescription={ metaDescription } />
+                <Serp title={ title } description={ description } />
               ) }
             </Box>
-            { metaTitle && (
-              <MetaChecks item={ metaTitle } max={ 60 } label="title" />
+            { title && (
+              <MetaChecks item={ title } max={ 60 } label="title" />
             ) }
-            { metaDescription && (
-              <MetaChecks item={ metaDescription } max={ 160 } label="description" minLimit={ true } />
+            { description && (
+              <MetaChecks item={ description } max={ 160 } label="description" minLimit={ true } />
             ) }
             { keywords && (
               <>
-                { metaTitle && (
-                  <KeywordCheck item={ metaTitle } keywords={ keywords } label="title" />
+                { title && (
+                  <KeywordCheck item={ title } keywords={ keywords } label="title" />
                 ) }
-                { metaDescription && (
-                  <KeywordCheck item={ metaDescription } keywords={ keywords } label="description" />
+                { description && (
+                  <KeywordCheck item={ description } keywords={ keywords } label="description" />
                 ) }
               </>
             ) }
           </Stack>
         ) : (
           <Box paddingLeft={ 4 }>
-            <EmptyStateLayout icon={ <Illo /> } content={ formatMessage({ id: getTrad('Modal.seo-component-empy'), defaultMessage: 'Your SEO component is empty...' }) }
+            <EmptyStateLayout icon={ <Illo /> } content={ formatMessage({ id: getTrad('modal.metaComponentEmpty'), defaultMessage: 'Your Meta component is empty...' }) }
             />
           </Box>
         ) }
       </ModalBody>
       <ModalFooter startActions={
         <Button variant="tertiary" onClick={ () => setIsVisible((prev) => !prev) } >
-          { formatMessage({ id: getTrad('Modal.cancel'), defaultMessage: 'Cancel' }) }
+          { formatMessage({ id: getTrad('modal.cancel'), defaultMessage: 'Cancel' }) }
         </Button>
       } />
     </ModalLayout>

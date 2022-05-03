@@ -146,7 +146,7 @@ const getRichTextCheck = (modifiedData, components, contentType) => {
   let emptyAltCount = { intersections, richTextAlts: [], altTexts };
   let wordCount = 0;
   let keywords = [];
-  const tmp = _.get(modifiedData, 'seo.keywords', null);
+  const tmp = _.get(modifiedData, 'meta.keywords', null);
   if (tmp) keywords = tmp.split(',');
   keywordsDensity = {};
 
