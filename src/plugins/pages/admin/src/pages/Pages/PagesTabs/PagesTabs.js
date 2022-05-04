@@ -222,13 +222,13 @@ function PagesTabs({ contentTypes, onChange }) {
                         <Flex justifyContent="right" alignItems="right">
                           { item.meta ? (
                             true ?
-                              <Button onClick={ () => setContentType(item, false) } title="Deactivate Content Type">Deactivate</Button>
+                              <Button variant="danger" onClick={ () => setContentType(item, false) } title="Disable Content Type">Disable</Button>
                               : <LinkButton disabled startIcon={ <Check /> }>
-                                { formatMessage({ id: getTrad('page.info.added'), defaultMessage: 'Added' }) }
+                                { formatMessage({ id: getTrad('page.info.added'), defaultMessage: 'Enabled' }) }
                               </LinkButton>
                           ) : (
                             true ?
-                              <Button onClick={ () => setContentType(item, true) } title="Activate Content Type">Activate</Button>
+                              <Button onClick={ () => setContentType(item, true) } title="Enable Content Type">Enable</Button>
                               :
                               <LinkButton to={ `/plugins/content-type-builder/content-types/${item.uid}` } variant="secondary" startIcon={ <Plus /> }>
                                 { formatMessage({ id: getTrad('page.info.add'), defaultMessage: 'Add component' }) }
@@ -274,14 +274,14 @@ function PagesTabs({ contentTypes, onChange }) {
                         <Flex justifyContent="right" alignItems="right">
                           { item.meta ? (
                             true ?
-                              <Button onClick={ () => setContentType(item, false) } title="Deactivate Content Type">Deactivate</Button>
+                              <Button variant="danger" onClick={ () => setContentType(item, false) } title="Disable Content Type">Disable</Button>
                               :
                               <LinkButton disabled startIcon={ <Check /> }>
-                                { formatMessage({ id: getTrad('page.info.added'), defaultMessage: 'Added', }) }
+                                { formatMessage({ id: getTrad('page.info.added'), defaultMessage: 'Enabled', }) }
                               </LinkButton>
                           ) : (
                             true ?
-                              <Button onClick={ () => setContentType(item, true) } title="Activate Content Type">Activate</Button>
+                              <Button onClick={ () => setContentType(item, true) } title="Enable Content Type">Enable</Button>
                               :
                               <LinkButton to={ `/plugins/content-type-builder/content-types/${item.uid}` } variant="secondary" startIcon={ <Plus /> }>
                                 { formatMessage({ id: getTrad('page.info.add'), defaultMessage: 'Add component' }) }

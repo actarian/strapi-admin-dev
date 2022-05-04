@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "restaurants",
+  "info": {
+    "singularName": "restaurant",
+    "pluralName": "restaurants",
+    "displayName": "Restaurant"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "mktlng": {
+      "locales": false,
+      "markets": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "type": "json",
+      "pluginOptions": {
+        "mktlng": {
+          "locales": true
+        }
+      },
+      "customField": {
+        "type": "localizedText",
+        "forType": "string"
+      }
+    },
+    "markets": {
+      "type": "json",
+      "customField": {
+        "type": "marketSelector",
+        "forType": "text"
+      }
+    },
+    "slug": {
+      "type": "json",
+      "pluginOptions": {
+        "mktlng": {
+          "locales": true
+        }
+      },
+      "customField": {
+        "type": "localizedText",
+        "forType": "string"
+      }
+    },
+    "meta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "page.meta"
+    }
+  }
+}
