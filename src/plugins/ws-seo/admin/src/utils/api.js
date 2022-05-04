@@ -28,7 +28,7 @@ const createSeoComponent = async () => {
   }
 };
 
-const updateContentType = async (uid, schema) => {
+const updateContentType_ = async (uid, schema) => {
   try {
     const data = await request(`/${pluginId}/update-content-type/${uid}`, {
       method: 'PUT',
@@ -39,5 +39,55 @@ const updateContentType = async (uid, schema) => {
     return null;
   }
 };
+
+const updateContentType = async (uid, schema) => {
+
+  const response = await request(`/content-type-builder/content-types`, { method: 'GET' });
+  const contentTypes = response.data;
+  const contentType = contentTypes.find(x => x.uid === uid);
+
+  console.log('updateContentType', contentTypes, contentType);
+
+  if (!contentType) {
+    return; // ctx.send({ error: 'contentType.notFound' }, 404);
+  }
+
+  console.log('updateContentType', uid);
+
+  /*
+  // !!! skip validation
+  try {
+    await validateUpdateContentTypeInput(body);
+  } catch (error) {
+    return ctx.send({ error }, 400);
+  }
+  */
+
+  try {
+    strapi.reload.isWatching = false;
+
+    // const contentTypeBuilder = strapi.plugin('content-type-builder');
+    // const contentTypesService = contentTypeBuilder.service('content-types');
+    // console.log('contentTypesService', contentTypesService);
+
+    /*
+    const schema = await contentTypesService.editContentType(uid, {
+      contentType: body,
+    });
+    */
+
+    schema = await request(`/content-type-builder/content-type/${uid}`, { method: 'PUT', body: {
+      contentType: schema,
+      components: [],
+    } }, true);
+
+    setImmediate(() => strapi.reload());
+
+    return schema;
+
+  } catch (error) {
+    return null;
+  }
+}
 
 export { fetchSeoComponent, fetchContentTypes, createSeoComponent, updateContentType };

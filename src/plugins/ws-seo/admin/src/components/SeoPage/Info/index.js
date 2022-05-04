@@ -6,13 +6,13 @@ import { LinkButton } from '@strapi/design-system/LinkButton';
 import { Table, Tbody, Td, Th, Thead, Tr } from '@strapi/design-system/Table';
 import { Tab, TabGroup, TabPanel, TabPanels, Tabs } from '@strapi/design-system/Tabs';
 import { Typography } from '@strapi/design-system/Typography';
-import { useAutoReloadOverlayBlocker, useNotification } from '@strapi/helper-plugin';
+import { request, useAutoReloadOverlayBlocker, useNotification } from '@strapi/helper-plugin';
 import Check from '@strapi/icons/Check';
 import Plus from '@strapi/icons/Plus';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
 import { getTrad } from '../../../utils';
-import { updateContentType } from '../../../utils/api';
 import { Illo } from '../Info/EmptyComponentLayout/illo';
 
 const metaSchema = {
@@ -25,6 +25,7 @@ const Info = ({ contentTypes }) => {
   const { formatMessage } = useIntl();
   const { lockAppWithAutoreload, unlockAppWithAutoreload } = useAutoReloadOverlayBlocker();
   const toggleNotification = useNotification();
+  const dispatch = useDispatch();
 
   const collectionTypes = (contentTypes && contentTypes.collectionTypes) ? contentTypes.collectionTypes : [];
   const singleTypes = (contentTypes && contentTypes.singleTypes) ? contentTypes.singleTypes : [];
@@ -32,7 +33,13 @@ const Info = ({ contentTypes }) => {
   async function setContentType(item, activate) {
     console.log('setContentType', item, activate);
     const contentType = item.contentType;
-    const schema = contentType.__schema__;
+    const schema = {
+      ...contentType.__schema__,
+      ...contentType.__schema__.info,
+      ...contentType.__schema__.options
+    };
+    delete schema.info;
+    delete schema.options;
     console.log(schema);
 
     const attributes = schema.attributes;
@@ -40,13 +47,24 @@ const Info = ({ contentTypes }) => {
 
     const update = async (schema) => {
       lockAppWithAutoreload();
+
+      schema = await request(`/content-type-builder/content-types/${contentType.uid}`, { method: 'PUT', body: {
+        contentType: schema,
+        components: [],
+      } }, true);
+
+      /*
       try {
         await updateContentType(contentType.uid, schema);
       } catch (error) {
         console.error(error);
         toggleNotification({ type: 'warning', message: { id: 'notification.error' } });
       }
+      */
+
       unlockAppWithAutoreload();
+
+      dispatch({ type: 'ContentTypeBuilder/DataManagerProvider/RELOAD_PLUGIN' });
     };
 
     if (hasMetaAttribute && !activate) {

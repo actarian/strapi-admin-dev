@@ -81,7 +81,7 @@ async function updateContentType(ctx) {
     return ctx.send({ error: 'contentType.notFound' }, 404);
   }
 
-  console.log('updateContentType.contentType', contentType, body);
+  console.log('updateContentType.contentType', uid);
 
   /*
   // !!! skip validation
@@ -93,23 +93,27 @@ async function updateContentType(ctx) {
   */
 
   try {
-    // strapi.reload.isWatching = false;
+    strapi.reload.isWatching = false;
 
     const contentTypeBuilder = strapi.plugin('content-type-builder');
     const contentTypesService = contentTypeBuilder.service('content-types');
 
     console.log('contentTypesService', contentTypesService);
 
-    /*
     const schema = await contentTypesService.editContentType(uid, {
       contentType: body,
     });
-    uid = schema.uid;
+
+    /*
+    const schema = await request(`/content-type-builder/content-type/${uid}`, { method: 'PUT', body: {
+      contentType: body,
+      components: [],
+    } }, true);
     */
 
-    // setImmediate(() => strapi.reload());
+    setImmediate(() => strapi.reload());
 
-    ctx.send({ data: { uid: uid } }, 201);
+    ctx.send({ data: { uid: schema.uid } }, 201);
 
   } catch (error) {
 

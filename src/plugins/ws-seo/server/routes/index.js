@@ -38,7 +38,7 @@ module.exports = [
   },
 
   {
-    method: 'POST',
+    method: 'PUT',
     path: '/update-content-type/:uid',
     handler: 'page.updateContentType',
     config: {
