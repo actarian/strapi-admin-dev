@@ -41,6 +41,10 @@ function Pages() {
     await fetchData();
   }, [shouldEffect]);
 
+  const onChange = () => {
+    setShouldEffect(true);
+  };
+
   // Displaying the LoadingIndicatorPage while it fetches the data
   if (isLoading) {
     return <LoadingIndicatorPage />;
@@ -59,7 +63,7 @@ function Pages() {
           />
         </Box>
       }
-      <PagesTabs contentTypes={ contentTypes.current } />
+      <PagesTabs contentTypes={ contentTypes.current } onChange={ onChange } />
     </>
   );
 };

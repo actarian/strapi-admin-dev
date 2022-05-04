@@ -9,11 +9,13 @@ import { Typography } from '@strapi/design-system/Typography';
 import { request, useAutoReloadOverlayBlocker, useNotification, useStrapiApp } from '@strapi/helper-plugin';
 import Check from '@strapi/icons/Check';
 import Plus from '@strapi/icons/Plus';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { Illo } from '../../../Icons/Illo';
 import { getTrad } from '../../../utils';
+import PagesList from './PagesList';
 
 const slugSchema = {
   type: 'string',
@@ -38,9 +40,10 @@ const metaSchema = {
   component: 'page.meta'
 };
 
-function PagesTabs({ contentTypes }) {
+function PagesTabs({ contentTypes, onChange }) {
   const app = useStrapiApp();
-  console.log(app);
+  // console.log('plugin.pages.PagesTabs', app);
+
   const { formatMessage } = useIntl();
   const { lockAppWithAutoreload, unlockAppWithAutoreload } = useAutoReloadOverlayBlocker();
   const toggleNotification = useNotification();
@@ -74,6 +77,7 @@ function PagesTabs({ contentTypes }) {
             components: [],
           }
         }, true);
+        onChange();
       } catch (error) {
         toggleNotification({
           type: 'warning',
@@ -187,15 +191,17 @@ function PagesTabs({ contentTypes }) {
         <TabGroup label="label" id="tabs">
           <Tabs>
             <Tab>
-              <Typography variant="omega"> Collection Types</Typography>
+              <Typography variant="omega">Collection Types</Typography>
             </Tab>
             <Tab>
-              <Typography variant="omega"> Single Types</Typography>
+              <Typography variant="omega">Single Types</Typography>
+            </Tab>
+            <Tab>
+              <Typography variant="omega">Pages</Typography>
             </Tab>
           </Tabs>
           <TabPanels>
             <TabPanel>
-              {/* TABLE */ }
               <Table colCount={ 2 } rowCount={ collectionTypes.length }>
                 <Thead>
                   <Tr>
@@ -234,8 +240,7 @@ function PagesTabs({ contentTypes }) {
                   ))
                   ) : (
                     <Box padding={ 8 } background="neutral0">
-                      <EmptyStateLayout
-                        icon={ <Illo /> }
+                      <EmptyStateLayout icon={ <Illo /> }
                         content={ formatMessage({ id: getTrad('page.info.noCollectionTypes'), defaultMessage: "You don't have any collection-types yet..." }) }
                         action={
                           <LinkButton to="/plugins/content-type-builder" variant="secondary" startIcon={ <Plus /> }>
@@ -247,10 +252,8 @@ function PagesTabs({ contentTypes }) {
                   ) }
                 </Tbody>
               </Table>
-              {/* END TABLE */ }
             </TabPanel>
             <TabPanel>
-              {/* TABLE */ }
               <Table colCount={ 2 } rowCount={ singleTypes.length }>
                 <Thead>
                   <Tr>
@@ -281,7 +284,7 @@ function PagesTabs({ contentTypes }) {
                               <Button onClick={ () => setContentType(item, true) } title="Activate Content Type">Activate</Button>
                               :
                               <LinkButton to={ `/plugins/content-type-builder/content-types/${item.uid}` } variant="secondary" startIcon={ <Plus /> }>
-                                { formatMessage({ id: getTrad('page.info.add'), defaultMessage: 'Add component', }) }
+                                { formatMessage({ id: getTrad('page.info.add'), defaultMessage: 'Add component' }) }
                               </LinkButton>
                           ) }
                         </Flex>
@@ -290,8 +293,7 @@ function PagesTabs({ contentTypes }) {
                   ))
                   ) : (
                     <Box padding={ 8 } background="neutral0">
-                      <EmptyStateLayout
-                        icon={ <Illo /> }
+                      <EmptyStateLayout icon={ <Illo /> }
                         content={ formatMessage({ id: getTrad('page.info.no-single-types'), defaultMessage: "You don't have any single-types yet..." }) }
                         action={
                           <LinkButton to="/plugins/content-type-builder" variant="secondary" startIcon={ <Plus /> }>
@@ -303,13 +305,20 @@ function PagesTabs({ contentTypes }) {
                   ) }
                 </Tbody>
               </Table>
-              {/* END TABLE */ }
+            </TabPanel>
+            <TabPanel>
+              <PagesList />
             </TabPanel>
           </TabPanels>
         </TabGroup>
       </Box>
     </>
   );
+};
+
+PagesTabs.propTypes = {
+  contentTypes: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default PagesTabs;

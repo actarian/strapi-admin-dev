@@ -28,6 +28,15 @@ const createSeoComponent = async () => {
   }
 };
 
+const getPages = async (locale = 'en') => {
+  try {
+    const data = await request(`/${pluginId}/pages?locale=${locale}`, { method: 'GET' }, true);
+    return data;
+  } catch (error) {
+    return null;
+  }
+};
+
 const updateContentType_ = async (uid, schema) => {
   try {
     const data = await request(`/${pluginId}/update-content-type/${uid}`, {
@@ -76,10 +85,12 @@ const updateContentType = async (uid, schema) => {
     });
     */
 
-    schema = await request(`/content-type-builder/content-type/${uid}`, { method: 'PUT', body: {
-      contentType: schema,
-      components: [],
-    } }, true);
+    schema = await request(`/content-type-builder/content-type/${uid}`, {
+      method: 'PUT', body: {
+        contentType: schema,
+        components: [],
+      }
+    }, true);
 
     setImmediate(() => strapi.reload());
 
@@ -90,4 +101,11 @@ const updateContentType = async (uid, schema) => {
   }
 }
 
-export { fetchSeoComponent, fetchContentTypes, createSeoComponent, updateContentType };
+export {
+  fetchSeoComponent,
+  fetchContentTypes,
+  createSeoComponent,
+  updateContentType,
+  getPages,
+};
+
