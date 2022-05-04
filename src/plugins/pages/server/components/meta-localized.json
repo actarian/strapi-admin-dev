@@ -1,0 +1,94 @@
+{
+  "collectionName": "components_page_metas",
+  "info": {
+    "displayName": "Meta",
+    "icon": "search"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "json",
+      "pluginOptions": {
+        "mktlng": {
+          "locales": true
+        }
+      },
+      "customField": {
+        "type": "localizedText",
+        "forType": "string",
+        "maxLength": 60
+      },
+      "required": true
+    },
+    "description": {
+      "type": "json",
+      "pluginOptions": {
+        "mktlng": {
+          "locales": true
+        }
+      },
+      "customField": {
+        "type": "localizedText",
+        "forType": "string",
+        "maxLength": 160,
+        "minLength": 50
+      },
+      "required": true
+    },
+    "keywords": {
+      "type": "json",
+      "pluginOptions": {
+        "mktlng": {
+          "locales": true
+        }
+      },
+      "customField": {
+        "type": "localizedText",
+        "forType": "string",
+        "regex": "[^,]+"
+      }
+    },
+    "robots": {
+      "type": "json",
+      "pluginOptions": {
+        "mktlng": {
+          "locales": true
+        }
+      },
+      "customField": {
+        "type": "localizedText",
+        "forType": "string",
+        "regex": "[^,]+"
+      }
+    },
+    "viewport": {
+      "type": "string"
+    },
+    "canonicalURL": {
+      "type": "json",
+      "pluginOptions": {
+        "mktlng": {
+          "locales": true
+        }
+      },
+      "customField": {
+        "type": "localizedText",
+        "forType": "string"
+      }
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": ["images", "files", "videos"]
+    },
+    "metaSocial": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.meta-social"
+    },
+    "structuredData": {
+      "type": "json"
+    }
+  }
+}

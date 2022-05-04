@@ -21,7 +21,7 @@ export function LocalizedText(props) {
   const customField = attribute.customField || {};
   const { placeholder, label, hint, forType } = customField;
 
-  console.log('LocalizedText', props, customField, locales);
+  // console.log('LocalizedText', props, customField, locales);
 
   const serialize = (value) => {
     return JSON.stringify(value);

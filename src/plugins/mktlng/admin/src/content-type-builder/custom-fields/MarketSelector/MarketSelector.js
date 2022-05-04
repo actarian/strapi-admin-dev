@@ -38,7 +38,7 @@ export function MarketSelector(props) {
     onChange(change);
   }
 
-  console.log('MarketSelector', value, values, markets, props, attribute.customField);
+  // console.log('MarketSelector', value, values, markets, props, attribute.customField);
 
   return (
     <>

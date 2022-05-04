@@ -106,7 +106,7 @@ function getValueForLocale_json(rawValue, validLocale, defaultLocale) {
 
 function getValueForLocale(jsonValue, validLocale, defaultLocale) {
   // console.log('jsonValue', jsonValue, validLocale, defaultLocale);
-  return jsonValue[validLocale] || jsonValue[defaultLocale] || jsonValue[Object.keys(jsonValue)[0]];
+  return jsonValue ? (jsonValue[validLocale] || jsonValue[defaultLocale] || jsonValue[Object.keys(jsonValue)[0]]) : null;
 }
 
 function localizeAttributes(attributes, entry, validLocale, defaultLocale) {
@@ -127,27 +127,22 @@ async function localizeEntry(entry, uid, locale) {
   const model = strapi.getModel(uid);
   const localizedAttributes = getFlatLocalizedAttributes(model);
   const hasLocale = localizedAttributes.length > 0;
+  console.log(uid, 'localizeEntry.hasLocale', hasLocale);
   if (!hasLocale) {
     return entry;
   }
-
   const localeService = getService('locales');
   const defaultLocale = await localeService.getDefaultLocale();
-
   const validLocale = await localeService.findByCode(locale);
+  console.log(uid, 'localizeEntry.validLocale', validLocale ? validLocale.code : null);
   if (!validLocale) {
     return entry;
   }
-
   // console.log('entry', entry);
-
   localizeAttributes(localizedAttributes, entry, validLocale.code, defaultLocale);
-
   // console.log(entry, localizedAttributes, hasLocale);
-
   // console.log('localizedAttributes', localizedAttributes);
   // console.log('entityServiceDecorator.findOne', uid, id, parameters);
-
   // await syncLocalizations(entry, { model });
   // await syncNonLocalizedAttributes(entry, { model });
   return entry;
@@ -155,19 +150,24 @@ async function localizeEntry(entry, uid, locale) {
 
 async function localizeEntries(entries, uid, locale) {
   const model = strapi.getModel(uid);
+  if (model.kind === 'singleType') {
+    return await localizeEntry(entries, uid, locale);
+  }
   const localizedAttributes = getFlatLocalizedAttributes(model);
   const hasLocale = localizedAttributes.length > 0;
+  console.log(uid, 'localizeEntries.hasLocale', hasLocale);
   if (!hasLocale) {
     return entries;
   }
   const localeService = getService('locales');
   const defaultLocale = await localeService.getDefaultLocale();
   const validLocale = await localeService.findByCode(locale);
+  console.log(uid, 'localizeEntries.validLocale', validLocale ? validLocale.code : null);
   if (!validLocale) {
     return entries;
   }
   entries.forEach(entry => {
-    console.log(entry);
+    // console.log(entry);
     localizeAttributes(localizedAttributes, entry, validLocale.code, defaultLocale);
   });
   return entries;
@@ -185,7 +185,7 @@ const decorator = (service) => ({
    * @param {object} ctx.model - Model that is being used
    */
   async wrapParams(params = {}, ctx = {}) {
-    console.log('entityServiceDecorator.wrapParams', params, ctx);
+    // console.log('entityServiceDecorator.wrapParams', params, ctx);
     const wrappedParams = await service.wrapParams.call(this, params, ctx);
     const model = strapi.getModel(ctx.uid);
     const { hasLocalizedContentType } = getService('contentTypes');
@@ -198,6 +198,7 @@ const decorator = (service) => ({
 
   async findMany(uid, parameters = {}) {
     let entries = await service.findMany.call(this, uid, parameters);
+    console.log('entityService.findMany', parameters.locale);
     if (!parameters.locale) {
       return entries;
     }

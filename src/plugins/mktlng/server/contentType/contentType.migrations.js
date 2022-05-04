@@ -10,7 +10,7 @@ async function disable({ oldContentTypes, contentTypes }) {
   if (!oldContentTypes) {
     return;
   }
-  console.log('disable mktlng', Object.keys(contentTypes));
+  // console.log('disable mktlng', Object.keys(contentTypes));
   for (const uid in contentTypes) {
     if (!oldContentTypes[uid]) {
       continue;
@@ -36,7 +36,7 @@ async function enable({ oldContentTypes, contentTypes }) {
   if (!oldContentTypes) {
     return;
   }
-  console.log('enable mktlng', Object.keys(contentTypes));
+  // console.log('enable mktlng', Object.keys(contentTypes));
   for (const uid in contentTypes) {
     if (!oldContentTypes[uid]) {
       continue;

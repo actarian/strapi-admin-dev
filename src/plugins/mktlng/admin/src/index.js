@@ -116,7 +116,7 @@ export default {
     if (plugin) {
       const forms = plugin.apis.forms;
 
-      console.log('forms', forms);
+      // console.log('forms', forms);
 
       // # mutate schema
       forms.addContentTypeSchemaMutation(contentTypeSchemaMutation);

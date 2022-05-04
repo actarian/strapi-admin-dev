@@ -1,0 +1,30 @@
+{
+  "collectionName": "components_page_meta_socials",
+  "info": {
+    "displayName": "Meta Social",
+    "icon": "project-diagram"
+  },
+  "options": {},
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": ["Facebook", "Twitter"],
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 60
+    },
+    "description": {
+      "type": "string",
+      "required": true,
+      "maxLength": 65
+    },
+    "image": {
+      "allowedTypes": ["images", "files", "videos"],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

@@ -85,7 +85,7 @@ export function enhanceComponentLayoutForRelations(layout, locale) {
 }
 
 export function mutateEditViewLayout({ layout, query }) {
-  console.log('mutateEditViewLayout', layout, query);
+  // console.log('mutateEditViewLayout', layout, query);
   return { layout, query };
 
 

@@ -1,0 +1,48 @@
+{
+  "collectionName": "components_page_meta_socials",
+  "info": {
+    "displayName": "Meta Social",
+    "icon": "project-diagram"
+  },
+  "options": {},
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": ["Facebook", "Twitter"],
+      "required": true
+    },
+    "title": {
+      "type": "json",
+      "pluginOptions": {
+        "mktlng": {
+          "locales": true
+        }
+      },
+      "customField": {
+        "type": "localizedText",
+        "forType": "string",
+        "maxLength": 60
+      },
+      "required": true
+    },
+    "description": {
+      "type": "json",
+      "pluginOptions": {
+        "mktlng": {
+          "locales": true
+        }
+      },
+      "customField": {
+        "type": "localizedText",
+        "forType": "string",
+        "maxLength": 65
+      },
+      "required": true
+    },
+    "image": {
+      "allowedTypes": ["images", "files", "videos"],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}
