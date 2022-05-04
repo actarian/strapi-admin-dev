@@ -17,11 +17,11 @@ import { Illo } from '../../../Icons/Illo';
 import { getTrad } from '../../../utils';
 import PagesList from './PagesList';
 
-const slugSchema = {
+const stringSchema = {
   type: 'string',
 };
 
-const slugLocalizedSchema = {
+const stringLocalizedSchema = {
   type: 'json',
   pluginOptions: {
     mktlng: {
@@ -106,11 +106,8 @@ function PagesTabs({ contentTypes, onChange }) {
     }
 
     if (!hasMetaAttribute && activate) {
-      if (app.plugins.mktlng) {
-        attributes.slug = slugLocalizedSchema;
-      } else {
-        attributes.slug = slugSchema;
-      }
+      attributes.title = attributes.title || (app.plugins.mktlng ? stringLocalizedSchema : stringSchema);
+      attributes.slug = app.plugins.mktlng ? stringLocalizedSchema : stringSchema;
       attributes.meta = metaSchema;
       await update(schema);
     }

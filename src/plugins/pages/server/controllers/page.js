@@ -91,14 +91,14 @@ async function getPageBySlug(ctx) {
   };
 
   async function collectEntries(contentType) {
-    console.log('collectEntries', contentType.uid);
+    // console.log('collectEntries', contentType.uid);
     let entries = await strapi.entityService.findMany(contentType.uid, { ...queryParams }) || [];
     entries.forEach(entry => entry.contentType = contentType);
     pages = pages.concat(entries);
   };
 
   async function collectEntry(contentType) {
-    console.log('collectEntry', contentType.uid);
+    // console.log('collectEntry', contentType.uid);
     const entry = await strapi.entityService.findMany(contentType.uid, { ...queryParams });
     if (entry) {
       entry.contentType = contentType;
@@ -109,7 +109,7 @@ async function getPageBySlug(ctx) {
   await Promise.all(contentTypes.collectionTypes.map(collectEntries));
   await Promise.all(contentTypes.singleTypes.map(collectEntry));
 
-  console.log('getPageBySlug', pages);
+  // console.log('getPageBySlug', pages);
 
   const page = pages.find(page => (page.slug || '') === (slug || ''));
 
