@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   default: {
     additionalFields: [],
@@ -5,5 +7,5 @@ module.exports = {
     contentTypesNameFields: {},
     contentTypesPopulate: {},
     allowedLevels: 2
-  }
-}
+  },
+};
