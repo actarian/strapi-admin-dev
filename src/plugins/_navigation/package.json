@@ -1,0 +1,73 @@
+{
+  "name": "navigation",
+  "version": "2.0.13",
+  "description": "Strapi - Navigation plugin",
+  "strapi": {
+    "name": "navigation",
+    "displayName": "Navigation",
+    "description": "Create consumable navigation with a simple and straightforward visual builder",
+    "kind": "plugin"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VirtusLab/strapi-plugin-navigation"
+  },
+  "scripts": {
+    "publish:latest": "npm publish --tag latest",
+    "test:unit": "jest --verbose --coverage"
+  },
+  "dependencies": {
+    "@strapi/utils": "^4.1.8",
+    "uuid": "^8.3.0",
+    "lodash": "^4.17.11",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-intl": "4.5.0",
+    "react-redux": "^7.0.2",
+    "react-router": "^5.0.0",
+    "react-router-dom": "^5.0.0",
+    "reactstrap": "8.4.1",
+    "redux-saga": "^0.16.0",
+    "request": "^2.83.0",
+    "slugify": "^1.4.5",
+    "pluralize": "^8.0.0"
+  },
+  "devDependencies": {
+    "koa": "^2.8.0",
+    "jest": "^26.0.1",
+    "jest-cli": "^26.0.1",
+    "jest-styled-components": "^7.0.2",
+    "codecov": "^3.7.2"
+  },
+  "peerDependencies": {
+    "@strapi/strapi": "4.x"
+  },
+  "author": {
+    "name": "VirtusLab",
+    "email": "strapi@virtuslab.com",
+    "url": "https://virtuslab.com"
+  },
+  "maintainers": [
+    {
+      "name": "VirtusLab // Mateusz Ziarko",
+      "email": "mziarko@virtuslab.com",
+      "url": "https://virtuslab.com"
+    },
+    {
+      "name": "VirtusLab // Maksymilian Pamuła",
+      "email": "mpamula@virtuslab.com",
+      "url": "https://virtuslab.com"
+    },
+    {
+      "name": "VirtusLab // Maciej Witkowski",
+      "email": "mwitkowski@virtuslab.com",
+      "url": "https://virtuslab.com"
+    }
+  ],
+  "engines": {
+    "node": ">=10.16.0",
+    "npm": ">=6.0.0"
+  },
+  "keywords": ["strapi", "plugin", "navigation"],
+  "license": "MIT"
+}

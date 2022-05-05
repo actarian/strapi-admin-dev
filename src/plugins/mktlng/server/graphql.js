@@ -1,5 +1,7 @@
 'use strict';
 
+// !!! todo - divide into respective folders
+
 const { prop, propEq, identity, merge } = require('lodash/fp');
 const { ValidationError } = require('@strapi/utils').errors;
 

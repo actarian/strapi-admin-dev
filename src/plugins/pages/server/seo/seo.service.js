@@ -3,10 +3,10 @@
 const _ = require('lodash');
 const fetch = require('node-fetch');
 
-const metaSchema_ = require('../components/meta.json');
-const metaSocialSchema_ = require('../components/meta-social.json');
-const metaLocalizedSchema_ = require('../components/meta-localized.json');
-const metaSocialLocalizedSchema_ = require('../components/meta-social-localized.json');
+const metaSchema_ = require('../meta/meta.json');
+const metaSocialSchema_ = require('../meta/meta-social.json');
+const metaLocalizedSchema_ = require('../meta/meta-localized.json');
+const metaSocialLocalizedSchema_ = require('../meta/meta-social-localized.json');
 
 module.exports = ({ strapi }) => ({
 
