@@ -7,7 +7,9 @@ import { getTrad } from './translations';
 const name = pluginPkg.strapi.name;
 
 export default {
+
   register(app) {
+
     app.createSettingSection(
       {
         id: pluginId,
@@ -31,6 +33,7 @@ export default {
           permissions: pluginPermissions.access,
         }
       ]);
+
     app.addMenuLink({
       to: `/plugins/${pluginId}`,
       icon: NavigationIcon,
@@ -45,12 +48,16 @@ export default {
       },
       permissions: pluginPermissions.access,
     });
+
     app.registerPlugin({
       id: pluginId,
       name,
     });
+
   },
+
   bootstrap() { },
+
   async registerTrads({ locales }) {
     const importedTrads = await Promise.all(
       locales.map(locale => {
