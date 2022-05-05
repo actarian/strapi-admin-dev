@@ -13,6 +13,7 @@ import { mutateSingleTypesLinks } from './content-manager/mutateSingleTypesLinks
 import { componentSchemaMutation } from './content-type-builder/componentSchemaMutation';
 import { contentTypeSchemaMutation } from './content-type-builder/contentTypeSchemaMutation';
 import { CheckboxConfirmation } from './content-type-builder/custom-fields/CheckboxConfirmation/CheckboxConfirmation';
+import { InputUID } from './content-type-builder/custom-fields/InputUID/InputUID';
 import { LocalizedText } from './content-type-builder/custom-fields/LocalizedText/LocalizedText';
 import { MarketSelector } from './content-type-builder/custom-fields/MarketSelector/MarketSelector';
 import { middlewares } from './middlewares/middlewares';
@@ -34,6 +35,8 @@ export default {
       { type: 'localizedText', Component: LocalizedText },
       { type: 'marketSelector', Component: MarketSelector },
     ]);
+
+    app.addFields({ type: 'uid', Component: InputUID });
 
     app.registerPlugin({
       id: pluginId,
