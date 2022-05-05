@@ -1,23 +1,22 @@
 'use strict';
 
 const { has, omit, isArray } = require('lodash/fp');
-const { ApplicationError } = require('@strapi/utils').errors;
 const { getService } = require('../utils');
 
 const LOCALE_QUERY_FILTER = 'locale';
 const SINGLE_ENTRY_ACTIONS = ['findOne', 'update', 'delete'];
 const BULK_ACTIONS = ['delete'];
 
-const paramsContain = (key, params) => {
+function paramsContain(key, params) {
   return (has(key, params.filters) || (isArray(params.filters) && params.filters.some((clause) => has(key, clause))));
-};
+}
 
 /**
  * Adds default locale or replaces locale by locale in query params
  * @param {object} params - query params
  * @param {object} ctx
  */
-const wrapParams = async (params = {}, ctx = {}) => {
+async function wrapParams(params = {}, ctx = {}) {
   const { action } = ctx;
   params = { ...params };
 
@@ -52,125 +51,6 @@ const wrapParams = async (params = {}, ctx = {}) => {
     },
   };
   return params;
-};
-
-/**
- * Assigns a valid locale or the default one if not define
- * @param {object} data
- */
-const assignValidLocale = async (data) => {
-  const { getValidLocale } = getService('contentTypes');
-  if (!data) {
-    return;
-  }
-  try {
-    data.locale = await getValidLocale(data.locale);
-  } catch (e) {
-    throw new ApplicationError("This locale doesn't exist");
-  }
-};
-
-function isLocalized(attribute) {
-  return attribute.pluginOptions && attribute.pluginOptions.mktlng && attribute.pluginOptions.mktlng.locales;
-}
-
-function getFlatLocalizedAttributes(schema) {
-  return Object.keys(schema.attributes).reduce((p, key) => {
-    const attribute = schema.attributes[key];
-    if (attribute.type === 'component') {
-      const component = strapi.components[attribute.component];
-      return p.concat({ key, attribute: getFlatLocalizedAttributes(component) });
-    } else if (isLocalized(attribute)) {
-      return p.concat({ key, attribute });
-    }
-    return p;
-  }, []);
-};
-
-function deserialize(rawValue) {
-  if (rawValue) {
-    try {
-      return JSON.parse(rawValue);
-    } catch (error) {
-      return {};
-    }
-  }
-  return {};
-}
-
-function getValueForLocale_json(rawValue, validLocale, defaultLocale) {
-  const parsedValue = deserialize(rawValue);
-  // console.log('parsedValue', rawValue, parsedValue, validLocale, defaultLocale);
-  return parsedValue[validLocale] || parsedValue[defaultLocale] || parsedValue[Object.keys(parsedValue)[0]];
-}
-
-function getValueForLocale(jsonValue, validLocale, defaultLocale) {
-  // console.log('jsonValue', jsonValue, validLocale, defaultLocale);
-  return jsonValue ? (jsonValue[validLocale] || jsonValue[defaultLocale] || jsonValue[Object.keys(jsonValue)[0]]) : null;
-}
-
-function localizeAttributes(attributes, entry, validLocale, defaultLocale) {
-  if (!entry) {
-    return;
-  }
-  attributes.forEach(attribute => {
-    const key = attribute.key;
-    if (Array.isArray(attribute.attribute)) {
-      localizeAttributes(attribute.attribute, entry[key]);
-    } else {
-      entry[key] = getValueForLocale(entry[key], validLocale, defaultLocale);
-    }
-  });
-}
-
-async function localizeEntry(entry, uid, locale) {
-  const model = strapi.getModel(uid);
-  const localizedAttributes = getFlatLocalizedAttributes(model);
-  const hasLocale = localizedAttributes.length > 0;
-  console.log(uid, 'localizeEntry.hasLocale', hasLocale);
-  if (!hasLocale) {
-    return entry;
-  }
-  const localeService = getService('locales');
-  const defaultLocale = await localeService.getDefaultLocale();
-  const validLocale = await localeService.findByCode(locale);
-  console.log(uid, 'localizeEntry.validLocale', validLocale ? validLocale.code : null);
-  if (!validLocale) {
-    return entry;
-  }
-  // console.log('entry', entry);
-  localizeAttributes(localizedAttributes, entry, validLocale.code, defaultLocale);
-  // console.log(entry, localizedAttributes, hasLocale);
-  // console.log('localizedAttributes', localizedAttributes);
-  // console.log('entityServiceDecorator.findOne', uid, id, parameters);
-  // await syncLocalizations(entry, { model });
-  // await syncNonLocalizedAttributes(entry, { model });
-  return entry;
-}
-
-async function localizeEntries(entries, uid, locale) {
-  const model = strapi.getModel(uid);
-  if (model.kind === 'singleType') {
-    return await localizeEntry(entries, uid, locale);
-  }
-  const localizedAttributes = getFlatLocalizedAttributes(model);
-  const hasLocale = localizedAttributes.length > 0;
-  console.log(uid, 'localizeEntries.hasLocale', hasLocale);
-  if (!hasLocale) {
-    return entries;
-  }
-  const localeService = getService('locales');
-  const defaultLocale = await localeService.getDefaultLocale();
-  const validLocale = await localeService.findByCode(locale);
-  console.log(uid, 'localizeEntries.validLocale', validLocale ? validLocale.code : null);
-  if (!validLocale) {
-    return entries;
-  }
-  entries.forEach(entry => {
-    // console.log(entry);
-    localizeAttributes(localizedAttributes, entry, validLocale.code, defaultLocale);
-  });
-  return entries;
 }
 
 /**
@@ -178,23 +58,6 @@ async function localizeEntries(entries, uid, locale) {
  * @param {object} service - entity service
  */
 const decorator = (service) => ({
-  /**
-   * Wraps query options. In particular will add default locale to query params
-   * @param {object} opts - Query options object (params, data, files, populate)
-   * @param {object} ctx - Query context
-   * @param {object} ctx.model - Model that is being used
-   */
-  async wrapParams(params = {}, ctx = {}) {
-    // console.log('entityServiceDecorator.wrapParams', params, ctx);
-    const wrappedParams = await service.wrapParams.call(this, params, ctx);
-    const model = strapi.getModel(ctx.uid);
-    const { hasLocalizedContentType } = getService('contentTypes');
-    // console.log('entityServiceDecorator.wrapParams', params, wrappedParams);
-    if (!hasLocalizedContentType(model)) {
-      return wrappedParams;
-    }
-    return wrapParams(params, ctx);
-  },
 
   async findMany(uid, parameters = {}) {
     let entries = await service.findMany.call(this, uid, parameters);
@@ -204,7 +67,8 @@ const decorator = (service) => ({
     }
     const locale = parameters.locale;
     delete parameters.locale;
-    entries = await localizeEntries(entries, uid, locale);
+    const localeService = getService('locales');
+    entries = await localeService.localizeEntries(entries, uid, locale);
     return entries;
   },
 
@@ -217,14 +81,16 @@ const decorator = (service) => ({
     }
     */
     // const { data } = parameters;
-    // await assignValidLocale(data);
+    // const localeService = getService('locales');
+    // await localeService.assignValidLocale(data);
     let entry = await service.findOne.call(this, uid, id, parameters);
     if (!parameters.locale) {
       return entry;
     }
     const locale = parameters.locale;
     delete parameters.locale;
-    entry = await localizeEntry(entry, uid, locale);
+    const localeService = getService('locales');
+    entry = await localeService.localizeEntry(entry, uid, locale);
     // await syncLocalizations(entry, { model });
     // await syncNonLocalizedAttributes(entry, { model });
     return entry;
@@ -246,7 +112,8 @@ const decorator = (service) => ({
     }
 
     const { data } = opts;
-    await assignValidLocale(data);
+    const localeService = getService('locales');
+    await localeService.assignValidLocale(data);
 
     const entry = await service.create.call(this, uid, opts);
 
@@ -281,6 +148,25 @@ const decorator = (service) => ({
     await syncNonLocalizedAttributes(entry, { model });
     return entry;
   },
+
+  /**
+   * Wraps query options. In particular will add default locale to query params
+   * @param {object} opts - Query options object (params, data, files, populate)
+   * @param {object} ctx - Query context
+   * @param {object} ctx.model - Model that is being used
+   */
+   async wrapParams(params = {}, ctx = {}) {
+    // console.log('entityServiceDecorator.wrapParams', params, ctx);
+    const wrappedParams = await service.wrapParams.call(this, params, ctx);
+    const model = strapi.getModel(ctx.uid);
+    const { hasLocalizedContentType } = getService('contentTypes');
+    // console.log('entityServiceDecorator.wrapParams', params, wrappedParams);
+    if (!hasLocalizedContentType(model)) {
+      return wrappedParams;
+    }
+    return wrapParams(params, ctx);
+  },
+
 });
 
 module.exports = () => ({

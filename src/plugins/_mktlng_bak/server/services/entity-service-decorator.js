@@ -55,22 +55,6 @@ const wrapParams = async (params = {}, ctx = {}) => {
 };
 
 /**
- * Assigns a valid locale or the default one if not define
- * @param {object} data
- */
-const assignValidLocale = async (data) => {
-  const { getValidLocale } = getService('content-types');
-  if (!data) {
-    return;
-  }
-  try {
-    data.locale = await getValidLocale(data.locale);
-  } catch (e) {
-    throw new ApplicationError("This locale doesn't exist");
-  }
-};
-
-/**
  * Decorates the entity service with Mktlng business logic
  * @param {object} service - entity service
  */
@@ -203,7 +187,8 @@ const decorator = (service) => ({
     }
 
     const { data } = opts;
-    await assignValidLocale(data);
+    const localeService = getService('locales');
+    await localeService.assignValidLocale(data);
 
     const entry = await service.create.call(this, uid, opts);
 

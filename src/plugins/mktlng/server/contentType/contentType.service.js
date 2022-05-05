@@ -28,18 +28,6 @@ const hasLocalizedContentType = (model) => {
   return hasLocale(model);
 };
 
-const getValidLocale = async (locale) => {
-  const service = getService('locales');
-  if (isNil(locale)) {
-    return service.getDefaultLocale();
-  }
-  const foundLocale = await service.findByCode(locale);
-  if (!foundLocale) {
-    throw new ApplicationError('Locale not found');
-  }
-  return locale;
-};
-
 /**
  * Get the related entity used for entity creation
  * @param {Object} relatedEntity related entity
@@ -192,7 +180,6 @@ const getNestedPopulateOfNonLocalizedAttributes = (modelUID) => {
 
 module.exports = () => ({
   hasLocalizedContentType,
-  getValidLocale,
   getNewLocalizationsFrom,
   getLocalizedAttributes,
   getNonLocalizedAttributes,
