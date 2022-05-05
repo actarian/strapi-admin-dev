@@ -1,8 +1,8 @@
-import * as yup from "yup";
-import { isNil } from "lodash";
 import { translatedErrors } from "@strapi/helper-plugin";
-import { navigationItemType } from "../../../utils/enums";
+import { isNil } from "lodash";
+import * as yup from "yup";
 import pluginId from "../../../../../pluginId";
+import { navigationItemType } from "../../../utils/enums";
 
 export const form = {
   fieldsToDisable: [],
@@ -29,7 +29,7 @@ export const form = {
           is: val => val === navigationItemType.EXTERNAL,
           then: yup.string()
             .required(translatedErrors.required)
-            .matches(/(#.*)|(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/, { 
+            .matches(/(#.*)|(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/, {
               excludeEmptyString: true,
               message: `${pluginId}.popup.item.form.externalPath.validation.type`,
             }),

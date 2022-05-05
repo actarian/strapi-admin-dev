@@ -1,7 +1,7 @@
 module.exports = {
   type: 'content-api',
   routes: [
-		 {
+    {
       method: "GET",
       path: "/render/:idOrSlug",
       handler: "navigation.render",

@@ -1,5 +1,5 @@
-import { useQuery } from 'react-query';
 import { useNotification } from '@strapi/helper-plugin';
+import { useQuery } from 'react-query';
 import { fetchAllContentTypes } from '../utils/api';
 
 const useAllContentTypes = () => {

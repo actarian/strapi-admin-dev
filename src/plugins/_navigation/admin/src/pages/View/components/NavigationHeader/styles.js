@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { IconButton } from '@strapi/design-system/IconButton';
+import styled from 'styled-components';
 
 export const MoreButton = styled(IconButton)`
     margin: ${({ theme }) => `0 ${theme.spaces[2]}`};

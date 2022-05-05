@@ -1,8 +1,8 @@
-import React from 'react';
 import PropTypes from "prop-types";
-
+import React from 'react';
 import Item from "../Item";
 import Wrapper from "./Wrapper";
+
 
 const List = ({
   allowedLevels,
@@ -21,34 +21,34 @@ const List = ({
   contentTypes,
   contentTypesNameFields,
 }) => (
-  <Wrapper level={level}>
-    {items.map((item, n) => {
+  <Wrapper level={ level }>
+    { items.map((item, n) => {
       const { relatedRef, ...itemProps } = item
       return (
         <Item
-          key={`list-item-${item.viewId || n}`}
-          item={itemProps}
-          isLast={n === items.length - 1}
-          relatedRef={relatedRef}
-          level={level}
-          levelPath={levelPath}
-          isParentAttachedToMenu={isParentAttachedToMenu}
-          allowedLevels={allowedLevels}
-          onItemRestore={onItemRestore}
-          onItemLevelAdd={onItemLevelAdd}
-          onItemRemove={onItemRemove}
-          onItemEdit={onItemEdit}
-          onItemReOrder={onItemReOrder}
-          onItemToggleCollapse={onItemToggleCollapse}
-          error={error}
-          displayChildren={displayFlat}
-          config={{
+          key={ `list-item-${item.viewId || n}` }
+          item={ itemProps }
+          isLast={ n === items.length - 1 }
+          relatedRef={ relatedRef }
+          level={ level }
+          levelPath={ levelPath }
+          isParentAttachedToMenu={ isParentAttachedToMenu }
+          allowedLevels={ allowedLevels }
+          onItemRestore={ onItemRestore }
+          onItemLevelAdd={ onItemLevelAdd }
+          onItemRemove={ onItemRemove }
+          onItemEdit={ onItemEdit }
+          onItemReOrder={ onItemReOrder }
+          onItemToggleCollapse={ onItemToggleCollapse }
+          error={ error }
+          displayChildren={ displayFlat }
+          config={ {
             contentTypes,
             contentTypesNameFields
-          }}
+          } }
         />
       );
-    })}
+    }) }
   </Wrapper>
 );
 

@@ -1,37 +1,23 @@
-import React, { memo, useEffect, useReducer, useRef } from "react";
-import { useLocation, useRouteMatch } from "react-router-dom";
-import { useIntl } from 'react-intl';
-import PropTypes from "prop-types";
-import { get, find, first, isEmpty } from "lodash";
 import {
-  request,
-  LoadingIndicatorPage,
-  useNotification,
-  useAppInfos,
+  LoadingIndicatorPage, request, useAppInfos, useNotification
 } from "@strapi/helper-plugin";
+import { find, first, get, isEmpty } from "lodash";
+import PropTypes from "prop-types";
+import React, { memo, useEffect, useReducer, useRef } from "react";
+import { useIntl } from 'react-intl';
+import { useLocation, useRouteMatch } from "react-router-dom";
 import DataManagerContext from "../../contexts/DataManagerContext";
-import getTrad from "../../utils/getTrad";
 import pluginId from "../../pluginId";
+import getTrad from "../../utils/getTrad";
+import { prepareItemToViewPayload } from '../View/utils/parsers';
+import {
+  CHANGE_NAVIGATION_DATA, CHANGE_NAVIGATION_ITEM_POPUP_VISIBILITY, CHANGE_NAVIGATION_POPUP_VISIBILITY, GET_CONFIG,
+  GET_CONFIG_SUCCEEDED, GET_CONTENT_TYPE_ITEMS, GET_CONTENT_TYPE_ITEMS_SUCCEEDED, GET_LIST_DATA,
+  GET_LIST_DATA_SUCCEEDED, GET_NAVIGATION_DATA,
+  GET_NAVIGATION_DATA_SUCCEEDED, RESET_NAVIGATION_DATA, SUBMIT_NAVIGATION, SUBMIT_NAVIGATION_ERROR, SUBMIT_NAVIGATION_SUCCEEDED
+} from './actions';
 import init from "./init";
 import reducer, { initialState } from "./reducer";
-import {
-  GET_NAVIGATION_DATA,
-  GET_NAVIGATION_DATA_SUCCEEDED,
-  GET_LIST_DATA,
-  GET_LIST_DATA_SUCCEEDED,
-  CHANGE_NAVIGATION_POPUP_VISIBILITY,
-  CHANGE_NAVIGATION_ITEM_POPUP_VISIBILITY,
-  RESET_NAVIGATION_DATA,
-  CHANGE_NAVIGATION_DATA,
-  GET_CONFIG,
-  GET_CONFIG_SUCCEEDED,
-  GET_CONTENT_TYPE_ITEMS_SUCCEEDED,
-  GET_CONTENT_TYPE_ITEMS,
-  SUBMIT_NAVIGATION,
-  SUBMIT_NAVIGATION_SUCCEEDED,
-  SUBMIT_NAVIGATION_ERROR,
-} from './actions';
-import { prepareItemToViewPayload } from '../View/utils/parsers';
 
 const DataManagerProvider = ({ children }) => {
   const [reducerState, dispatch] = useReducer(reducer, initialState, init);
@@ -165,7 +151,7 @@ const DataManagerProvider = ({ children }) => {
     dispatch({
       type: GET_CONTENT_TYPE_ITEMS,
     });
-    const url =`/navigation/content-type-items/${modelUID}`;
+    const url = `/navigation/content-type-items/${modelUID}`;
     const queryParams = new URLSearchParams();
     queryParams.append('_publicationState', 'preview');
     if (query) {
@@ -222,57 +208,57 @@ const DataManagerProvider = ({ children }) => {
   };
 
   const handleSubmitNavigation = async (formatMessage, payload = {}) => {
-     try {
-       dispatch({
-         type: SUBMIT_NAVIGATION,
-       });
+    try {
+      dispatch({
+        type: SUBMIT_NAVIGATION,
+      });
 
-       const nagivationId = payload.id ? `/${payload.id}` : "";
-       const method = payload.id ? "PUT" : "POST";
-       const navigation = await request(`/${pluginId}${nagivationId}`, {
-         method,
-         signal,
-         body: payload,
-       });
-       dispatch({
-         type: SUBMIT_NAVIGATION_SUCCEEDED,
-         navigation: {
-           ...navigation,
-           items: prepareItemToViewPayload(navigation.items, null, config),
-         },
-       });
-       toggleNotification({
-         type: 'success',
-         message: { id: getTrad('notification.navigation.submit') },
-       });
-     } catch (err) {
-       dispatch({
-         type: SUBMIT_NAVIGATION_ERROR,
-         error: err.response.payload.data
-       });
-       console.error({ err: err.response });
+      const nagivationId = payload.id ? `/${payload.id}` : "";
+      const method = payload.id ? "PUT" : "POST";
+      const navigation = await request(`/${pluginId}${nagivationId}`, {
+        method,
+        signal,
+        body: payload,
+      });
+      dispatch({
+        type: SUBMIT_NAVIGATION_SUCCEEDED,
+        navigation: {
+          ...navigation,
+          items: prepareItemToViewPayload(navigation.items, null, config),
+        },
+      });
+      toggleNotification({
+        type: 'success',
+        message: { id: getTrad('notification.navigation.submit') },
+      });
+    } catch (err) {
+      dispatch({
+        type: SUBMIT_NAVIGATION_ERROR,
+        error: err.response.payload.data
+      });
+      console.error({ err: err.response });
 
-       if (err.response.payload.data && err.response.payload.data.errorTitles) {
-         return toggleNotification({
-           type: 'warning',
-           message: {
-             id: formatMessage(
-               getTrad('notification.navigation.error'),
-               { ...err.response.payload.data, errorTitles: err.response.payload.data.errorTitles.join(' and ') },
-             )
-           },
-         });
-       }
-       toggleNotification({
-         type: 'warning',
-         message: { id: getTrad('notification.error') },
-       });
-     }
+      if (err.response.payload.data && err.response.payload.data.errorTitles) {
+        return toggleNotification({
+          type: 'warning',
+          message: {
+            id: formatMessage(
+              getTrad('notification.navigation.error'),
+              { ...err.response.payload.data, errorTitles: err.response.payload.data.errorTitles.join(' and ') },
+            )
+          },
+        });
+      }
+      toggleNotification({
+        type: 'warning',
+        message: { id: getTrad('notification.error') },
+      });
+    }
   };
 
   return (
     <DataManagerContext.Provider
-      value={{
+      value={ {
         items,
         activeItem,
         initialData,
@@ -295,9 +281,9 @@ const DataManagerProvider = ({ children }) => {
         getContentTypeItems,
         isInDevelopmentMode,
         error,
-      }}
+      } }
     >
-      {isLoading ? <LoadingIndicatorPage /> : children}
+      { isLoading ? <LoadingIndicatorPage /> : children }
     </DataManagerContext.Provider>
   );
 };

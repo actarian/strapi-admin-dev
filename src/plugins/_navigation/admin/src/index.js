@@ -1,8 +1,8 @@
 import { prefixPluginTranslations } from '@strapi/helper-plugin';
 import pluginPkg from '../../package.json';
-import pluginId from './pluginId';
-import pluginPermissions from './permissions';
 import NavigationIcon from './components/icons/navigation';
+import pluginPermissions from './permissions';
+import pluginId from './pluginId';
 import { getTrad } from './translations';
 const name = pluginPkg.strapi.name;
 
@@ -25,7 +25,7 @@ export default {
             const component = await import(
               /* webpackChunkName: "navigation-settings" */ './pages/SettingsPage'
             );
-    
+
             return component;
           },
           permissions: pluginPermissions.access,
@@ -50,7 +50,7 @@ export default {
       name,
     });
   },
-  bootstrap() {},
+  bootstrap() { },
   async registerTrads({ locales }) {
     const importedTrads = await Promise.all(
       locales.map(locale => {

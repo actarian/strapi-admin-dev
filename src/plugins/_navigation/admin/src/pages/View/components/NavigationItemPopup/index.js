@@ -4,18 +4,18 @@
  *
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { find } from 'lodash';
-
 //Design System
 import { ModalLayout } from '@strapi/design-system/ModalLayout';
-
-import NavigationItemForm from '../NavigationItemForm';
-import { extractRelatedItemLabel, isRelationCorrect, isRelationPublished } from '../../utils/parsers';
-import { navigationItemType } from '../../utils/enums';
-import { NavigationItemPopupHeader } from './NavigationItemPopupHeader';
+import { find } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { getMessage } from '../../../../utils';
+import { navigationItemType } from '../../utils/enums';
+import { extractRelatedItemLabel, isRelationCorrect, isRelationPublished } from '../../utils/parsers';
+import NavigationItemForm from '../NavigationItemForm';
+import { NavigationItemPopupHeader } from './NavigationItemPopupHeader';
+
+
 
 const NavigationItemPopUp = ({
   isOpen,
@@ -77,22 +77,22 @@ const NavigationItemPopUp = ({
   };
 
   return (
-    <ModalLayout labelledBy="condition-modal-breadcrumbs" onClose={onClose} isOpen={isOpen}>
-      <NavigationItemPopupHeader isNewItem={!data.viewId}/>
+    <ModalLayout labelledBy="condition-modal-breadcrumbs" onClose={ onClose } isOpen={ isOpen }>
+      <NavigationItemPopupHeader isNewItem={ !data.viewId } />
       <NavigationItemForm
-        data={prepareFormData(data)}
-        isLoading={isLoading}
-        additionalFields={additionalFields}
-        contentTypesNameFields={contentTypesNameFields}
-        availableAudience={availableAudience}
-        contentTypes={contentTypes}
-        contentTypeEntities={contentTypeItems}
-        usedContentTypeEntities={usedContentTypeItems}
-        getContentTypeEntities={getContentTypeItems}
-        usedContentTypesData={usedContentTypesData}
-        onSubmit={handleOnSubmit}
-        onCancel={onClose}
-        appendLabelPublicationStatus={appendLabelPublicationStatus}
+        data={ prepareFormData(data) }
+        isLoading={ isLoading }
+        additionalFields={ additionalFields }
+        contentTypesNameFields={ contentTypesNameFields }
+        availableAudience={ availableAudience }
+        contentTypes={ contentTypes }
+        contentTypeEntities={ contentTypeItems }
+        usedContentTypeEntities={ usedContentTypeItems }
+        getContentTypeEntities={ getContentTypeItems }
+        usedContentTypesData={ usedContentTypesData }
+        onSubmit={ handleOnSubmit }
+        onCancel={ onClose }
+        appendLabelPublicationStatus={ appendLabelPublicationStatus }
       />
     </ModalLayout>
 

@@ -40,7 +40,7 @@ module.exports = async ({ strapi }) => {
         }
       });
   }
-  
+
   // Initialize configuration
   const config = await strapi.plugin('navigation').service('navigation').setDefaultConfig()
 

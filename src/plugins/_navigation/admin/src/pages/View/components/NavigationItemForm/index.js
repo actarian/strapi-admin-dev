@@ -1,22 +1,22 @@
-import React, { useEffect, useMemo, useState, useCallback } from 'react';
-import { debounce, find, get, first, isEmpty, isEqual, isNil, isString } from 'lodash';
-import PropTypes from 'prop-types';
-import { Formik } from 'formik'
-import slugify from 'slugify';
-
+import { Grid, GridItem } from '@strapi/design-system/Grid';
 // Design System
 import { ModalBody } from '@strapi/design-system/ModalLayout';
-import { Select, Option } from '@strapi/design-system/Select';
-import { Grid, GridItem } from '@strapi/design-system/Grid';
+import { Option, Select } from '@strapi/design-system/Select';
 import { Form, GenericInput } from '@strapi/helper-plugin';
-
-import { NavigationItemPopupFooter } from '../NavigationItemPopup/NavigationItemPopupFooter';
-import { navigationItemAdditionalFields, navigationItemType } from '../../utils/enums';
-import { extractRelatedItemLabel } from '../../utils/parsers';
-import { form as formDefinition } from './utils/form';
-import { checkFormValidity } from '../../utils/form';
+import { Formik } from 'formik';
+import { debounce, find, first, get, isEmpty, isEqual, isNil, isString } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import slugify from 'slugify';
 import { getTradId } from '../../../../translations';
 import { getMessage } from '../../../../utils';
+import { navigationItemAdditionalFields, navigationItemType } from '../../utils/enums';
+import { checkFormValidity } from '../../utils/form';
+import { extractRelatedItemLabel } from '../../utils/parsers';
+import { NavigationItemPopupFooter } from '../NavigationItemPopup/NavigationItemPopupFooter';
+import { form as formDefinition } from './utils/form';
+
+
 
 const NavigationItemForm = ({
   isLoading,
@@ -79,7 +79,7 @@ const NavigationItemForm = ({
     const singleRelatedItem = isSingleSelected ? first(contentTypeEntities) : undefined;
     const relatedCollectionType = relatedType;
     const title = payload.title;
-    
+
     return {
       ...purePayload,
       title,
@@ -279,94 +279,94 @@ const NavigationItemForm = ({
       <Formik>
         <Form>
           <ModalBody>
-            <Grid gap={5}>
-              <GridItem key={`${inputsPrefix}title`} col={12}>
+            <Grid gap={ 5 }>
+              <GridItem key={ `${inputsPrefix}title` } col={ 12 }>
                 <GenericInput
-                  autoFocused={true}
-                  intlLabel={{
+                  autoFocused={ true }
+                  intlLabel={ {
                     id: getTradId('popup.item.form.title.label'),
                     defaultMessage: 'Title',
-                  }}
-                  name={`${inputsPrefix}title`}
-                  placeholder={{
+                  } }
+                  name={ `${inputsPrefix}title` }
+                  placeholder={ {
                     id: "e.g. Blog",
                     defaultMessage: 'e.g. Blog',
-                  }}
-                  description={{
+                  } }
+                  description={ {
                     id: getTradId('popup.item.form.title.placeholder'),
                     defaultMessage: 'e.g. Blog',
-                  }}
+                  } }
                   type='text'
-                  error={get(formErrors, `${inputsPrefix}title.id`)}
-                  onChange={onChange}
-                  value={get(form, `${inputsPrefix}title`, '')}
+                  error={ get(formErrors, `${inputsPrefix}title.id`) }
+                  onChange={ onChange }
+                  value={ get(form, `${inputsPrefix}title`, '') }
                 />
               </GridItem>
-              <GridItem key={`${inputsPrefix}type`} col={4} lg={12}>
+              <GridItem key={ `${inputsPrefix}type` } col={ 4 } lg={ 12 }>
                 <GenericInput
-                  intlLabel={{
+                  intlLabel={ {
                     id: getTradId('popup.item.form.type.label'),
                     defaultMessage: 'Internal link',
-                  }}
-                  name={`${inputsPrefix}type`}
-                  options={navigationItemTypeOptions}
+                  } }
+                  name={ `${inputsPrefix}type` }
+                  options={ navigationItemTypeOptions }
                   type='select'
-                  error={get(formErrors, `${inputsPrefix}type.id`)}
-                  onChange={onChange}
-                  value={get(form, `${inputsPrefix}type`, '')}
+                  error={ get(formErrors, `${inputsPrefix}type.id`) }
+                  onChange={ onChange }
+                  value={ get(form, `${inputsPrefix}type`, '') }
                 />
               </GridItem>
-              <GridItem key={`${inputsPrefix}menuAttached`} col={4} lg={12}>
+              <GridItem key={ `${inputsPrefix}menuAttached` } col={ 4 } lg={ 12 }>
                 <GenericInput
-                  intlLabel={{
+                  intlLabel={ {
                     id: getTradId('popup.item.form.menuAttached.label'),
                     defaultMessage: 'MenuAttached',
-                  }}
-                  name={`${inputsPrefix}menuAttached`}
+                  } }
+                  name={ `${inputsPrefix}menuAttached` }
                   type='bool'
-                  error={get(formErrors, `${inputsPrefix}menuAttached.id`)}
-                  onChange={onChange}
-                  value={get(form, `${inputsPrefix}menuAttached`, '')}
-                  disabled={!(data.isMenuAllowedLevel && data.parentAttachedToMenu)}
+                  error={ get(formErrors, `${inputsPrefix}menuAttached.id`) }
+                  onChange={ onChange }
+                  value={ get(form, `${inputsPrefix}menuAttached`, '') }
+                  disabled={ !(data.isMenuAllowedLevel && data.parentAttachedToMenu) }
                 />
               </GridItem>
-              <GridItem key={`${inputsPrefix}path`} col={12}>
+              <GridItem key={ `${inputsPrefix}path` } col={ 12 }>
                 <GenericInput
-                  intlLabel={{
+                  intlLabel={ {
                     id: getTradId(`popup.item.form.${pathSourceName}.label`),
                     defaultMessage: 'Path',
-                  }}
-                  name={`${inputsPrefix}${pathSourceName}`}
-                  placeholder={{
+                  } }
+                  name={ `${inputsPrefix}${pathSourceName}` }
+                  placeholder={ {
                     id: getTradId(`popup.item.form.${pathSourceName}.placeholder`),
                     defaultMessage: 'e.g. Blog',
-                  }}
+                  } }
                   type='text'
-                  error={get(formErrors, `${inputsPrefix}${pathSourceName}.id`)}
-                  onChange={onChange}
-                  value={get(form, `${inputsPrefix}${pathSourceName}`, '')}
-                  description={generatePreviewPath()}
+                  error={ get(formErrors, `${inputsPrefix}${pathSourceName}.id`) }
+                  onChange={ onChange }
+                  value={ get(form, `${inputsPrefix}${pathSourceName}`, '') }
+                  description={ generatePreviewPath() }
                 />
               </GridItem>
-              {get(form, `${inputsPrefix}type`) === navigationItemType.INTERNAL && (
+              { get(form, `${inputsPrefix}type`) === navigationItemType.INTERNAL && (
                 <>
-                  <GridItem col={6} lg={12}>
+                  <GridItem col={ 6 } lg={ 12 }>
                     <GenericInput
                       type="select"
-                      intlLabel={{
+                      intlLabel={ {
                         id: getTradId('popup.item.form.relatedType.label'),
                         defaultMessage: 'Related Type'
-                      }}
-                      placeholder={{
+                      } }
+                      placeholder={ {
                         id: getTradId('popup.item.form.relatedType.placeholder'),
                         defaultMessage: 'Related Type'
-                      }}
-                      name={`${inputsPrefix}relatedType`}
-                      error={get(formErrors, `${inputsPrefix}relatedType.id`)}
-                      onChange={onChangeRelatedType}
-                      options={relatedTypeSelectOptions}
-                      value={relatedTypeSelectValue}
-                      disabled={isLoading || isEmpty(relatedTypeSelectOptions)}
+                      } }
+                      name={ `${inputsPrefix}relatedType` }
+                      error={ get(formErrors, `${inputsPrefix}relatedType.id`) }
+                      onChange={ onChangeRelatedType }
+                      options={ relatedTypeSelectOptions }
+                      value={ relatedTypeSelectValue }
+                      disabled={ isLoading || isEmpty(relatedTypeSelectOptions) }
                       description={
                         !isLoading && isEmpty(relatedTypeSelectOptions)
                           ? {
@@ -377,26 +377,26 @@ const NavigationItemForm = ({
                       }
                     />
                   </GridItem>
-                  {relatedTypeSelectValue && !isSingleSelected && (
-                    <GridItem col={6} lg={12}>
+                  { relatedTypeSelectValue && !isSingleSelected && (
+                    <GridItem col={ 6 } lg={ 12 }>
                       <GenericInput
                         type="select"
-                        intlLabel={{
+                        intlLabel={ {
                           id: getTradId('popup.item.form.related.label'),
                           defaultMessage: 'Related'
-                        }}
-                        placeholder={{
+                        } }
+                        placeholder={ {
                           id: getTradId('popup.item.form.related.label'),
                           defaultMessage: 'Related'
-                        }}
-                        name={relatedFieldName}
-                        error={get(formErrors, `${relatedFieldName}.id`)}
-                        onChange={onChange}
-                        onInputChange={debounceContentTypeSearchQuery}
-                        inputValue={contentTypeSearchInputValue}
-                        options={relatedSelectOptions}
-                        value={relatedSelectValue}
-                        disabled={isLoading || thereAreNoMoreContentTypes}
+                        } }
+                        name={ relatedFieldName }
+                        error={ get(formErrors, `${relatedFieldName}.id`) }
+                        onChange={ onChange }
+                        onInputChange={ debounceContentTypeSearchQuery }
+                        inputValue={ contentTypeSearchInputValue }
+                        options={ relatedSelectOptions }
+                        value={ relatedSelectValue }
+                        disabled={ isLoading || thereAreNoMoreContentTypes }
                         description={
                           !isLoading && thereAreNoMoreContentTypes
                             ? {
@@ -408,18 +408,18 @@ const NavigationItemForm = ({
                         }
                       />
                     </GridItem>
-                  )}
+                  ) }
                 </>
-              )}
+              ) }
 
-              {additionalFields.includes(navigationItemAdditionalFields.AUDIENCE) && (
-                <GridItem key={`${inputsPrefix}audience`} col={6} lg={12}>
+              { additionalFields.includes(navigationItemAdditionalFields.AUDIENCE) && (
+                <GridItem key={ `${inputsPrefix}audience` } col={ 6 } lg={ 12 }>
                   <Select
-                    id={`${inputsPrefix}audience`}
-                    placeholder={getMessage('popup.item.form.audience.placeholder')}
-                    label={getMessage('popup.item.form.audience.label')}
-                    onChange={onAudienceChange}
-                    value={audience}
+                    id={ `${inputsPrefix}audience` }
+                    placeholder={ getMessage('popup.item.form.audience.placeholder') }
+                    label={ getMessage('popup.item.form.audience.label') }
+                    onChange={ onAudienceChange }
+                    value={ audience }
                     hint={
                       !isLoading && isEmpty(audienceOptions)
                         ? getMessage('popup.item.form.audience.empty', 'There are no more audiences')
@@ -427,17 +427,17 @@ const NavigationItemForm = ({
                     }
                     multi
                     withTags
-                    disabled={isEmpty(audienceOptions)}
+                    disabled={ isEmpty(audienceOptions) }
                   >
-                    {audienceOptions.map(({ value, label }) => <Option key={value} value={value}>{label}</Option>)}
+                    { audienceOptions.map(({ value, label }) => <Option key={ value } value={ value }>{ label }</Option>) }
                   </Select>
                 </GridItem>
-              )}
+              ) }
             </Grid>
           </ModalBody>
         </Form>
       </Formik>
-      <NavigationItemPopupFooter handleSubmit={handleSubmit} handleCancel={onCancel} submitDisabled={submitDisabled} />
+      <NavigationItemPopupFooter handleSubmit={ handleSubmit } handleCancel={ onCancel } submitDisabled={ submitDisabled } />
     </>
   );
 };

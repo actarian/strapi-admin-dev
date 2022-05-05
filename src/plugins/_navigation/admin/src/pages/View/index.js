@@ -4,36 +4,36 @@
  *
  */
 
-import React, { memo, useMemo, useState } from 'react';
-import { useIntl } from "react-intl";
-import { isEmpty, get } from "lodash";
-
+import { Box } from '@strapi/design-system/Box';
+import { Button } from '@strapi/design-system/Button';
+import { Flex } from '@strapi/design-system/Flex';
+import { Icon } from '@strapi/design-system/Icon';
+import { ContentLayout } from '@strapi/design-system/Layout';
 // Design System
 import { Main } from '@strapi/design-system/Main';
-import { Flex } from '@strapi/design-system/Flex';
-import { ContentLayout } from '@strapi/design-system/Layout';
 import { Typography } from '@strapi/design-system/Typography';
-import { Box } from '@strapi/design-system/Box';
-import { Icon } from '@strapi/design-system/Icon';
-import { Button } from '@strapi/design-system/Button';
 import { LoadingIndicatorPage } from "@strapi/helper-plugin";
 import EmptyDocumentsIcon from '@strapi/icons/EmptyDocuments';
 import PlusIcon from "@strapi/icons/Plus";
-
-// Components 
+import { get, isEmpty } from "lodash";
+import React, { memo, useMemo, useState } from 'react';
+import { useIntl } from "react-intl";
+// Components
 import List from '../../components/NavigationItemList';
-import NavigationContentHeader from './components/NavigationContentHeader';
-import NavigationHeader from './components/NavigationHeader';
-import NavigationItemPopUp from "./components/NavigationItemPopup";
 import Search from '../../components/Search';
 import useDataManager from "../../hooks/useDataManager";
 import { getTrad } from '../../translations';
+import NavigationContentHeader from './components/NavigationContentHeader';
+import NavigationHeader from './components/NavigationHeader';
+import NavigationItemPopUp from "./components/NavigationItemPopup";
 import {
   transformItemToViewPayload,
   transformToRESTPayload,
   usedContentTypes,
-  validateNavigationStructure,
+  validateNavigationStructure
 } from './utils/parsers';
+
+
 
 const View = () => {
   const {
@@ -231,75 +231,75 @@ const View = () => {
   ]
 
   return (
-    <Main labelledBy="title" aria-busy={isLoadingForSubmit}>
+    <Main labelledBy="title" aria-busy={ isLoadingForSubmit }>
       <NavigationHeader
-        structureHasErrors={structureHasErrors}
-        structureHasChanged={structureChanged}
-        availableNavigations={availableNavigations}
-        activeNavigation={activeNavigation}
-        handleChangeSelection={handleChangeNavigationSelection}
-        handleSave={handleSave}
+        structureHasErrors={ structureHasErrors }
+        structureHasChanged={ structureChanged }
+        availableNavigations={ availableNavigations }
+        activeNavigation={ activeNavigation }
+        handleChangeSelection={ handleChangeNavigationSelection }
+        handleSave={ handleSave }
       />
       <ContentLayout>
-        {isLoading && <LoadingIndicatorPage />}
-        {changedActiveNavigation && (
+        { isLoading && <LoadingIndicatorPage /> }
+        { changedActiveNavigation && (
           <>
             <NavigationContentHeader
-              startActions={<Search value={searchValue} setValue={setSearchValue} />}
-              endActions={endActions.map(({ tradId, margin, ...item }, i) =>
-                <Box marginLeft={margin} key={i}>
-                  <Button {...item}> {formatMessage(getTrad(tradId))} </Button>
+              startActions={ <Search value={ searchValue } setValue={ setSearchValue } /> }
+              endActions={ endActions.map(({ tradId, margin, ...item }, i) =>
+                <Box marginLeft={ margin } key={ i }>
+                  <Button { ...item }> { formatMessage(getTrad(tradId)) } </Button>
                 </Box>
-              )}
+              ) }
             />
-            {isEmpty(changedActiveNavigation.items || []) && (
+            { isEmpty(changedActiveNavigation.items || []) && (
               <Flex direction="column" minHeight="400px" justifyContent="center">
-                <Icon as={EmptyDocumentsIcon} width="160px" height="88px" color="" />
-                <Box padding={4}>
-                  <Typography variant="beta" textColor="neutral600">{formatMessage(getTrad('empty'))}</Typography>
+                <Icon as={ EmptyDocumentsIcon } width="160px" height="88px" color="" />
+                <Box padding={ 4 }>
+                  <Typography variant="beta" textColor="neutral600">{ formatMessage(getTrad('empty')) }</Typography>
                 </Box>
                 <Button
                   variant='secondary'
-                  startIcon={<PlusIcon />}
-                  label={formatMessage(getTrad('empty.cta'))}
-                  onClick={addNewNavigationItem}
+                  startIcon={ <PlusIcon /> }
+                  label={ formatMessage(getTrad('empty.cta')) }
+                  onClick={ addNewNavigationItem }
                 >
-                  {formatMessage(getTrad('empty.cta'))}
+                  { formatMessage(getTrad('empty.cta')) }
                 </Button>
               </Flex>
-            )}
+            ) }
             {
               !isEmpty(changedActiveNavigation.items || [])
               && <List
-                items={isSearchEmpty ? changedActiveNavigation.items || [] : filteredList}
-                onItemLevelAdd={addNewNavigationItem}
-                onItemRemove={handleItemRemove}
-                onItemEdit={handleItemEdit}
-                onItemRestore={handleItemRestore}
-                onItemReOrder={handleItemReOrder}
-                onItemToggleCollapse={handleItemToggleCollapse}
-                displayFlat={!isSearchEmpty}
+                items={ isSearchEmpty ? changedActiveNavigation.items || [] : filteredList }
+                onItemLevelAdd={ addNewNavigationItem }
+                onItemRemove={ handleItemRemove }
+                onItemEdit={ handleItemEdit }
+                onItemRestore={ handleItemRestore }
+                onItemReOrder={ handleItemReOrder }
+                onItemToggleCollapse={ handleItemToggleCollapse }
+                displayFlat={ !isSearchEmpty }
                 root
-                error={error}
-                allowedLevels={config.allowedLevels}
-                contentTypes={config.contentTypes}
-                isParentAttachedToMenu={true}
-                contentTypesNameFields={config.contentTypesNameFields}
+                error={ error }
+                allowedLevels={ config.allowedLevels }
+                contentTypes={ config.contentTypes }
+                isParentAttachedToMenu={ true }
+                contentTypesNameFields={ config.contentTypesNameFields }
               />
             }
           </>
-        )}
+        ) }
       </ContentLayout>
-      {navigationItemPopupOpened && <NavigationItemPopUp
-        isLoading={isLoadingForAdditionalDataToBeSet}
-        data={activeNavigationItem}
-        config={config}
-        usedContentTypesData={usedContentTypesData}
-        usedContentTypeItems={usedContentTypeItems}
-        getContentTypeItems={getContentTypeItems}
-        onSubmit={handleSubmitNavigationItem}
-        onClose={onPopUpClose}
-      />}
+      { navigationItemPopupOpened && <NavigationItemPopUp
+        isLoading={ isLoadingForAdditionalDataToBeSet }
+        data={ activeNavigationItem }
+        config={ config }
+        usedContentTypesData={ usedContentTypesData }
+        usedContentTypeItems={ usedContentTypeItems }
+        getContentTypeItems={ getContentTypeItems }
+        onSubmit={ handleSubmitNavigationItem }
+        onClose={ onPopUpClose }
+      /> }
     </Main>
   );
 };

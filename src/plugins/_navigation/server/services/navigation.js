@@ -1,17 +1,5 @@
 const pluralize = require('pluralize');
-const {
-  find,
-  get,
-  isNil,
-  isObject,
-  isEmpty,
-  last,
-  upperFirst,
-  map,
-  toNumber,
-  isString,
-  first,
-} = require('lodash');
+const { find, get, isNil, isObject, isEmpty, last, upperFirst, map, toNumber, isString, first, } = require('lodash');
 const { validate: isUuid } = require('uuid');
 const slugify = require('slugify');
 const { KIND_TYPES, ALLOWED_CONTENT_TYPES, RESTRICTED_CONTENT_TYPES } = require('./utils/constant');
@@ -176,8 +164,8 @@ module.exports = ({ strapi }) => {
                     return returnType(itemsCountOrBypass !== 0);
                   }
                   const isAvailable = await strapi.query(uid).count();
-                  return isAvailable === 1 ? 
-                    returnType(true) : 
+                  return isAvailable === 1 ?
+                    returnType(true) :
                     (viaSettingsPage ? returnType(false) : undefined);
                 }
                 return returnType(true);
@@ -190,7 +178,7 @@ module.exports = ({ strapi }) => {
           const item = strapi.contentTypes[key];
           const relatedField = (item.associations || []).find(_ => _.model === 'navigationitem');
           const { uid, options, info, collectionName, modelName, apiName, plugin, kind, pluginOptions } = item;
-          const { visible = true } =  pluginOptions['content-manager'] || {};
+          const { visible = true } = pluginOptions['content-manager'] || {};
           const { name, description } = info;
           const { hidden, templateName } = options;
           const findRouteConfig = find(get(strapi.api, `[${modelName}].config.routes`, []),
@@ -509,7 +497,7 @@ module.exports = ({ strapi }) => {
         }, path, field))
         .sort((x, y) => {
           return x.order - y.order;
-       });
+        });
     },
 
     renderRFR({ items, parent = null, parentNavItem = null, contentTypes = [] }) {

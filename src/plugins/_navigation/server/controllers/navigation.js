@@ -1,4 +1,4 @@
-const { NavigationError } = require('../../utils/NavigationError'); 
+const { NavigationError } = require('../../utils/NavigationError');
 
 const getService = () => strapi.plugin('navigation').service('navigation');
 
@@ -19,7 +19,7 @@ const errorHandler = (ctx) => (error) => {
   throw error;
 };
 
-module.exports = ({strapi}) => ({
+module.exports = ({ strapi }) => ({
   async config() {
     return getService().config();
   },
@@ -27,7 +27,7 @@ module.exports = ({strapi}) => ({
   async updateConfig(ctx) {
     try {
       await getService().updateConfig(ctx.request.body);
-    } catch (e) { 
+    } catch (e) {
       errorHandler(ctx)(e);
     }
     return ctx.send({ status: 200 });
@@ -36,7 +36,7 @@ module.exports = ({strapi}) => ({
   async restoreConfig(ctx) {
     try {
       await getService().restoreConfig();
-    } catch (e) { 
+    } catch (e) {
       errorHandler(ctx)(e);
     }
     return ctx.send({ status: 200 })

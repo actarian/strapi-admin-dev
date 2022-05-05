@@ -1,10 +1,10 @@
-import styled from "styled-components";
 import { Badge } from '@strapi/design-system/Badge';
+import styled from "styled-components";
 
 const ItemCardBadge = styled(Badge)`
 		border: 1px solid ${({ theme, borderColor }) => theme.colors[borderColor]};
 
-		${ ({small, theme}) => small && `
+		${({ small, theme }) => small && `
 			padding: ${theme.spaces[1]} ${theme.spaces[2]};
 			margin: 0px ${theme.spaces[3]};
 			vertical-align: middle;

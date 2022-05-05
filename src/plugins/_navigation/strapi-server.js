@@ -5,7 +5,6 @@ const controllers = require('./server/controllers');
 const contentTypes = require('./server/content-types');
 const config = require('./server/config');
 
-
 module.exports = () => {
   return {
     bootstrap,

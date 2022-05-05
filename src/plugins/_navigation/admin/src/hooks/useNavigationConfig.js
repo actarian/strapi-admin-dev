@@ -1,7 +1,7 @@
-import { useQuery, useQueryClient } from 'react-query';
 import { useNotification } from '@strapi/helper-plugin';
-import { fetchNavigationConfig, restartStrapi, restoreNavigationConfig, updateNavigationConfig } from '../utils/api';
+import { useQuery, useQueryClient } from 'react-query';
 import { getTrad } from '../translations';
+import { fetchNavigationConfig, restartStrapi, restoreNavigationConfig, updateNavigationConfig } from '../utils/api';
 
 const useNavigationConfig = () => {
   const queryClient = useQueryClient();
@@ -24,7 +24,7 @@ const useNavigationConfig = () => {
       message: getTrad(`pages.settings.notification.${type}.success`),
     });
   };
-  
+
   const submitMutation = async (...args) => {
     try {
       await updateNavigationConfig(...args);
@@ -32,7 +32,7 @@ const useNavigationConfig = () => {
     } catch (e) {
       handleError('submit');
     }
-  } 
+  }
 
   const restoreMutation = async (...args) => {
     try {

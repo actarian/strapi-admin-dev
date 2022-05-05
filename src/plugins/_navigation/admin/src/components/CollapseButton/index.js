@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components'
 import { Flex } from '@strapi/design-system/Flex';
-import { Typography } from '@strapi/design-system/Typography';
 import { Icon } from '@strapi/design-system/Icon';
-import { CarretUp, CarretDown } from '@strapi/icons';
+import { Typography } from '@strapi/design-system/Typography';
+import { CarretDown, CarretUp } from '@strapi/icons';
+import React from 'react';
+import styled from 'styled-components';
 
 const Wrapper = styled.div`
 	border-radius: 50%;
@@ -17,15 +17,15 @@ const Wrapper = styled.div`
 `;
 
 const CollapseButton = ({ toggle, collapsed, itemsCount }) => (
-	<Flex justifyContent='space-between' alignItems='center' onClick={toggle} cursor="pointer" style={{ marginRight: '16px' }}>
-		<Wrapper>
-			{ collapsed ?
-				<Icon as={CarretDown} width='7px' height='4px' /> :
-				<Icon as={CarretUp} width='7px' height='4px' />
-			}
-		</Wrapper>
-		<Typography variant="pi">{itemsCount} nested items</Typography>
-	</Flex >
+  <Flex justifyContent='space-between' alignItems='center' onClick={ toggle } cursor="pointer" style={ { marginRight: '16px' } }>
+    <Wrapper>
+      { collapsed ?
+        <Icon as={ CarretDown } width='7px' height='4px' /> :
+        <Icon as={ CarretUp } width='7px' height='4px' />
+      }
+    </Wrapper>
+    <Typography variant="pi">{ itemsCount } nested items</Typography>
+  </Flex >
 );
 
 export default CollapseButton;

@@ -55,7 +55,7 @@ module.exports = ({ strapi }) => {
         });
     },
 
-    buildNestedPaths({items, id = null, field = 'parent', parentPath = null}){
+    buildNestedPaths({ items, id = null, field = 'parent', parentPath = null }) {
       return items
         .filter(entity => {
           if (entity[field] == null && id === null) {
@@ -78,14 +78,14 @@ module.exports = ({ strapi }) => {
               },
               path
             },
-            ...this.buildNestedPaths({items, id: entity.id, field, parentPath: path}),
+            ...this.buildNestedPaths({ items, id: entity.id, field, parentPath: path }),
             ...acc,
           ];
         }, [])
     },
 
     filterByPath(items, path) {
-      const itemsWithPaths = this.buildNestedPaths({ items }).filter(({path: itemPath}) => itemPath.includes(path));
+      const itemsWithPaths = this.buildNestedPaths({ items }).filter(({ path: itemPath }) => itemPath.includes(path));
       const root = itemsWithPaths.find(({ path: itemPath }) => itemPath === path);
 
       return {

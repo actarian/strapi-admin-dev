@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import { Box } from '@strapi/design-system/Box';
-import { Button } from "@strapi/design-system/Button";
 
 const EmptyView = styled.div`
   display: flex;

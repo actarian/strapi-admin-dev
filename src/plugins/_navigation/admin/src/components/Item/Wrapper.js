@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
 position: relative;
-margin-top: ${({theme}) => theme.spaces[2]};
+margin-top: ${({ theme }) => theme.spaces[2]};
 margin-left: ${({ level }) => level && '54px'}};
 
 ${({ level, theme, isLast }) => level && `
@@ -26,7 +26,7 @@ ${({ level, theme, isLast }) => level && `
 		position: absolute;
 		top: ${theme.spaces[1]};
 		left: -${theme.spaces[6]};
-		
+
 		background: transparent;
 		border: 4px solid ${theme.colors.neutral300};
 		border-top: transparent;
