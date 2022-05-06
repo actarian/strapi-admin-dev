@@ -1,6 +1,6 @@
 import { TextInput } from '@strapi/design-system/TextInput';
 import { Typography } from '@strapi/design-system/Typography';
-import { useCMEditViewDataManager } from '@strapi/helper-plugin';
+import { useCMEditViewDataManager, useStrapiApp } from '@strapi/helper-plugin';
 import CheckCircle from '@strapi/icons/CheckCircle';
 import ExclamationMarkCircle from '@strapi/icons/ExclamationMarkCircle';
 import Loader from '@strapi/icons/Loader';
@@ -15,6 +15,7 @@ import UID_REGEX from './regex';
 import useDebounce from './useDebounce';
 
 export function InputUID({ attribute, contentTypeUID, description, disabled, error, intlLabel, labelAction, name, onChange, value, placeholder, required }) {
+  const app = useStrapiApp();
   const { modifiedData, initialData, layout } = useCMEditViewDataManager();
   const [isLoading, setIsLoading] = useState(false);
   const [availability, setAvailability] = useState(null);
@@ -28,11 +29,13 @@ export function InputUID({ attribute, contentTypeUID, description, disabled, err
   const [isCustomized, setIsCustomized] = useState(false);
   const [regenerateLabel, setRegenerateLabel] = useState(null);
 
+  console.log(app.getPlugin('content-manager'));
+  // const schema = strapi.getModel(contentTypeUID);
   const label = intlLabel.id ? formatMessage({ id: intlLabel.id, defaultMessage: intlLabel.defaultMessage }, { ...intlLabel.values }) : name;
   const hint = description ? formatMessage({ id: description.id, defaultMessage: description.defaultMessage }, { ...description.values }) : '';
   const formattedPlaceholder = placeholder ? formatMessage({ id: placeholder.id, defaultMessage: placeholder.defaultMessage }, { ...placeholder.values }) : '';
 
-  console.log('InputUID', contentTypeUID, name, value, modifiedData);
+  console.log('InputUID', attribute, contentTypeUID, name, value, modifiedData);
 
   generateUid.current = async (shouldSetInitialValue = false) => {
     setIsLoading(true);

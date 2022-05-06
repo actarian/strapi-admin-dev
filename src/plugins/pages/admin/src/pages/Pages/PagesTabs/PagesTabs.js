@@ -34,6 +34,25 @@ const stringLocalizedSchema = {
   }
 };
 
+const uidSchema = {
+  type: 'uid',
+  targetField: 'title',
+};
+
+const uidLocalizedSchema = {
+  type: 'json',
+  pluginOptions: {
+    mktlng: {
+      locales: true
+    }
+  },
+  customField: {
+    type: 'uid',
+    targetField: 'title',
+    forType: 'uid',
+  }
+};
+
 const metaSchema = {
   type: 'component',
   repeatable: false,
