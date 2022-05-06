@@ -22,6 +22,10 @@ module.exports = {
   'content-api': {
     type: 'content-api',
     routes: [
+      ...contentType.contentApiRoutes,
+      ...isoCountry.contentApiRoutes,
+      ...isoLocale.contentApiRoutes,
+      ...isoMarket.contentApiRoutes,
       ...locale.contentApiRoutes,
       ...market.contentApiRoutes,
     ]

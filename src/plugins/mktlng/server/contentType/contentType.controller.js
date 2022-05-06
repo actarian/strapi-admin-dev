@@ -13,6 +13,19 @@ const getFieldsProperty = prop('properties.fields');
 
 const getFirstLevelPath = map(path => path.split('.')[0]);
 
+function getContentTypes(ctx) {
+  const service = getService('contentTypes');
+  const contentTypes = service.getContentTypes();
+  ctx.body = contentTypes;
+}
+
+function getContentType(ctx) {
+  const { uid } = ctx.params;
+  const service = getService('contentTypes');
+  const contentType = service.getContentType(uid);
+  ctx.body = contentType;
+}
+
 async function getNonLocalizedAttributes(ctx) {
   const { user } = ctx.state;
   const { model, id, locale } = ctx.request.body;
@@ -67,5 +80,7 @@ async function getNonLocalizedAttributes(ctx) {
 }
 
 module.exports = {
+  getContentTypes,
+  getContentType,
   getNonLocalizedAttributes,
 };

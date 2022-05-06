@@ -1,6 +1,6 @@
 import { TextInput } from '@strapi/design-system/TextInput';
 import { Typography } from '@strapi/design-system/Typography';
-import { useCMEditViewDataManager, useStrapiApp } from '@strapi/helper-plugin';
+import { useCMEditViewDataManager } from '@strapi/helper-plugin';
 import CheckCircle from '@strapi/icons/CheckCircle';
 import ExclamationMarkCircle from '@strapi/icons/ExclamationMarkCircle';
 import Loader from '@strapi/icons/Loader';
@@ -9,13 +9,13 @@ import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
+import useContentType from '../../../hooks/useContentType/useContentType';
 import { axiosInstance, getRequestUrl } from '../../../utils';
 import { EndActionWrapper, FieldActionWrapper, LoadingWrapper, TextValidation } from './endActionStyle';
 import UID_REGEX from './regex';
 import useDebounce from './useDebounce';
 
 export function InputUID({ attribute, contentTypeUID, description, disabled, error, intlLabel, labelAction, name, onChange, value, placeholder, required }) {
-  const app = useStrapiApp();
   const { modifiedData, initialData, layout } = useCMEditViewDataManager();
   const [isLoading, setIsLoading] = useState(false);
   const [availability, setAvailability] = useState(null);
@@ -28,14 +28,15 @@ export function InputUID({ attribute, contentTypeUID, description, disabled, err
   const debouncedTargetFieldValue = useDebounce(modifiedData[attribute.targetField], 300);
   const [isCustomized, setIsCustomized] = useState(false);
   const [regenerateLabel, setRegenerateLabel] = useState(null);
+  const { contentType } = useContentType(contentTypeUID);
 
-  console.log(app.getPlugin('content-manager'));
-  // const schema = strapi.getModel(contentTypeUID);
   const label = intlLabel.id ? formatMessage({ id: intlLabel.id, defaultMessage: intlLabel.defaultMessage }, { ...intlLabel.values }) : name;
   const hint = description ? formatMessage({ id: description.id, defaultMessage: description.defaultMessage }, { ...description.values }) : '';
   const formattedPlaceholder = placeholder ? formatMessage({ id: placeholder.id, defaultMessage: placeholder.defaultMessage }, { ...placeholder.values }) : '';
 
-  console.log('InputUID', attribute, contentTypeUID, name, value, modifiedData);
+  console.log('InputUID', contentTypeUID, contentType, attribute, modifiedData);
+
+  // const targetAttribute = contentType ? contentType.attributes[attribute.forType] : null;
 
   generateUid.current = async (shouldSetInitialValue = false) => {
     setIsLoading(true);
@@ -62,7 +63,7 @@ export function InputUID({ attribute, contentTypeUID, description, disabled, err
     } catch (err) {
       setIsLoading(false);
     }
-  };
+  }
 
   // // FIXME: we need to find a better way to autofill the input when it is required.
   useEffect(() => {
@@ -103,63 +104,68 @@ export function InputUID({ attribute, contentTypeUID, description, disabled, err
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedTargetFieldValue, isCustomized, isCreation]);
 
-  function handleGenerateMouseEnter() {
+  function onRegenerateEnter() {
     setRegenerateLabel(
       formatMessage({ id: 'content-manager.components.uid.regenerate', defaultMessage: 'Regenerate' })
     );
-  };
+  }
 
-  function handleGenerateMouseLeave() {
+  function onRegenerateLeave() {
     setRegenerateLabel(null);
-  };
+  }
 
-  function handleChange(event) {
+  function onRegenerateClick() {
+    return generateUid.current();
+  }
+
+  function onInputChange(event) {
     if (event.target.value && isCreation) {
       setIsCustomized(true);
     }
     onChange(event);
-  };
+  }
+
+  if (!contentType) {
+    return null;
+  }
 
   return (
-    <TextInput disabled={ disabled } error={ error } endAction={
-      <EndActionWrapper>
-        { availability && availability.isAvailable && !regenerateLabel && (
-          <TextValidation alignItems="center" justifyContent="flex-end">
-            <CheckCircle />
-            <Typography textColor="success600" variant="pi">{ formatMessage({ id: 'content-manager.components.uid.available', defaultMessage: 'Available' }) }</Typography>
-          </TextValidation>
-        ) }
-        { availability && !availability.isAvailable && !regenerateLabel && (
-          <TextValidation notAvailable alignItems="center" justifyContent="flex-end">
-            <ExclamationMarkCircle />
-            <Typography textColor="danger600" variant="pi">{ formatMessage({ id: 'content-manager.components.uid.unavailable', defaultMessage: 'Unavailable' }) }</Typography>
-          </TextValidation>
-        ) }
-        { regenerateLabel && (
-          <TextValidation alignItems="center" justifyContent="flex-end">
-            <Typography textColor="primary600" variant="pi">{ regenerateLabel }</Typography>
-          </TextValidation>
-        ) }
-        <FieldActionWrapper label="regenerate" onMouseEnter={ handleGenerateMouseEnter } onMouseLeave={ handleGenerateMouseLeave } onClick={ () => generateUid.current() }>
-          { isLoading ? (
-            <LoadingWrapper>
-              <Loader />
-            </LoadingWrapper>
-          ) : (
-            <Refresh />
-          ) }
-        </FieldActionWrapper>
-      </EndActionWrapper>
-    }
-      hint={ hint }
-      label={ label }
-      labelAction={ labelAction }
-      name={ name }
-      onChange={ handleChange }
-      placeholder={ formattedPlaceholder }
-      value={ value || '' }
+    <TextInput hint={ hint } label={ label } labelAction={ labelAction } name={ name } placeholder={ formattedPlaceholder }
       required={ required }
-    />
+      disabled={ disabled }
+      error={ error }
+      value={ value || '' }
+      onChange={ onInputChange }
+      endAction={
+        <EndActionWrapper>
+          { availability && availability.isAvailable && !regenerateLabel && (
+            <TextValidation alignItems="center" justifyContent="flex-end">
+              <CheckCircle />
+              <Typography textColor="success600" variant="pi">{ formatMessage({ id: 'content-manager.components.uid.available', defaultMessage: 'Available' }) }</Typography>
+            </TextValidation>
+          ) }
+          { availability && !availability.isAvailable && !regenerateLabel && (
+            <TextValidation notAvailable alignItems="center" justifyContent="flex-end">
+              <ExclamationMarkCircle />
+              <Typography textColor="danger600" variant="pi">{ formatMessage({ id: 'content-manager.components.uid.unavailable', defaultMessage: 'Unavailable' }) }</Typography>
+            </TextValidation>
+          ) }
+          { regenerateLabel && (
+            <TextValidation alignItems="center" justifyContent="flex-end">
+              <Typography textColor="primary600" variant="pi">{ regenerateLabel }</Typography>
+            </TextValidation>
+          ) }
+          <FieldActionWrapper label="regenerate" onMouseEnter={ onRegenerateEnter } onMouseLeave={ onRegenerateLeave } onClick={ onRegenerateClick }>
+            { isLoading ? (
+              <LoadingWrapper>
+                <Loader />
+              </LoadingWrapper>
+            ) : (
+              <Refresh />
+            ) }
+          </FieldActionWrapper>
+        </EndActionWrapper>
+      } />
   );
 };
 

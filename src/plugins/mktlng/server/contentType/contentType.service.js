@@ -6,39 +6,49 @@ const { isRelationalAttribute, getVisibleAttributes, isTypedAttribute, getScalar
 const { ApplicationError } = require('@strapi/utils').errors;
 const { getService } = require('../utils');
 
-const hasLocale = (modelOrAttribute) => {
+function getContentTypes() {
+  const contentTypes = strapi.contentTypes;
+  return contentTypes;
+}
+
+function getContentType(uid) {
+  const contentType = strapi.getModel(uid);
+  return contentType;
+}
+
+function hasLocale(modelOrAttribute) {
   return prop('pluginOptions.mktlng.locale', modelOrAttribute) === true;
-};
+}
 
 /**
  * Returns whether an attribute is localized or not
  * @param {*} attribute
  * @returns
  */
-const hasLocalizedAttribute = (attribute) => {
+function hasLocalizedAttribute(attribute) {
   return (hasLocale(attribute) || isRelationalAttribute(attribute) || isTypedAttribute(attribute, 'uid'));
-};
+}
 
 /**
  * Returns whether a model is localized or not
  * @param {*} model
  * @returns
  */
-const hasLocalizedContentType = (model) => {
+function hasLocalizedContentType(model) {
   return hasLocale(model);
-};
+}
 
 /**
  * Get the related entity used for entity creation
  * @param {Object} relatedEntity related entity
  * @returns {id[]} related entity
  */
-const getNewLocalizationsFrom = async (relatedEntity) => {
+async function getNewLocalizationsFrom(relatedEntity) {
   if (relatedEntity) {
     return [relatedEntity.id, ...relatedEntity.localizations.map(prop('id'))];
   }
   return [];
-};
+}
 
 /**
  * Get the related entity used for entity creation
@@ -47,7 +57,7 @@ const getNewLocalizationsFrom = async (relatedEntity) => {
  * @param {string} locale locale of the entity to create
  * @returns {Object} related entity
  */
-const getAndValidateRelatedEntity = async (relatedEntityId, model, locale) => {
+async function getAndValidateRelatedEntity(relatedEntityId, model, locale) {
   const { kind } = strapi.getModel(model);
   let relatedEntity;
   if (kind === 'singleType') {
@@ -62,26 +72,26 @@ const getAndValidateRelatedEntity = async (relatedEntityId, model, locale) => {
     throw new ApplicationError('The entity already exists in this locale');
   }
   return relatedEntity;
-};
+}
 
 /**
  * Returns the list of attribute names that are not localized
  * @param {object} model
  * @returns {string[]}
  */
-const getNonLocalizedAttributes = (model) => {
+function getNonLocalizedAttributes(model) {
   return getVisibleAttributes(model).filter(key => !hasLocalizedAttribute(model.attributes[key]));
-};
+}
 
-const removeId = (value) => {
+function removeId(value) {
   if (typeof value === 'object' && has('id', value)) {
     delete value.id;
   }
-};
+}
 
 const removeIds = (model) => (entry) => removeIdsMut(model, cloneDeep(entry));
 
-const removeIdsMut = (model, entry) => {
+function removeIdsMut(model, entry) {
   if (isNil(entry)) {
     return entry;
   }
@@ -105,7 +115,7 @@ const removeIdsMut = (model, entry) => {
     }
   });
   return entry;
-};
+}
 
 /**
  * Returns a copy of an entry picking only its non localized attributes
@@ -113,21 +123,21 @@ const removeIdsMut = (model, entry) => {
  * @param {object} entry
  * @returns {object}
  */
-const copyNonLocalizedAttributes = (model, entry) => {
+function copyNonLocalizedAttributes(model, entry) {
   const nonLocalizedAttributes = getNonLocalizedAttributes(model);
   return pipe(pick(nonLocalizedAttributes), removeIds(model))(entry);
-};
+}
 
 /**
  * Returns the list of attribute names that are localized
  * @param {object} model
  * @returns {string[]}
  */
-const getLocalizedAttributes = (model) => {
+function getLocalizedAttributes(model) {
   return getVisibleAttributes(model).filter((key) =>
     hasLocalizedAttribute(model.attributes[key])
   );
-};
+}
 
 /**
  * Fill non localized fields of an entry if there are nil
@@ -136,7 +146,7 @@ const getLocalizedAttributes = (model) => {
  * @param {Object} options
  * @param {Object} options.model corresponding model
  */
-const fillNonLocalizedAttributes = (entry, relatedEntry, { model }) => {
+function fillNonLocalizedAttributes(entry, relatedEntry, { model }) {
   if (isNil(relatedEntry)) {
     return;
   }
@@ -147,13 +157,13 @@ const fillNonLocalizedAttributes = (entry, relatedEntry, { model }) => {
       entry[field] = value;
     }
   });
-};
+}
 
 /**
  * build the populate param to
  * @param {String} modelUID uid of the model, could be of a content-type or a component
  */
-const getNestedPopulateOfNonLocalizedAttributes = (modelUID) => {
+function getNestedPopulateOfNonLocalizedAttributes(modelUID) {
   const schema = strapi.getModel(modelUID);
   const scalarAttributes = getScalarAttributes(schema);
   const nonLocalizedAttributes = getNonLocalizedAttributes(schema);
@@ -176,9 +186,11 @@ const getNestedPopulateOfNonLocalizedAttributes = (modelUID) => {
     }
   }
   return attributesToPopulate;
-};
+}
 
 module.exports = () => ({
+  getContentTypes,
+  getContentType,
   hasLocalizedContentType,
   getNewLocalizationsFrom,
   getLocalizedAttributes,
