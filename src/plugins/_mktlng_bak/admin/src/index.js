@@ -15,7 +15,7 @@ import mutateEditViewLayout from './contentManagerHooks/mutateEditViewLayout';
 import mutateSingleTypesLinks from './contentManagerHooks/mutateSingleTypesLinks';
 import reducers from './hooks/reducers';
 import middlewares from './middlewares/middlewares';
-import pluginPermissions from './permissions';
+import permissions from './permissions';
 import pluginId from './pluginId';
 import { getTrad } from './utils';
 import contentTypeSchemaMutation from './utils/contentTypeSchemaMutation';
@@ -63,7 +63,7 @@ export default {
         // console.log(component);
         return component;
       },
-      permissions: pluginPermissions.accessMain,
+      permissions: permissions.accessMain,
     });
 
     // add the settings market link
@@ -76,7 +76,7 @@ export default {
         // console.log(component);
         return component;
       },
-      permissions: pluginPermissions.accessMain,
+      permissions: permissions.accessMain,
     });
 
     // # content type builder

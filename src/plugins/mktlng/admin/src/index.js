@@ -17,7 +17,7 @@ import { InputUID } from './content-type-builder/custom-fields/InputUID/InputUID
 import { LocalizedText } from './content-type-builder/custom-fields/LocalizedText/LocalizedText';
 import { MarketSelector } from './content-type-builder/custom-fields/MarketSelector/MarketSelector';
 import { middlewares } from './middlewares/middlewares';
-import pluginPermissions from './permissions';
+import permissions from './permissions';
 import pluginId from './pluginId';
 import { reducers } from './reducers/reducers';
 import { getTrad } from './utils';
@@ -57,7 +57,7 @@ export default {
             // console.log(component);
             return component;
           },
-          permissions: pluginPermissions.accessMain,
+          permissions: permissions.accessMain,
         },
         {
           intlLabel: { id: getTrad('settings.market.title'), defaultMessage: 'Markets' },
@@ -68,7 +68,7 @@ export default {
             // console.log(component);
             return component;
           },
-          permissions: pluginPermissions.accessMain,
+          permissions: permissions.accessMain,
         },
       ]
     );
@@ -97,7 +97,7 @@ export default {
         // console.log(component);
         return component;
       },
-      permissions: pluginPermissions.accessMain,
+      permissions: permissions.accessMain,
     });
 
     // add the settings market link
@@ -110,7 +110,7 @@ export default {
         // console.log(component);
         return component;
       },
-      permissions: pluginPermissions.accessMain,
+      permissions: permissions.accessMain,
     });
     */
 

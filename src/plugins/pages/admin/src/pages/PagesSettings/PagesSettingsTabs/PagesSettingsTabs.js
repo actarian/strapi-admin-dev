@@ -15,7 +15,6 @@ import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { Illo } from '../../../Icons/Illo';
 import { getTrad } from '../../../utils';
-import PagesList from './PagesList';
 
 const stringSchema = {
   type: 'string',
@@ -59,9 +58,9 @@ const metaSchema = {
   component: 'page.meta'
 };
 
-function PagesTabs({ contentTypes, onChange }) {
+function PagesSettingsTabs({ contentTypes, onChange }) {
   const app = useStrapiApp();
-  // console.log('plugin.pages.PagesTabs', app);
+  // console.log('plugin.pages.PagesSettingsTabs', app);
 
   const { formatMessage } = useIntl();
   const { lockAppWithAutoreload, unlockAppWithAutoreload } = useAutoReloadOverlayBlocker();
@@ -212,9 +211,6 @@ function PagesTabs({ contentTypes, onChange }) {
             <Tab>
               <Typography variant="omega">Single Types</Typography>
             </Tab>
-            <Tab>
-              <Typography variant="omega">Pages</Typography>
-            </Tab>
           </Tabs>
           <TabPanels>
             <TabPanel>
@@ -322,9 +318,6 @@ function PagesTabs({ contentTypes, onChange }) {
                 </Tbody>
               </Table>
             </TabPanel>
-            <TabPanel>
-              <PagesList />
-            </TabPanel>
           </TabPanels>
         </TabGroup>
       </Box>
@@ -332,9 +325,9 @@ function PagesTabs({ contentTypes, onChange }) {
   );
 };
 
-PagesTabs.propTypes = {
+PagesSettingsTabs.propTypes = {
   contentTypes: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
-export default PagesTabs;
+export default PagesSettingsTabs;

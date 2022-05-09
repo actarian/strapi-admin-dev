@@ -3,13 +3,31 @@ import pluginPkg from '../../package.json';
 import Initializer from './components/Initializer/Initializer';
 import PluginIcon from './components/PluginIcon/PluginIcon';
 import EditViewInformations from './content-manager/edit-view/EditViewInformations/EditViewInformations';
+import permissions from './permissions';
 import pluginId from './pluginId';
+import { getTrad } from './utils';
 
 const name = pluginPkg.strapi.name;
 
 export default {
-
   register(app) {
+
+    app.createSettingSection(
+      { id: 'pages', intlLabel: { id: 'pages.plugin.name', defaultMessage: 'Pages' } }, // Section to create
+      [
+        {
+          intlLabel: { id: getTrad('settings.pages.title'), defaultMessage: 'Pages' },
+          id: 'pages',
+          to: '/settings/pages',
+          Component: async () => {
+            const component = await import(/* webpackChunkName: "pages-pages-settings" */ './pages/PagesSettings/PagesSettings');
+            // console.log(component);
+            return component;
+          },
+          permissions: permissions.accessMain,
+        },
+      ]
+    );
 
     app.addMenuLink({
       to: `/plugins/${pluginId}`,
@@ -30,7 +48,6 @@ export default {
       isReady: false,
       name,
     });
-
   },
 
   bootstrap(app) {

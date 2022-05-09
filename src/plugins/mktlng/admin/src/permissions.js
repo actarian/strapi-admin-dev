@@ -1,4 +1,4 @@
-const mktlngPermissions = {
+const permissions = {
   accessMain: [{ action: 'plugin::mktlng.locale.read', subject: null }],
   create: [{ action: 'plugin::mktlng.locale.create', subject: null }],
   delete: [{ action: 'plugin::mktlng.locale.delete', subject: null }],
@@ -6,4 +6,4 @@ const mktlngPermissions = {
   read: [{ action: 'plugin::mktlng.locale.read', subject: null }],
 };
 
-export default mktlngPermissions;
+export default permissions;

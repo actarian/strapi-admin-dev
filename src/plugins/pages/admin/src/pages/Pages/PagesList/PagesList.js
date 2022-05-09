@@ -49,7 +49,7 @@ function PagesList() {
     return link;
   }
 
-  console.log(items);
+  // console.log(items);
 
   return (
     <Table colCount={ 2 } rowCount={ items.length }>

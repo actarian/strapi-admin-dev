@@ -2,12 +2,17 @@
 
 const { getService } = require('./utils');
 
-module.exports = ({ strapi }) => {
+module.exports = async ({ strapi }) => {
   const entityService = getService('entityService');
 
   // Entity Service
   // decorate global api calls with contentType
   strapi.entityService.decorate(entityService.decorator);
+
+  const permissionService = getService('permission');
+  await permissionService.registerActions();
+  // permissionService.registerActionsHooks();
+  // permissionService.updateActionsProperties();
 
   // Slug Service
   /*

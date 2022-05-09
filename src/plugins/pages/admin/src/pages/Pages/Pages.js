@@ -1,58 +1,22 @@
 import { Box } from '@strapi/design-system/Box';
-import { ContentBox, LoadingIndicatorPage, useAutoReloadOverlayBlocker } from '@strapi/helper-plugin';
+import { BaseHeaderLayout } from '@strapi/design-system/Layout';
+import { ContentBox } from '@strapi/helper-plugin';
 import InformationSquare from '@strapi/icons/InformationSquare';
-import React, { memo, useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
 import { getTrad } from '../../utils';
-import { createSeoComponent, fetchContentTypes, fetchSeoComponent } from '../../utils/api';
-import PagesHeader from './PagesHeader/PagesHeader';
-import PagesTabs from './PagesTabs/PagesTabs';
+import PagesList from './PagesList/PagesList';
 
-function Pages() {
+export default function Pages() {
   const { formatMessage } = useIntl();
-  const { lockAppWithAutoreload, unlockAppWithAutoreload } = useAutoReloadOverlayBlocker();
-  const [isLoading, setIsLoading] = useState(true);
-  const [shouldEffect, setShouldEffect] = useState(false);
-  const metaComponent = useRef({});
-  const contentTypes = useRef({});
-
-  const fetchData = async () => {
-    if (!isLoading) {
-      setIsLoading(true);
-    }
-    metaComponent.current = await fetchSeoComponent();
-    contentTypes.current = await fetchContentTypes();
-    if (!metaComponent.current) {
-      try {
-        lockAppWithAutoreload();
-        await createSeoComponent();
-      } catch (error) {
-        console.log(error);
-      } finally {
-        unlockAppWithAutoreload();
-        setShouldEffect(true);
-      }
-    }
-    setIsLoading(false);
-  };
-
-  // Fetching the Meta component & Content-Types
-  useEffect(async () => {
-    await fetchData();
-  }, [shouldEffect]);
-
-  const onChange = () => {
-    setShouldEffect(true);
-  };
-
-  // Displaying the LoadingIndicatorPage while it fetches the data
-  if (isLoading) {
-    return <LoadingIndicatorPage />;
-  }
-
   return (
     <>
-      <PagesHeader metaComponent={ metaComponent.current } />
+      <Box background="neutral100">
+        <BaseHeaderLayout
+          title={ formatMessage({ id: getTrad('page.header.title'), defaultMessage: 'Pages' }) }
+          subtitle={ formatMessage({ id: getTrad('page.header.subtitle'), defaultMessage: 'Edit your Pages content types' }) }
+          as="h2" />
+      </Box>
       { false &&
         <Box paddingLeft={ 8 } paddingRigth={ 8 }>
           <ContentBox
@@ -63,9 +27,9 @@ function Pages() {
           />
         </Box>
       }
-      <PagesTabs contentTypes={ contentTypes.current } onChange={ onChange } />
+      <Box padding={ 10 }>
+        <PagesList />
+      </Box>
     </>
   );
 };
-
-export default memo(Pages);
