@@ -41,7 +41,7 @@ const dbLifecyclesSubscribe = () => {
     .filter(contentType => getService('contentTypes').hasLocalizedContentType(contentType))
     .map(contentType => contentType.uid);
 
-  console.log('dbLifecyclesSubscribe', 'localized contentTypes ids', ids);
+  // console.log('dbLifecyclesSubscribe', 'localized contentTypes ids', ids);
 
   strapi.db.lifecycles.subscribe({
     models: ['plugin::mktlng.locale'],

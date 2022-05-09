@@ -17,17 +17,25 @@ function getResolversConfig() {
 function getCustomTypes(strapi, nexus) {
   const { naming } = getPluginService(strapi, 'utils', 'graphql');
   const { toEntityResponse } = getPluginService(strapi, 'format', 'graphql').returnTypes;
-  const { models } = getPluginService(strapi, 'settingsService').get();
+  // const { models } = getPluginService(strapi, 'settingsService').get();
   const { getEntityResponseName } = naming;
+
+  const contentTypes = {};
+  _.forEach(strapi.contentTypes, (value, key) => {
+    if (value.attributes && value.attributes.slug) {
+      contentTypes[key] = value;
+    }
+  });
+  console.log(contentTypes);
 
   // get all types required for findSlug query
   let findSlugTypes = {
     response: [],
   };
-  _.forEach(strapi.contentTypes, (value, key) => {
-    if (models[key]) {
-      findSlugTypes.response.push(getEntityResponseName(value));
-    }
+  _.forEach(contentTypes, (value, key) => {
+    // if (models[key]) {
+    findSlugTypes.response.push(getEntityResponseName(value));
+    // }
   });
 
   // ensure we have at least one type before attempting to register
@@ -43,7 +51,8 @@ function getCustomTypes(strapi, nexus) {
       t.members(...findSlugTypes.response);
     },
     resolveType: (ctx) => {
-      return getEntityResponseName(models[ctx.info.resourceUID].contentType);
+      return getEntityResponseName(contentTypes[ctx.info.resourceUID]);
+      // return getEntityResponseName(models[ctx.info.resourceUID].contentType);
     },
   });
 
@@ -60,11 +69,11 @@ function getCustomTypes(strapi, nexus) {
             publicationState: nexus.stringArg('The publication state of the entry'),
           },
           resolve: async (_parent, args, ctx) => {
-            const { models } = getPluginService(strapi, 'settingsService').get();
+            // const { models } = getPluginService(strapi, 'settingsService').get();
             const { modelName, slug, publicationState } = args;
             const { auth } = ctx.state;
-            isValidFindSlugParams({ modelName, slug, models, publicationState });
-            const { uid, field, contentType } = models[modelName];
+            isValidFindSlugParams({ modelName, slug, contentTypes, publicationState });
+            const { uid, field, contentType } = contentTypes[modelName]; // models[modelName];
             await hasRequiredModelScopes(strapi, uid, auth);
             // build query
             let query = {

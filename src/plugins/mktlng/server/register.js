@@ -14,7 +14,7 @@ module.exports = ({ strapi }) => {
   const localizedContentTypeIds = localizedContentTypes.map(x => x.uid);
   const localizedComponentIds = localizedComponents.map(x => x.uid);
 
-  console.log('server.register.extendLocalizedContentTypes', localizedContentTypeIds, localizedComponentIds);
+  // console.log('server.register.extendLocalizedContentTypes', localizedContentTypeIds, localizedComponentIds);
 
   /*
   localizedContentTypes.forEach((schema) => {
@@ -52,7 +52,7 @@ module.exports = ({ strapi }) => {
   const coreApiService = getService('coreApi');
 
   Object.values(strapi.contentTypes).forEach((contentType) => {
-    console.log('server.register.contentType', contentType.kind, contentType.collectionName, /*.info.displayName*/);
+    // console.log('server.register.contentType', contentType.kind, contentType.collectionName, /*.info.displayName*/);
     // !!! ignored
     if (contentTypeService.hasLocalizedContentType(contentType)) {
       const { attributes } = contentType;

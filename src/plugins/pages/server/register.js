@@ -19,4 +19,5 @@ module.exports = ({ strapi }) => {
   graphql.register(strapi);
   */
 
+  // graphql.register(strapi);
 };

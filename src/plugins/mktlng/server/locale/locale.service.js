@@ -128,49 +128,68 @@ function deserialize(rawValue) {
   return {};
 }
 
-function getValueForLocale_json(rawValue, validLocale, defaultLocale) {
+function getValueForLocale_json(rawValue, locale) {
   const parsedValue = deserialize(rawValue);
-  // console.log('parsedValue', rawValue, parsedValue, validLocale, defaultLocale);
-  return parsedValue[validLocale] || parsedValue[defaultLocale] || parsedValue[Object.keys(parsedValue)[0]];
+  // console.log('parsedValue', rawValue, parsedValue, locale);
+  return parsedValue[locale.code] || parsedValue[locale.defaultCode] || parsedValue[Object.keys(parsedValue)[0]];
 }
 
-function getValueForLocale(jsonValue, validLocale, defaultLocale) {
-  // console.log('jsonValue', jsonValue, validLocale, defaultLocale);
-  return jsonValue ? (jsonValue[validLocale] || jsonValue[defaultLocale] || jsonValue[Object.keys(jsonValue)[0]]) : null;
+function getValueForLocale(jsonValue, locale) {
+  // console.log('jsonValue', jsonValue, locale);
+  return jsonValue ? (jsonValue[locale.code] || jsonValue[locale.defaultCode] || jsonValue[Object.keys(jsonValue)[0]]) : null;
 }
 
-function localizeAttributes(attributes, entry, validLocale, defaultLocale) {
+function localizeAttribute(attribute, value, locale) {
+  if (Array.isArray(attribute)) {
+    localizeAttributes(attribute, value, locale);
+    return value;
+  } else {
+    return getValueForLocale(value, locale);
+  }
+}
+
+function localizeAttributes(attributeTuples, entry, locale) {
   if (!entry) {
     return;
   }
-  attributes.forEach(attribute => {
-    const key = attribute.key;
-    if (Array.isArray(attribute.attribute)) {
-      localizeAttributes(attribute.attribute, entry[key]);
+  attributeTuples.forEach(attributeTuple => {
+    const key = attributeTuple.key;
+    const value = entry[key];
+    entry[key] = localizeAttribute(attributeTuple.attribute, value, locale);
+    /*
+    if (Array.isArray(attributeTuple.attribute)) {
+      localizeAttributes(attributeTuple.attribute, value, locale);
     } else {
-      entry[key] = getValueForLocale(entry[key], validLocale, defaultLocale);
+      entry[key] = getValueForLocale(value, locale);
     }
+    */
   });
+}
+
+async function getLocaleParams(locale) {
+  const defaultLocale = await getDefaultLocale();
+  const validLocale = await findByCode(locale);
+  const localeParams = validLocale ? { code: validLocale.code, defaultCode: defaultLocale } : null;
+  console.log('LocaleService.getLocaleParams', localeParams);
+  return localeParams;
 }
 
 async function localizeEntry(entry, uid, locale) {
   const model = strapi.getModel(uid);
-  const localizedAttributes = getFlatLocalizedAttributes(model);
-  const hasLocale = localizedAttributes.length > 0;
+  const localizedAttributeTuples = getFlatLocalizedAttributes(model);
+  const hasLocale = localizedAttributeTuples.length > 0;
   // console.log(uid, 'localizeEntry.hasLocale', hasLocale);
   if (!hasLocale) {
     return entry;
   }
-  const defaultLocale = await getDefaultLocale();
-  const validLocale = await findByCode(locale);
-  // console.log(uid, 'localizeEntry.validLocale', validLocale ? validLocale.code : null);
-  if (!validLocale) {
+  const localeParams = await getLocaleParams(locale);
+  if (!localeParams) {
     return entry;
   }
   // console.log('entry', entry);
-  localizeAttributes(localizedAttributes, entry, validLocale.code, defaultLocale);
-  // console.log(entry, localizedAttributes, hasLocale);
-  // console.log('localizedAttributes', localizedAttributes);
+  localizeAttributes(localizedAttributeTuples, entry, localeParams);
+  // console.log(entry, localizedAttributeTuples, hasLocale);
+  // console.log('localizedAttributeTuples', localizedAttributeTuples);
   // console.log('entityServiceDecorator.findOne', uid, id, parameters);
   // await syncLocalizations(entry, { model });
   // await syncNonLocalizedAttributes(entry, { model });
@@ -182,21 +201,19 @@ async function localizeEntries(entries, uid, locale) {
   if (model.kind === 'singleType') {
     return await localizeEntry(entries, uid, locale);
   }
-  const localizedAttributes = getFlatLocalizedAttributes(model);
-  const hasLocale = localizedAttributes.length > 0;
+  const localizedAttributeTuples = getFlatLocalizedAttributes(model);
+  const hasLocale = localizedAttributeTuples.length > 0;
   // console.log(uid, 'localizeEntries.hasLocale', hasLocale);
   if (!hasLocale) {
     return entries;
   }
-  const defaultLocale = await getDefaultLocale();
-  const validLocale = await findByCode(locale);
-  // console.log(uid, 'localizeEntries.validLocale', validLocale ? validLocale.code : null);
-  if (!validLocale) {
+  const localeParams = await getLocaleParams(locale);
+  if (!localeParams) {
     return entries;
   }
   entries.forEach(entry => {
     // console.log(entry);
-    localizeAttributes(localizedAttributes, entry, validLocale.code, defaultLocale);
+    localizeAttributes(localizedAttributeTuples, entry, localeParams);
   });
   return entries;
 }
