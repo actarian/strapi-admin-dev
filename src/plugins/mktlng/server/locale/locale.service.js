@@ -115,7 +115,7 @@ function getFlatLocalizedAttributes(schema) {
     }
     return p;
   }, []);
-};
+}
 
 function deserialize(rawValue) {
   if (rawValue) {
@@ -128,50 +128,59 @@ function deserialize(rawValue) {
   return {};
 }
 
-function getValueForLocale_json(rawValue, locale) {
+function getValueForLocaleJson(rawValue, locale, defaultLocale) {
   const parsedValue = deserialize(rawValue);
-  // console.log('parsedValue', rawValue, parsedValue, locale);
-  return parsedValue[locale.code] || parsedValue[locale.defaultCode] || parsedValue[Object.keys(parsedValue)[0]];
+  // console.log('parsedValue', rawValue, parsedValue, locale, defaultLocale);
+  return parsedValue[locale] || parsedValue[defaultLocale] || parsedValue[Object.keys(parsedValue)[0]];
 }
 
-function getValueForLocale(jsonValue, locale) {
-  // console.log('jsonValue', jsonValue, locale);
-  return jsonValue ? (jsonValue[locale.code] || jsonValue[locale.defaultCode] || jsonValue[Object.keys(jsonValue)[0]]) : null;
+function getValueForLocale(jsonValue, locale, defaultLocale) {
+  // console.log('jsonValue', jsonValue, locale, defaultLocale);
+  return jsonValue ? (jsonValue[locale] || jsonValue[defaultLocale] || jsonValue[Object.keys(jsonValue)[0]]) : null;
 }
 
-function localizeAttribute(attribute, value, locale) {
+async function localizeAttribute(attribute, value, locale, defaultLocale) {
+  if (!value) {
+    return;
+  }
+  if (!defaultLocale) {
+    const localeParams = await getLocaleParams(locale);
+    if (!localeParams) {
+      return value;
+    }
+    defaultLocale = localeParams.defaultLocale;
+  }
   if (Array.isArray(attribute)) {
-    localizeAttributes(attribute, value, locale);
+    await localizeAttributes(attribute, value, locale, defaultLocale);
     return value;
   } else {
-    return getValueForLocale(value, locale);
+    return getValueForLocale(value, locale, defaultLocale);
   }
 }
 
-function localizeAttributes(attributeTuples, entry, locale) {
+async function localizeAttributes(attributeTuples, entry, locale, defaultLocale) {
   if (!entry) {
     return;
   }
-  attributeTuples.forEach(attributeTuple => {
+  if (!defaultLocale) {
+    const localeParams = await getLocaleParams(locale);
+    if (!localeParams) {
+      return entry;
+    }
+    defaultLocale = localeParams.defaultLocale;
+  }
+  attributeTuples.forEach(async attributeTuple => {
     const key = attributeTuple.key;
     const value = entry[key];
-    entry[key] = localizeAttribute(attributeTuple.attribute, value, locale);
+    entry[key] = await localizeAttribute(attributeTuple.attribute, value, locale, defaultLocale);
     /*
     if (Array.isArray(attributeTuple.attribute)) {
-      localizeAttributes(attributeTuple.attribute, value, locale);
+      await localizeAttributes(attributeTuple.attribute, value, locale);
     } else {
       entry[key] = getValueForLocale(value, locale);
     }
     */
   });
-}
-
-async function getLocaleParams(locale) {
-  const defaultLocale = await getDefaultLocale();
-  const validLocale = await findByCode(locale);
-  const localeParams = validLocale ? { code: validLocale.code, defaultCode: defaultLocale } : null;
-  console.log('LocaleService.getLocaleParams', localeParams);
-  return localeParams;
 }
 
 async function localizeEntry(entry, uid, locale) {
@@ -187,7 +196,7 @@ async function localizeEntry(entry, uid, locale) {
     return entry;
   }
   // console.log('entry', entry);
-  localizeAttributes(localizedAttributeTuples, entry, localeParams);
+  await localizeAttributes(localizedAttributeTuples, entry, ...localeParams);
   // console.log(entry, localizedAttributeTuples, hasLocale);
   // console.log('localizedAttributeTuples', localizedAttributeTuples);
   // console.log('entityServiceDecorator.findOne', uid, id, parameters);
@@ -211,11 +220,19 @@ async function localizeEntries(entries, uid, locale) {
   if (!localeParams) {
     return entries;
   }
-  entries.forEach(entry => {
+  entries.forEach(async entry => {
     // console.log(entry);
-    localizeAttributes(localizedAttributeTuples, entry, localeParams);
+    await localizeAttributes(localizedAttributeTuples, entry, ...localeParams);
   });
   return entries;
+}
+
+async function getLocaleParams(locale) {
+  const defaultLocale = await getDefaultLocale();
+  const validLocale = await findByCode(locale);
+  const localeParams = validLocale ? [validLocale.code, defaultLocale] : null;
+  console.log('LocaleService.getLocaleParams', localeParams);
+  return localeParams;
 }
 
 module.exports = () => ({
@@ -230,6 +247,8 @@ module.exports = () => ({
   setIsDefault,
   delete: deleteFn,
   initDefaultLocale,
+  localizeAttribute,
+  localizeAttributes,
   localizeEntry,
   localizeEntries,
   getValidLocale,
